@@ -1,24 +1,20 @@
 #!/usr/bin/env node
 // StarsTell agent office.
 //
-// Starts The Roving Office (git submodule in ./roving-office, Apache-2.0) on this machine
-// and feeds it a simulated StarsTell SEO pipeline over the Agent Office Protocol, the same
-// events a real Claude Code agent sends. Every agent walks in, works, and clocks off.
+// Starts The Roving Office (git submodule in ./roving-office, Apache-2.0) with the
+// StarsTell patch (departments, coordination visits, a wider room) and the StarsTell
+// layout, then feeds it a simulated SEO pipeline over the Agent Office Protocol: the
+// same events a real Claude Code agent sends.
+//
+// Every agent sits at a desk in its own department all day. They only get up to
+// coordinate with someone in another department, to fetch knowledge from the StarsTell
+// bots bookshelf, or to send finished work out through the printer.
 //
 //   node visualizer/starstell-office.mjs              start the office and the feed
 //   node visualizer/starstell-office.mjs --feed-only  feed an office that is already running
 //   SPEED=2 node visualizer/starstell-office.mjs      run twice as fast
-//
-// Where things are in the room:
-//   mailbox and paper planes  = Paperclip assigning a task
-//   globe                     = OpenSEO and the web (data from outside the building)
-//   bookshelf                 = your StarsTell bots (knowledge the company owns)
-//   desks                     = writing and editing through the Content Service
-//   "waiting on you" status   = human approval in Paperclip
-//   outbox / printer          = publishing to the StarsTell CMS
-//   bin                       = a draft that failed a check
 
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -30,34 +26,40 @@ const SPEED = Math.max(0.25, Number(process.env.SPEED) || 1);
 const FEED_ONLY = process.argv.includes('--feed-only');
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OFFICE_DIR = join(HERE, 'roving-office');
+const PATCH = join(HERE, 'patches', 'starstell-departments.patch');
+const LAYOUT = JSON.parse(readFileSync(join(HERE, 'starstell-layout.json'), 'utf8'));
 const ENDPOINT_FILE = join(homedir(), '.roving-office', 'endpoint.json');
 const BASE = `http://127.0.0.1:${PORT}/office/${KEYCARD}`;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms / SPEED));
 const jitter = (ms) => ms * (0.8 + Math.random() * 0.4);
 
-// ---------------------------------------------------------------- the team
+// ---------------------------------------------------------------- the team, by department
 const TEAM = {
-  head:      { actor: 'SEO Head',           color: '#E0BF71' },
-  keyword:   { actor: 'Keyword Research',   color: '#5B6C8F' },
-  competitor:{ actor: 'Competitor Intel',   color: '#5B6C8F' },
-  brief:     { actor: 'Content Brief',      color: '#5B6C8F' },
-  vedic:     { actor: 'Vedic Research',     color: '#7A5A9A' },
-  tarot:     { actor: 'Tarot Research',     color: '#7A5A9A' },
-  numerology:{ actor: 'Numerology Research',color: '#7A5A9A' },
-  writer:    { actor: 'Senior Writer',      color: '#A45B3E' },
-  fact:      { actor: 'Fact Checker',       color: '#A45B3E' },
-  seo:       { actor: 'SEO Optimizer',      color: '#A45B3E' },
-  editor:    { actor: 'Senior Editor',      color: '#421206' },
-  visual:    { actor: 'Visual Designer',    color: '#3F7F6E' },
-  cms:       { actor: 'CMS Publisher',      color: '#2F6F8F' },
-  analyst:   { actor: 'SEO Analyst',        color: '#4D7A3A' },
+  head:       { actor: 'SEO Head',            department: 'hq',        color: '#E0BF71' },
+  keyword:    { actor: 'Keyword Research',    department: 'research',  color: '#5B6C8F' },
+  competitor: { actor: 'Competitor Intel',    department: 'research',  color: '#5B6C8F' },
+  intent:     { actor: 'Search Intent',       department: 'research',  color: '#5B6C8F' },
+  brief:      { actor: 'Content Brief',       department: 'research',  color: '#5B6C8F' },
+  vedic:      { actor: 'Vedic Research',      department: 'knowledge', color: '#7A5A9A' },
+  tarot:      { actor: 'Tarot Research',      department: 'knowledge', color: '#7A5A9A' },
+  numerology: { actor: 'Numerology Research', department: 'knowledge', color: '#7A5A9A' },
+  writer:     { actor: 'Senior Writer',       department: 'writing',   color: '#A45B3E' },
+  fact:       { actor: 'Fact Checker',        department: 'writing',   color: '#A45B3E' },
+  seo:        { actor: 'SEO Optimizer',       department: 'writing',   color: '#A45B3E' },
+  editor:     { actor: 'Senior Editor',       department: 'writing',   color: '#421206' },
+  hi:         { actor: 'Hindi Writer',        department: 'languages', color: '#C77A3A' },
+  hinglish:   { actor: 'Hinglish Writer',     department: 'languages', color: '#C77A3A' },
+  mr:         { actor: 'Marathi Writer',      department: 'languages', color: '#C77A3A' },
+  ta:         { actor: 'Tamil Writer',        department: 'languages', color: '#C77A3A' },
+  te:         { actor: 'Telugu Writer',       department: 'languages', color: '#C77A3A' },
+  bn:         { actor: 'Bengali Writer',      department: 'languages', color: '#C77A3A' },
+  visual:     { actor: 'Visual Designer',     department: 'publish',   color: '#3F7F6E' },
+  cms:        { actor: 'CMS Publisher',       department: 'publish',   color: '#2F6F8F' },
+  analyst:    { actor: 'SEO Analyst',         department: 'publish',   color: '#4D7A3A' },
 };
-const LANGS = [
-  { code: 'hi', actor: 'Hindi Writer' }, { code: 'hi-latn', actor: 'Hinglish Writer' },
-  { code: 'mr', actor: 'Marathi Writer' }, { code: 'ta', actor: 'Tamil Writer' },
-  { code: 'te', actor: 'Telugu Writer' }, { code: 'bn', actor: 'Bengali Writer' },
-];
+for (const [key, a] of Object.entries(TEAM)) a.id = `st-${key}`;
+const LANG_KEYS = ['hi', 'hinglish', 'mr', 'ta', 'te', 'bn'];
 const BOT = { vedic: 'StarsTell.vedic_ask', tarot: 'StarsTell.tarot_ask', numerology: 'StarsTell.numerology_ask' };
 
 // Example blogs. Titles only; the content is produced in the real pipeline.
@@ -74,26 +76,26 @@ const BLOGS = [
 let ingestUrl = `${BASE}/aop/v0/events`;
 let token = null;
 const seqs = new Map();
-const live = new Map();   // session id -> session object, for heartbeats and shutdown
+let callNo = 0;
 
-function envelope(type, s, payload = {}) {
-  const seq = (seqs.get(s.id) || 0) + 1;
-  seqs.set(s.id, seq);
+function envelope(type, a, payload = {}, blog = null) {
+  const id = a.queue ? 'queue' : a.id;
+  const seq = (seqs.get(id) || 0) + 1;
+  seqs.set(id, seq);
   return {
     aop: '0.2',
-    id: `${s.id}:${seq}`,
+    id: `${id}:${seq}:${Date.now()}`,
     ts: new Date().toISOString(),
     seq,
     type,
     harness: { name: 'claude-code', variant: 'sdk' },
-    session: s.queue ? { id: 'queue' } : {
-      id: s.id, kind: 'main', actor: s.actor, actor_color: s.color, cwd: '~/starstell-seo-team',
-    },
+    session: a.queue ? { id: 'queue' } : { id: a.id, kind: 'main', actor: a.actor, actor_color: a.color, cwd: '~/starstell-seo-team' },
     project: {
       id: 'starstell-seo-team',
       name: 'StarsTell SEO Team',
-      ...(s.blog ? { workitem: { key: s.blog.key, title: s.blog.title } } : {}),
+      ...(blog ? { workitem: { key: blog.key, title: blog.title } } : {}),
     },
+    ...(a.department ? { ext: { department: a.department } } : {}),
     payload,
   };
 }
@@ -111,148 +113,198 @@ async function send(...events) {
   }
 }
 
-// ---------------------------------------------------------------- one agent, one shift
-let callNo = 0;
-async function shift(role, blog, title, tools, opts = {}) {
-  const s = { id: `${role.actor.toLowerCase().replace(/\s+/g, '-')}-${blog.key}-${++callNo}`, ...role, blog };
-  live.set(s.id, s);
-  await send(envelope('session.start', s, { source: 'startup', capabilities: ['tool.start', 'tool.end', 'permission.request'] }));
-  await sleep(2600);   // walk in from the door
-  const result = await work(s, title, tools, opts);
-  await sleep(1500);
-  await send(envelope('session.end', s, { reason: 'exit' }));
-  live.delete(s.id);
-  return result;
+// ---------------------------------------------------------------- standby at your own desk
+// Between tasks an agent keeps an open "queue" turn with one open read, so it stays
+// seated at its department desk instead of wandering off for coffee.
+const standbyOf = new Map();
+const DESK_WORK = {
+  hq: 'Reviewing the Paperclip board', research: 'Watching rankings in OpenSEO',
+  knowledge: 'Reading the bot logs', writing: 'Reading the style guide',
+  languages: 'Updating the language glossary', publish: 'Checking the CMS queue',
+};
+async function standby(a) {
+  if (standbyOf.has(a.id)) return;
+  const s = { turn: `standby-${++callNo}`, call: `standby-call-${callNo}` };
+  standbyOf.set(a.id, s);
+  const idle = { key: 'DESK', title: DESK_WORK[a.department] };
+  await send(
+    envelope('turn.start', a, { turn_id: s.turn, title: idle.title, trigger: 'user' }, idle),
+    envelope('tool.start', a, { tool_call_id: s.call, tool_name: 'Read', tool_class: 'read', target: 'paperclip/queue' }, idle),
+  );
+}
+async function unstandby(a) {
+  const s = standbyOf.get(a.id);
+  if (!s) return;
+  standbyOf.delete(a.id);
+  await send(
+    envelope('tool.end', a, { tool_call_id: s.call, status: 'ok' }),
+    envelope('turn.end', a, { turn_id: s.turn, status: 'completed' }),
+  );
 }
 
-async function work(s, title, tools, opts = {}) {
+// ---------------------------------------------------------------- work at your own desk
+// tools: [name, class, target, ms, status]. A ['Coordinate', otherAgent, note] entry
+// walks to that colleague's desk in another department and back.
+async function work(a, blog, title, tools, opts = {}) {
+  await unstandby(a);
+  try { return await doWork(a, blog, title, tools, opts); } finally { await standby(a); }
+}
+
+async function doWork(a, blog, title, tools, opts = {}) {
   const turnId = `turn-${++callNo}`;
-  if (opts.claim) await send(envelope('job.claimed', s, { job_id: s.blog.key, claimed_by: s.id }));
-  await send(envelope('turn.start', s, {
-    turn_id: turnId, title: `${s.blog.key} · ${title}`, trigger: 'queue', origin: { kind: 'queue', name: 'Paperclip' },
-  }));
+  if (opts.claim) await send(envelope('job.claimed', a, { job_id: blog.key, claimed_by: a.id }, blog));
+  await send(envelope('turn.start', a, {
+    turn_id: turnId, title: `${blog.key} · ${title}`, trigger: 'user',
+  }, blog));
   let failed = false;
-  for (const [name, cls, target, ms, status = 'ok'] of tools) {
+  for (const t of tools) {
     const id = `call-${++callNo}`;
-    await send(envelope('tool.start', s, { tool_call_id: id, tool_name: name, tool_class: cls, ...(target ? { target } : {}) }));
+    if (t[0] === 'Coordinate') {
+      const [, other, note] = t;
+      console.log(`[feed] ${a.actor} walks to ${other.actor}: ${note}`);
+      await send(envelope('tool.start', a, { tool_call_id: id, tool_name: 'Coordinate', tool_class: 'other', target: other.id, summary: `${note} (with ${other.actor})` }, blog));
+      await sleep(11000);
+      await send(envelope('tool.end', a, { tool_call_id: id, status: 'ok' }, blog));
+      await sleep(800);
+      continue;
+    }
+    const [name, cls, target, ms, status = 'ok'] = t;
+    await send(envelope('tool.start', a, { tool_call_id: id, tool_name: name, tool_class: cls, ...(target ? { target } : {}) }, blog));
     const d = jitter(ms);
     await sleep(d);
-    await send(envelope('tool.end', s, { tool_call_id: id, status, duration_ms: Math.round(d) }));
+    await send(envelope('tool.end', a, { tool_call_id: id, status, duration_ms: Math.round(d) }, blog));
     if (status !== 'ok') failed = true;
     await sleep(500);
   }
   if (opts.approval) {
-    const req = `approval-${s.blog.key}`;
-    await send(envelope('permission.request', s, {
+    const req = `approval-${blog.key}`;
+    await send(envelope('permission.request', a, {
       request_id: req, tool_name: 'ContentService.cms_publish', tool_class: 'scm', reason: 'Waiting for human approval in Paperclip',
-    }));
+    }, blog));
     await sleep(opts.approval);
-    await send(envelope('permission.resolve', s, { request_id: req, decision: 'allow', by: 'StarsTell reviewer' }));
+    await send(envelope('permission.resolve', a, { request_id: req, decision: 'allow', by: 'StarsTell reviewer' }, blog));
   }
-  await send(envelope('turn.end', s, { turn_id: turnId, status: failed ? 'error' : 'completed', tool_calls: tools.length }));
+  await send(envelope('turn.end', a, { turn_id: turnId, status: failed ? 'error' : 'completed', tool_calls: tools.length }, blog));
   return !failed;
 }
 
 // ---------------------------------------------------------------- one blog, end to end
 const f = (blog, name) => `content/${blog.key}/${name}`;
+const T = TEAM;
 
-async function pipeline(blog, head) {
-  console.log(`[feed] ${blog.key} ${blog.title}: Paperclip queued it`);
-  await send(envelope('job.queued', { queue: true, blog }, { job_id: blog.key, title: `${blog.key} · ${blog.title}`, source: 'Paperclip weekly routine' }));
-  await sleep(4000);
+async function pipeline(blog) {
+  console.log(`[feed] ${blog.key} ${blog.title}: Paperclip routine created the task`);
 
-  await shift(TEAM.keyword, blog, 'Keyword research', [
-    ['OpenSEO.get_suggested_keywords', 'network', 'openseo', 4500],
-    ['OpenSEO.get_keyword_difficulty', 'network', 'openseo', 3500],
+  await work(T.head, blog, 'Plan and assign', [
+    ['Paperclip.create_task', 'edit', `paperclip/${blog.key}`, 2500],
+    ['Coordinate', T.keyword, `New task ${blog.key}: ${blog.title}`],
+  ]);
+
+  // SEO Research: everyone stays seated; OpenSEO answers on their screens.
+  await work(T.keyword, blog, 'Keyword research (OpenSEO)', [
+    ['OpenSEO.get_suggested_keywords', 'read', 'openseo', 4500],
+    ['OpenSEO.get_keyword_difficulty', 'read', 'openseo', 3500],
     ['ContentService.save_keywords', 'edit', f(blog, 'keywords.json'), 2500],
-  ], { claim: true });
-
-  await shift(TEAM.competitor, blog, 'Study the top 10', [
-    ['OpenSEO.get_serp_results', 'network', 'openseo', 4500],
-    ['WebFetch', 'network', 'competitor-1', 3000],
-    ['WebFetch', 'network', 'competitor-2', 3000],
-    ['ContentService.save_gap_note', 'edit', f(blog, 'gap-note.md'), 2500],
   ]);
-
-  await work(head, 'Approve the opportunity', [
-    ['ContentService.get_opportunity', 'read', f(blog, 'gap-note.md'), 3000],
-    ['Paperclip.update_task', 'edit', `paperclip/${blog.key}`, 2000],
+  await Promise.all([
+    work(T.competitor, blog, 'Top 10 study (OpenSEO)', [
+      ['OpenSEO.get_serp_results', 'read', 'openseo', 4500],
+      ['ContentService.save_gap_note', 'edit', f(blog, 'gap-note.md'), 3500],
+    ]),
+    work(T.intent, blog, 'Search intent (OpenSEO)', [
+      ['OpenSEO.get_serp_results', 'read', 'openseo', 4000],
+      ['ContentService.save_intent', 'edit', f(blog, 'intent.md'), 3000],
+    ]),
   ]);
-
-  await shift(TEAM.brief, blog, 'Write the brief', [
+  await work(T.brief, blog, 'Write the brief', [
     ['ContentService.get_gap_note', 'read', f(blog, 'gap-note.md'), 2500],
-    ['Skill.seo-content-brief', 'other', 'claude-seo', 3000],
-    ['ContentService.save_brief', 'edit', f(blog, 'brief.md'), 3000],
+    ['ContentService.save_brief', 'edit', f(blog, 'brief.md'), 4000],
+    ['Coordinate', T[blog.vertical], 'Brief ready, need the bot answers'],
   ]);
 
-  await shift(TEAM[blog.vertical], blog, `Ask the ${blog.vertical} bot`, [
+  // Knowledge: fetch from the StarsTell bots shelf, then hand over to Writing.
+  await work(T[blog.vertical], blog, `Ask the ${blog.vertical} bot`, [
     [BOT[blog.vertical], 'knowledge', `${blog.vertical}-bot`, 5000],
-    [BOT[blog.vertical], 'knowledge', `${blog.vertical}-bot`, 4000],
-    ['ContentService.log_bot_call', 'edit', f(blog, 'bot-calls.json'), 2000],
+    ['ContentService.log_bot_call', 'edit', f(blog, 'bot-calls.json'), 2500],
+    ['Coordinate', T.writer, 'Bot answers logged for the draft'],
   ]);
 
-  await shift(TEAM.writer, blog, 'English draft', [
+  // Writing Room.
+  await work(T.writer, blog, 'English draft', [
     ['ContentService.get_brief', 'read', f(blog, 'brief.md'), 2500],
     ['Write', 'edit', f(blog, 'draft-en.md'), 8000],
     ['Skill.humanizer', 'other', 'humanizer', 3000],
   ]);
-
-  let passed = await shift(TEAM.fact, blog, 'Fact check every claim', [
-    ['ContentService.get_bot_calls', 'knowledge', f(blog, 'bot-calls.json'), 3000],
-    ['WebSearch', 'network', 'search', 3500],
-    ['ContentService.check_claims', 'execute', f(blog, 'claims.json'), 3500, blog.fail ? 'error' : 'ok'],
+  const passed = await work(T.fact, blog, 'Fact check every claim', [
+    ['ContentService.get_bot_calls', 'read', f(blog, 'bot-calls.json'), 3000],
+    ['ContentService.check_claims', 'execute', f(blog, 'claims.json'), 4000, blog.fail ? 'error' : 'ok'],
   ]);
   if (!passed) {
-    console.log(`[feed] ${blog.key}: fact check failed, back to the writer`);
-    await shift(TEAM.writer, blog, 'Fix the flagged claim', [['Edit', 'edit', f(blog, 'draft-en.md'), 4500]]);
-    await shift(TEAM.fact, blog, 'Re-check claims', [['ContentService.check_claims', 'execute', f(blog, 'claims.json'), 3500]]);
+    console.log(`[feed] ${blog.key}: fact check failed, the writer checks with Knowledge`);
+    await work(T.writer, blog, 'Fix the flagged claim', [
+      ['Coordinate', T[blog.vertical], 'One claim is overstated, what does the bot say?'],
+      ['Edit', 'edit', f(blog, 'draft-en.md'), 4500],
+    ]);
+    await work(T.fact, blog, 'Re-check claims', [['ContentService.check_claims', 'execute', f(blog, 'claims.json'), 3500]]);
   }
+  await work(T.fact, blog, 'Hand over to Language Desk', [
+    ['Coordinate', T.hi, 'Claims verified, start the 6 languages'],
+  ]);
 
-  // Six languages and the images, at the same time.
+  // Language Desk and the designer, at the same time, each at their own desk.
   await Promise.all([
-    ...LANGS.map(async (l, i) => {
-      await sleep(i * 1400);
-      return shift({ actor: l.actor, color: '#A45B3E' }, blog, `${l.actor.replace(' Writer', '')} version`, [
+    ...LANG_KEYS.map(async (k, i) => {
+      await sleep(i * 900);
+      return work(T[k], blog, `${T[k].actor.replace(' Writer', '')} version`, [
         ['ContentService.get_claims', 'read', f(blog, 'claims.json'), 2500],
-        ['Write', 'edit', f(blog, `draft-${l.code}.md`), 7000],
+        ['Write', 'edit', f(blog, `draft-${k}.md`), 7000],
         ['Skill.humanizer', 'other', 'humanizer', 2500],
       ]);
     }),
-    shift(TEAM.visual, blog, '3 to 5 images', [
-      ['ImageModel.generate', 'execute', 'image-model', 4500],
-      ['ImageModel.generate', 'execute', 'image-model', 4500],
+    work(T.visual, blog, '3 to 5 images', [
+      ['ImageModel.generate', 'execute', 'image-model', 5000],
       ['ContentService.render_diagram', 'execute', 'svg-templates', 3000],
-      ['ContentService.save_images', 'edit', f(blog, 'images/'), 2000],
+      ['ContentService.save_images', 'edit', f(blog, 'images/'), 2500],
     ]),
   ]);
 
-  await shift(TEAM.seo, blog, 'SEO pass, 7 versions', [
+  await work(T.seo, blog, 'SEO pass, 7 versions', [
+    ['Coordinate', T.visual, 'Need alt text in 7 languages'],
     ['Skill.seo-schema', 'other', 'claude-seo', 3000],
     ['Skill.seo-hreflang', 'other', 'claude-seo', 3000],
-    ['Edit', 'edit', f(blog, 'meta.json'), 3000],
     ['ContentService.run_checks', 'execute', f(blog, 'checks.json'), 2500],
   ]);
 
-  await shift(TEAM.editor, blog, 'Final edit, then human approval', [
+  await work(T.editor, blog, 'Final edit, then human approval', [
     ['Read', 'read', f(blog, 'draft-en.md'), 3500],
     ['seomachine.scrub', 'execute', f(blog, 'draft-en.md'), 2000],
-    ['Edit', 'edit', f(blog, 'draft-en.md'), 3000],
+    ['Coordinate', T.head, 'Ready for human approval'],
   ], { approval: 10000 });
 
-  await shift(TEAM.cms, blog, 'Publish 7 links', [
-    ...['en', 'hi', 'hinglish', 'mr', 'ta', 'te', 'bn'].map((l) => ['ContentService.cms_publish', 'scm', `starstell.com/${l}`, 1500]),
-    ['IndexNow.ping', 'network', 'indexnow', 2000],
+  await work(T.head, blog, 'Approved, send to publishing', [
+    ['Coordinate', T.cms, `${blog.key} approved, publish 7 links`],
+  ]);
+  await work(T.cms, blog, 'Publish 7 links', [
+    ['ContentService.cms_publish', 'scm', 'starstell.com', 4000],
+    ['IndexNow.ping', 'read', 'indexnow', 2000],
   ]);
   console.log(`[feed] ${blog.key} ${blog.title}: published in 7 languages`);
 
   await sleep(6000);
-  await shift(TEAM.analyst, blog, 'Results from Search Console', [
-    ['OpenSEO.gsc_query', 'network', 'openseo', 4000],
-    ['ContentService.save_report', 'edit', f(blog, 'report.md'), 2500],
+  await work(T.analyst, blog, 'Results from Search Console', [
+    ['OpenSEO.gsc_query', 'read', 'openseo', 4000],
+    ['Coordinate', T.head, 'First results are in'],
   ]);
 }
 
 // ---------------------------------------------------------------- start up
+function applyPatch() {
+  const git = (...args) => execFileSync('git', ['-C', OFFICE_DIR, ...args], { stdio: 'pipe' });
+  try { git('apply', '--reverse', '--check', PATCH); return; } catch { /* not applied yet */ }
+  git('apply', '--whitespace=nowarn', PATCH);
+  console.log('[office] StarsTell patch applied (departments, visits, wider room)');
+}
+
 async function waitForEndpoint(pid) {
   for (let i = 0; i < 60; i++) {
     if (existsSync(ENDPOINT_FILE)) {
@@ -266,14 +318,14 @@ async function waitForEndpoint(pid) {
   throw new Error(`no endpoint for ${KEYCARD} in ${ENDPOINT_FILE}`);
 }
 
-async function useClaudeCodeSource() {
-  // A new office starts on simulated test data. Point its scenes at the claude-code feed.
+async function setUpScenes() {
   const office = await (await fetch(`${BASE}/api`)).json();
   for (const scene of office.scenes || []) {
     const res = await fetch(`${BASE}/api/scenes/${encodeURIComponent(scene.id)}`, {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sources: ['claude-code'] }),
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sources: ['claude-code'], layout: LAYOUT }),
     });
-    if (!res.ok) console.warn(`[office] could not set sources on scene ${scene.id}: ${res.status}`);
+    if (!res.ok) console.warn(`[office] could not set up scene ${scene.id}: ${res.status}`);
   }
 }
 
@@ -284,36 +336,42 @@ async function main() {
       console.error('The office is missing. Run: git submodule update --init');
       process.exit(1);
     }
+    applyPatch();
     server = spawn(process.execPath, ['server.cjs', String(PORT), '--publish', '--office', KEYCARD], { cwd: OFFICE_DIR, stdio: ['ignore', 'inherit', 'inherit'] });
     server.on('exit', (code) => { console.log(`[office] stopped (${code})`); process.exit(code ?? 0); });
   }
   const ep = await waitForEndpoint(server?.pid);
   token = ep.token;
   if (ep.url) ingestUrl = ep.url;
-  await useClaudeCodeSource();
+  await setUpScenes();
 
   console.log(`\n  StarsTell agent office: ${BASE}\n  Ctrl+C to stop.\n`);
 
-  const head = { id: 'head-of-seo', ...TEAM.head, blog: { key: 'PLAN', title: 'Weekly plan' } };
-  live.set(head.id, head);
-  await send(envelope('session.start', head, { source: 'startup' }));
-  setInterval(() => { for (const s of live.values()) send(envelope('session.heartbeat', s, { status: 'working' })); }, 15000);
+  // Everyone arrives for the day and takes a desk in their own department.
+  const everyone = Object.values(TEAM);
+  for (const a of everyone) {
+    await send(envelope('session.start', a, { source: 'startup', capabilities: ['tool.start', 'tool.end', 'permission.request'] }));
+    await sleep(1200);
+  }
+  await sleep(6000);
+  for (const a of everyone) await standby(a);
+  setInterval(() => { for (const a of everyone) send(envelope('session.heartbeat', a, { status: 'working' })); }, 15000);
 
   const shutdown = async () => {
-    for (const s of live.values()) await send(envelope('session.end', s, { reason: 'exit' }));
+    for (const a of everyone) await send(envelope('session.end', a, { reason: 'exit' }));
     server?.kill();
     process.exit(0);
   };
   process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
 
-  // Two blogs in flight at once: the next one starts while the last is being written.
+  await sleep(8000);
   for (let i = 0; ; i++) {
     const blog = { ...BLOGS[i % BLOGS.length] };
     if (i >= BLOGS.length) blog.key = `ST-${142 + i}`;
-    const head_ = { ...head, blog };
-    pipeline(blog, head_).catch((e) => console.warn(`[feed] ${blog.key}: ${e.message}`));
-    await sleep(70000);
+    // One blog at a time, so nobody is asked to be at two desks at once.
+    await pipeline(blog).catch((e) => console.warn(`[feed] ${blog.key}: ${e.message}`));
+    await sleep(15000);
   }
 }
 

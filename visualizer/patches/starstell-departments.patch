@@ -1,0 +1,239 @@
+diff --git a/src/agents/AgentManager.js b/src/agents/AgentManager.js
+index 01abdec..c340ff1 100644
+--- a/src/agents/AgentManager.js
++++ b/src/agents/AgentManager.js
+@@ -16,6 +16,7 @@ import { CHANNELS, STATION_KINDS, enabledArrivals, insideCouch, postBoxFor, stat
+ import { SEAT_HEIGHT } from '../scene/props/desk.js';
+ import { COUCH_SEAT_HEIGHT } from '../scene/props/couch.js';
+ import { BeamUps } from '../scene/beam.js';
++import { deskIdsFor } from '../starstell/departments.js';
+ 
+ // Owns every agent and turns lifecycle events into office behaviour.
+ //
+@@ -646,6 +647,7 @@ export class AgentManager {
+         return this._emitChange();
+       }
+       case 'research': return this._research(rec, ev.topic, ev.scope);
++      case 'visit': return this._visit(rec, ev.target, ev.topic);
+       case 'activity': return this._activity(rec, ev.activity);
+       case 'dispatch': return this._deliver(rec, ev.summary);
+       // One session ended. That is the end of a *job*, and only the end of the person
+@@ -896,7 +898,7 @@ export class AgentManager {
+    * walking to the door; handing them a job would either strand them mid-stride or need
+    * the leaving unwound, and a fresh arrival is both simpler and truer to what happened.
+    */
+-  _spawn({ id, name, actor = null, color, colorLabel = null, variant = null, avatar = null }, source = null) {
++  _spawn({ id, name, actor = null, color, colorLabel = null, variant = null, avatar = null, department = null }, source = null) {
+     if (this.agents.has(id) || this.jobOwner.has(id)) return;
+ 
+     const actorKey = actor && source?.id ? `${source.id}|${actor}` : null;
+@@ -934,6 +936,8 @@ export class AgentManager {
+       () => this._people());
+     const rec = {
+       agent, controller, desk: null, coatHook: null, couchSeat: null, book: null,
++      // StarsTell: the department whose desks this person sits at.
++      department,
+       // Which couch that seat is a cushion of. Remembered alongside the seat, for the
+       // same reason a borrowed book remembers its shelf: with several couches in the
+       // room, the standing room to walk to and step back out to is this couch's and not
+@@ -1393,6 +1397,35 @@ export class AgentManager {
+    *
+    * @param {'graph'|'web'} [scope] where the answer is being looked for
+    */
++  /**
++   * StarsTell: walk over to a colleague's desk in another department, talk for a few
++   * seconds, then come back and carry on. Falls back to desk work if either desk is
++   * unknown.
++   */
++  _visit(rec, targetId, topic = null) {
++    const other = this.agents.get(this.jobOwner.get(targetId) ?? targetId);
++    const there = other?.desk;
++    if (!there || other === rec || !rec.desk) return this._work(rec);
++    if (topic) rec.agent.job = topic;
++    const side = rec.agent.id < other.agent.id ? 1 : -1;
++    const spot = { x: there.approach.x + side * 1.1, z: there.approach.z + 0.4 };
++    const desk = rec.desk;
++    this._begin(rec, [
++      ...this._release(rec),
++      status('walking'),
++      walk(vec(spot)),
++      lookAt(other.agent.position),
++      status('working'),
++      wait(4.5),
++      status('walking'),
++      ...takeUpPostAtDesk(rec, desk, this.nav),
++      act(() => desk.setWorking(true)),
++      status('working'),
++      wait(HOLD, { typing: true }),
++    ]);
++    this._emitChange();
++  }
++
+   _research(rec, topic, scope = 'graph') {
+     // Somewhere to look something up, preferring the sort that suits the question:
+     // the shelf `serves: ['graph']` and the telescope `serves: ['web']`, and
+@@ -2394,7 +2427,10 @@ export class AgentManager {
+   _claimDesk(rec) {
+     if (rec.desk) return rec.desk;
+     const free = (this.props.desks ?? []).filter((d) => !d.occupiedBy);
+-    const desk = pick(free);
++    // StarsTell: sit in your own department when it has a free desk.
++    const mine = deskIdsFor(rec.department);
++    const own = mine ? free.filter((d) => mine.includes(d.id)) : [];
++    const desk = own.length ? own[0] : pick(free);
+     if (!desk) return null;
+     desk.occupiedBy = rec.agent.id;
+     rec.desk = desk;
+diff --git a/src/config.js b/src/config.js
+index cb9d185..a955dd3 100644
+--- a/src/config.js
++++ b/src/config.js
+@@ -305,8 +305,8 @@ export const RUG_COLORS = {
+ // Room footprint. Interior spans x:[0,W] z:[0,D]; only the two far walls exist
+ // (z=0 "back" wall in sage, x=0 "left" wall in white) so it reads as a cutaway.
+ export const ROOM = {
+-  W: 26,
+-  D: 20,
++  W: 36,   // StarsTell: widened from 26 x 20 to hold six departments
++  D: 26,
+   H: 8,
+   wallT: 0.4,
+ };
+diff --git a/src/data/aop-reducer.js b/src/data/aop-reducer.js
+index 7453218..1dfd860 100644
+--- a/src/data/aop-reducer.js
++++ b/src/data/aop-reducer.js
+@@ -338,6 +338,8 @@ export function createAopReducer({
+         // two colleagues. Null for every harness that offers a terminal tab and no
+         // identity, and a null here means one character per session, exactly as before.
+         actor: rec.who.actor ?? null,
++        // StarsTell: which department's desks this agent sits at.
++        department: ev.ext?.department ?? null,
+         variant: rec.variant,
+         // Left off entirely rather than sent as null, so the manager's own palette
+         // stays the default for every harness that has nothing to say about clothes.
+@@ -607,6 +609,12 @@ export function createAopReducer({
+     const open = rec.tools.get(id);
+     if (open?.timer) cancel(open.timer);
+ 
++    // StarsTell: a Coordinate call walks to a colleague's desk in another department.
++    if (p.tool_name === 'Coordinate' && p.target) {
++      rec.tools.set(id, { cls, timer: null });
++      return emit({ type: 'visit', id: key, target: `${ev.harness?.name ?? harness}:${p.target}`, topic: p.summary ?? null });
++    }
++
+     if (!TRAVEL_CLASSES.has(cls)) {
+       // Desk work: no journey, so there is nothing to debounce.
+       rec.tools.set(id, { cls, timer: null });
+diff --git a/src/starstell/departments.js b/src/starstell/departments.js
+new file mode 100644
+index 0000000..9faefca
+--- /dev/null
++++ b/src/starstell/departments.js
+@@ -0,0 +1,86 @@
++// StarsTell departments: which desks belong to which team, and the coloured floor
++// areas with labels that mark them. Added for the StarsTell SEO office; the desk ids
++// match visualizer/starstell-layout.json in the starstell-seo-team repository.
++
++import * as THREE from 'three';
++import { FLOOR_TOP } from '../config.js';
++
++export const DEPARTMENTS = [
++  { id: 'hq', name: 'Paperclip HQ', sub: 'Tasks · approvals · budgets', color: '#E0BF71',
++    area: [0.6, 3.6, 10.2, 10.6], desks: ['desk-1'] },
++  { id: 'research', name: 'SEO Research', sub: 'Keywords · competitors · OpenSEO', color: '#5B6C8F',
++    area: [10.6, 0.6, 22.6, 10.6], desks: ['desk-2', 'desk-3', 'desk-4', 'desk-5'] },
++  { id: 'knowledge', name: 'Knowledge', sub: 'Vedic · Tarot · Numerology bots', color: '#7A5A9A',
++    area: [23.0, 0.6, 35.4, 10.6], desks: ['desk-6', 'desk-7', 'desk-8', 'desk-9'] },
++  { id: 'writing', name: 'Writing Room', sub: 'Draft · fact check · SEO · edit', color: '#A45B3E',
++    area: [0.6, 12.0, 13.2, 25.4], desks: ['desk-10', 'desk-11', 'desk-12', 'desk-13'] },
++  { id: 'languages', name: 'Language Desk', sub: 'Hindi · Hinglish · Marathi · Tamil · Telugu · Bengali', color: '#C77A3A',
++    area: [13.6, 12.0, 28.6, 25.4], desks: ['desk-14', 'desk-15', 'desk-16', 'desk-17', 'desk-18', 'desk-19'] },
++  { id: 'publish', name: 'Design · Publish · Results', sub: 'Images · CMS · Search Console', color: '#2F6F8F',
++    area: [29.0, 12.0, 35.4, 25.4], desks: ['desk-20', 'desk-21', 'desk-22'] },
++];
++
++const BY_ID = new Map(DEPARTMENTS.map((d) => [d.id, d]));
++
++/** The desk ids a department sits at, or null for an agent with no department. */
++export function deskIdsFor(department) {
++  return BY_ID.get(department)?.desks ?? null;
++}
++
++function labelTexture(title, sub, color) {
++  const c = document.createElement('canvas');
++  c.width = 1024; c.height = 256;
++  const g = c.getContext('2d');
++  g.fillStyle = color;
++  g.fillRect(0, 0, 14, 256);
++  g.fillStyle = '#2A0A03';
++  g.font = 'bold 92px Arial, sans-serif';
++  g.textBaseline = 'top';
++  g.fillText(title, 40, 30);
++  g.font = '54px Arial, sans-serif';
++  g.fillStyle = '#421206';
++  g.fillText(sub, 40, 150);
++  const tex = new THREE.CanvasTexture(c);
++  tex.colorSpace = THREE.SRGBColorSpace;
++  tex.anisotropy = 4;
++  return tex;
++}
++
++/** Coloured floor areas and a floor label per department, added to the world root. */
++export function addDepartmentFloors(root) {
++  const group = new THREE.Group();
++  group.name = 'starstell-departments';
++  for (const d of DEPARTMENTS) {
++    const [x0, z0, x1, z1] = d.area;
++    const w = x1 - x0;
++    const h = z1 - z0;
++    const floor = new THREE.Mesh(
++      new THREE.PlaneGeometry(w, h),
++      new THREE.MeshBasicMaterial({ color: d.color, transparent: true, opacity: 0.16, depthWrite: false }),
++    );
++    floor.rotation.x = -Math.PI / 2;
++    floor.position.set(x0 + w / 2, FLOOR_TOP + 0.012, z0 + h / 2);
++    floor.renderOrder = 1;
++    group.add(floor);
++
++    const edge = new THREE.LineSegments(
++      new THREE.EdgesGeometry(new THREE.PlaneGeometry(w, h)),
++      new THREE.LineBasicMaterial({ color: d.color }),
++    );
++    edge.rotation.x = -Math.PI / 2;
++    edge.position.copy(floor.position).setY(FLOOR_TOP + 0.02);
++    group.add(edge);
++
++    const lw = Math.min(w - 0.6, 7.2);
++    const label = new THREE.Mesh(
++      new THREE.PlaneGeometry(lw, lw / 4),
++      new THREE.MeshBasicMaterial({ map: labelTexture(d.name, d.sub, d.color), transparent: true, depthWrite: false }),
++    );
++    label.rotation.x = -Math.PI / 2;
++    label.position.set(x0 + 0.3 + lw / 2, FLOOR_TOP + 0.03, z1 - 0.3 - lw / 8);
++    label.renderOrder = 2;
++    group.add(label);
++  }
++  root.add(group);
++  return group;
++}
+diff --git a/src/world.js b/src/world.js
+index aead7ff..9542fc5 100644
+--- a/src/world.js
++++ b/src/world.js
+@@ -1,6 +1,7 @@
+ // A world's scenery can change while its people, furniture and feeds keep running.
+ import * as THREE from 'three';
+ import { applyPalette } from './config.js';
++import { addDepartmentFloors } from './starstell/departments.js';
+ import { resolveTheme } from './projects.js';
+ import { getScene, listScenes } from './office/office.js';
+ import { addLighting, applyTimeOfDay } from './scene/lighting.js';
+@@ -37,6 +38,7 @@ export function buildWorld(sceneId, { scene, overrides, lightsLevel, onFeedStatu
+   scene.add(root);
+   const scenery = buildScenery(root, theme, { scene, lightsLevel });
+   const propHandles = buildProps(root, theme);
++  addDepartmentFloors(root);
+ 
+   // Stable lookups also follow furniture moved or added by the editor.
+   const boxAt = (id) => propHandles.byStation[id] ?? propHandles.mailbox ?? null;
