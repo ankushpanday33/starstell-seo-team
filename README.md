@@ -15,6 +15,16 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 | StarsTell Content Service | Bot adapters, article store, claims, CMS publish gate, cost ledger, dashboard | Built in this repo |
 | PostgreSQL | One instance, three databases | Self-hosted or managed |
 
+## See it working
+
+[visualizer/office.html](visualizer/office.html) is an interactive "agent office": one example blog moves room to room while you watch where Paperclip and OpenSEO sit, which agent works when, what each step produces, and the published page in 7 languages. All data in it is illustrative. To open it locally:
+
+```bash
+python -m http.server 8765 --bind 127.0.0.1 --directory visualizer
+```
+
+Then visit http://127.0.0.1:8765/office.html
+
 ## Read the proposal
 
 - [docs/architecture.md](docs/architecture.md): all 12 sections in Markdown (renders on GitHub, including the ERD)

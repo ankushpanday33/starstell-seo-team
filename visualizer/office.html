@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StarsTell Agent Office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap">
+<style>
+/* Layout: office floor plan on the left, live step panel on the right, published blog preview below. StarsTell Cosmic Heritage palette, single light theme. */
+:root{
+  --dusk:#421206; --terra:#A45B3E; --gold:#E0BF71; --sand:#CCBFAB; --ivory:#E3DBC7; --soft:#F5EDE0; --deep:#2A0A03;
+  --research:#5B6C8F; --know:#7A5A9A; --write:#A45B3E; --design:#3F7F6E; --human:#C98A1B; --pub:#2F6F8F; --ana:#4D7A3A;
+  --display:"Playfair Display", Georgia, serif;
+  --body:"Noto Sans","Nirmala UI","Noto Sans Devanagari","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Bengali",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--ivory);color:var(--dusk);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1480px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 30px max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:14px;margin-bottom:14px}
+header.top h1{font-size:clamp(26px,3vw,36px)}
+header.top p{margin:4px 0 0;max-width:70ch}
+.example-flag{display:inline-block;background:var(--dusk);color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button,select{font:inherit;font-size:14px;border:1px solid var(--dusk);background:var(--soft);color:var(--dusk);padding:7px 14px;cursor:pointer}
+button.primary{background:var(--dusk);color:var(--ivory)}
+button:hover{background:var(--sand)} button.primary:hover{background:var(--deep)}
+button:focus-visible,select:focus-visible{outline:2px solid var(--terra);outline-offset:2px}
+
+.main{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(320px,1fr);gap:16px;align-items:start}
+@media (max-width:1100px){.main{grid-template-columns:1fr}}
+
+/* floor */
+.floorwrap{overflow-x:auto;border:1px solid var(--dusk);background:#EFE7D6}
+.floor{position:relative;width:100%;min-width:820px;aspect-ratio:1000/640}
+.room{position:absolute;border:1.5px solid var(--dusk);background:var(--soft)}
+.room .rl{position:absolute;left:8px;top:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.room .rs{position:absolute;left:8px;top:22px;font-size:11px;opacity:.8}
+.room.hq{background:var(--dusk);color:var(--ivory)} .room.hq .rl{color:var(--gold)}
+.room.vault{background:var(--deep);color:var(--ivory)} .room.vault .rl{color:var(--gold)}
+.room.approval{background:#FBEFD8}
+.screen{position:absolute;border:2px solid var(--dusk);background:#1E2A44;color:#fff;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.2;padding:4px}
+.screen small{font-weight:400;font-size:10px;opacity:.85}
+.screen.os{background:#1E2A44}
+.screen.bot{background:#3B2650;font-size:10px}
+.screen.gsc{background:#1F3B2A}
+.screen.site{background:var(--ivory);color:var(--dusk);border-color:var(--dusk);justify-content:flex-start;padding:8px}
+.callout{position:absolute;background:var(--gold);color:var(--dusk);font-size:12px;font-weight:700;padding:3px 8px;border:1.5px solid var(--dusk);white-space:nowrap;z-index:6;transform:translate(-50%,-100%)}
+.callout::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-6px;border:6px solid transparent;border-top-color:var(--dusk);border-bottom:0}
+.board{position:absolute;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;font-size:9px}
+.board div{background:var(--deep);border:1px solid var(--terra);padding:2px 3px;min-height:34px;color:var(--sand)}
+.board b{display:block;color:var(--gold);font-size:9px}
+.board .tk{display:block;background:var(--gold);color:var(--dusk);font-weight:700;margin-top:2px;padding:1px 2px}
+.budget{position:absolute;font-size:10px;color:var(--sand)}
+.budget .bar{height:7px;background:var(--deep);border:1px solid var(--terra);margin-top:2px;width:120px}
+.budget .fill{height:100%;background:var(--gold);width:0;transition:width .6s}
+.desk{position:absolute;background:#D9CBB0;border:1px solid #B9A684;width:46px;height:16px;transform:translate(-50%,10px)}
+.langs{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.langs span{font-size:9px;border:1px solid var(--dusk);padding:0 3px;background:var(--soft)}
+.langs span.live{background:var(--ana);color:#fff;border-color:var(--ana)}
+svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+.agent{position:absolute;width:36px;height:36px;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;border:2px solid #fff;box-shadow:0 0 0 1px var(--dusk);transition:left 1s ease-in-out,top 1s ease-in-out,transform .3s;z-index:3;cursor:default}
+.agent.human{border-radius:6px}
+.agent .nm{position:absolute;top:38px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--dusk);white-space:nowrap;font-weight:700;background:rgba(245,237,224,.85);padding:0 3px}
+.room.hq .agent .nm,.agent.onDark .nm{color:var(--dusk)}
+.agent.active{transform:translate(-50%,-50%) scale(1.25);z-index:5;box-shadow:0 0 0 3px var(--gold),0 0 0 5px var(--dusk)}
+.bubble{position:absolute;z-index:8;max-width:230px;background:#fff;border:1.5px solid var(--dusk);padding:6px 9px;font-size:12px;line-height:1.35;transform:translate(-50%,calc(-100% - 30px));transition:left 1s ease-in-out,top 1s ease-in-out;pointer-events:none}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-7px;border:7px solid transparent;border-top-color:var(--dusk);border-bottom:0}
+.token{position:absolute;z-index:7;width:30px;height:36px;background:#fff;border:1.5px solid var(--dusk);transform:translate(4px,-48px);transition:left 1s ease-in-out,top 1s ease-in-out;font-size:8px;font-weight:700;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;pointer-events:none}
+.token::before{content:"";position:absolute;left:5px;right:5px;top:6px;height:2px;background:var(--terra);box-shadow:0 5px 0 var(--sand),0 10px 0 var(--sand),0 15px 0 var(--sand)}
+.token.mini{width:20px;height:24px;font-size:7px;transform:translate(2px,-36px)}
+.token.mini::before{top:4px;box-shadow:0 4px 0 var(--sand),0 8px 0 var(--sand)}
+
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.chips button{padding:3px 8px;font-size:12px;min-width:34px}
+.chips button.on{background:var(--dusk);color:var(--gold)}
+.chips button.done{background:var(--sand)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;margin-right:5px}
+
+/* panel */
+.panel{background:var(--soft);border:1px solid var(--dusk);display:grid;align-content:start;min-width:0}
+.panel .ph{background:var(--dusk);color:var(--ivory);padding:12px 14px;display:grid;gap:4px}
+.panel .ph .stepno{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sand)}
+.panel .ph h2{font-size:22px;color:var(--gold)}
+.panel .ph .who{font-size:13px}
+.tool{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);margin-top:2px;justify-self:start}
+.tool.openseo{background:#1E2A44;border-color:#8FA6D6;color:#fff}
+.tool.paperclip{background:var(--gold);color:var(--dusk)}
+.tool.cs{background:var(--deep);border-color:var(--terra);color:var(--gold)}
+.out{padding:12px 14px;display:grid;gap:10px;font-size:13.5px;min-width:0}
+.out h3{font-size:16px}
+.out table{border-collapse:collapse;width:100%;font-size:12.5px}
+.out th{background:var(--dusk);color:var(--ivory);text-align:left;padding:5px 7px;font-weight:700}
+.out td{border-top:1px solid var(--sand);padding:5px 7px;vertical-align:top}
+.out .tw{overflow-x:auto}
+.out .num{text-align:right;font-variant-numeric:tabular-nums}
+.out code,.out pre{font-family:Consolas,"Courier New",monospace;font-size:12px}
+.out pre{background:var(--deep);color:var(--ivory);padding:8px 10px;white-space:pre-wrap;margin:0}
+.out .q{border-left:3px solid var(--terra);padding:6px 10px;background:var(--ivory)}
+.out .bad{border-left-color:#B91C1C}
+.out .good{border-left-color:#15803D}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border:1px solid currentColor;white-space:nowrap}
+.ok{color:#15803D}.warn{color:#B45309}.no{color:#B91C1C}
+.note{font-size:12px;font-style:italic}
+.log{border-top:1px solid var(--sand);padding:10px 14px;font-size:12px}
+.log h3{font-family:var(--body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.log ol{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:190px;overflow:auto}
+.log li{display:grid;grid-template-columns:56px 1fr;gap:6px}
+.log li span{font-variant-numeric:tabular-nums;color:var(--terra);font-weight:700}
+.imgs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.imgs figure{margin:0;display:grid;gap:3px}
+.imgs svg{width:100%;height:auto;display:block;border:1px solid var(--sand)}
+.imgs figcaption{font-size:11px}
+
+/* blog preview */
+.preview{margin-top:26px;display:grid;gap:14px}
+.preview>h2{font-size:28px}
+.browser{border:1px solid var(--dusk);background:#fff;max-width:1000px}
+.browser .bar{background:var(--dusk);color:var(--ivory);padding:7px 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px}
+.browser .url{background:var(--deep);color:var(--sand);padding:3px 10px;flex:1;min-width:200px;font-family:Consolas,monospace;font-size:12px;overflow-wrap:anywhere}
+.langbar{display:flex;flex-wrap:wrap;gap:4px}
+.langbar button{padding:2px 8px;font-size:12px;background:var(--deep);color:var(--sand);border-color:var(--terra)}
+.langbar button.on{background:var(--gold);color:var(--dusk)}
+article.post{padding:26px clamp(16px,4vw,48px) 34px;max-width:780px;margin:0 auto;color:#2a1a12;font-size:17px;line-height:1.7}
+article.post h1{font-size:clamp(28px,4vw,40px);color:var(--dusk);line-height:1.15}
+article.post h2{font-size:24px;color:var(--dusk);margin-top:28px}
+article.post p{margin:12px 0}
+article.post .byline{font-size:13px;color:var(--terra);margin-top:8px}
+article.post figure{margin:18px 0}
+article.post figure svg{width:100%;height:auto;display:block}
+article.post figcaption{font-size:12px;color:#6b5a4c;margin-top:4px}
+.takeaways{background:var(--soft);border-left:4px solid var(--terra);padding:12px 16px;margin:18px 0}
+.takeaways b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.toc{font-size:14px;border:1px solid var(--sand);padding:10px 16px}
+.toc ol{margin:4px 0 0;padding-left:20px}
+.faq details{border-top:1px solid var(--sand);padding:8px 0}
+.faq summary{font-weight:700;cursor:pointer}
+.author{display:flex;gap:12px;align-items:center;border:1px solid var(--sand);padding:12px;margin-top:24px;font-size:14px}
+.author .av{width:46px;height:46px;border-radius:50%;background:var(--dusk);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.cta{background:var(--dusk);color:var(--ivory);padding:16px 18px;margin-top:22px}
+.cta b{color:var(--gold)}
+.serp{background:#fff;border:1px solid var(--sand);padding:14px 16px;max-width:640px;font-family:Arial,sans-serif}
+.serp .u{font-size:13px;color:#202124}
+.serp .t{font-size:19px;color:#1a0dab;margin:3px 0}
+.serp .d{font-size:14px;color:#4d5156}
+.side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;max-width:1000px}
+@media (max-width:760px){.side{grid-template-columns:1fr}}
+.metabox{background:var(--soft);border:1px solid var(--sand);padding:12px 14px;font-size:13px}
+.metabox code{font-family:Consolas,monospace;font-size:12px;overflow-wrap:anywhere}
+footer{margin-top:28px;border-top:1px solid var(--terra);padding-top:8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px}
+@media (prefers-reduced-motion:reduce){.agent,.token,.bubble{transition-duration:.01s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <span class="example-flag">Example walkthrough · all data illustrative</span>
+      <h1>StarsTell Agent Office</h1>
+      <p>Watch one blog, "Sade Sati remedies", move through the office. <b>Paperclip</b> is the dark HQ room that runs everything. <b>OpenSEO</b> is the blue screen in the Research room. Agents walk to where they work.</p>
+    </div>
+    <div class="controls">
+      <button id="prev" aria-label="Previous step">◀ Prev</button>
+      <button id="play" class="primary">Play</button>
+      <button id="next" aria-label="Next step">Next ▶</button>
+      <label for="speed" style="font-size:13px">Speed</label>
+      <select id="speed"><option value="5200">Slow</option><option value="3600" selected>Normal</option><option value="2200">Fast</option></select>
+      <button id="reset">Reset</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div>
+      <div class="floorwrap"><div class="floor" id="floor">
+        <svg class="links" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
+          <g stroke="#7A5A9A" stroke-width="2" stroke-dasharray="5 5" fill="none">
+            <path d="M770 78 V180 H600 V215"/><path d="M845 78 V180"/><path d="M920 78 V180"/>
+          </g>
+          <g stroke="#1E2A44" stroke-width="2" stroke-dasharray="5 5" fill="none"><path d="M640 92 V170 H900 V430"/></g>
+          <g stroke="#2F6F8F" stroke-width="2" stroke-dasharray="5 5" fill="none"><path d="M590 420 V470 H470"/></g>
+        </svg>
+
+        <div class="room hq" style="left:1%;top:1.6%;width:30%;height:29.7%"><span class="rl">Paperclip HQ</span><span class="rs">Tasks · approvals · budgets · schedule · audit log</span></div>
+        <div class="room" style="left:32%;top:1.6%;width:37%;height:29.7%"><span class="rl">SEO Research room</span><span class="rs">Keywords · competitors · intent · strategy</span></div>
+        <div class="room" style="left:70%;top:1.6%;width:29%;height:29.7%"><span class="rl">Knowledge library</span><span class="rs">Your 3 StarsTell bots</span></div>
+        <div class="room" style="left:1%;top:32.8%;width:47%;height:32.8%"><span class="rl">Writing room</span><span class="rs">Draft · fact check · SEO · edit · 6 languages</span></div>
+        <div class="room vault" style="left:49%;top:32.8%;width:20%;height:32.8%"><span class="rl">Content Service</span><span class="rs">Holds every key · PostgreSQL</span></div>
+        <div class="room" style="left:70%;top:32.8%;width:29%;height:15.6%"><span class="rl">Design studio</span><span class="rs">3 to 5 images</span></div>
+        <div class="room approval" style="left:70%;top:50%;width:29%;height:15.6%"><span class="rl">Approval desk (people)</span><span class="rs">Reviewer · SME astrologer</span></div>
+        <div class="room" style="left:1%;top:67.2%;width:48%;height:31.2%"><span class="rl">Publishing dock</span><span class="rs">CMS · sitemap · IndexNow</span></div>
+        <div class="room" style="left:50%;top:67.2%;width:49%;height:31.2%"><span class="rl">Analytics room</span><span class="rs">Results · refresh</span></div>
+
+        <div class="screen os" style="left:58.5%;top:5%;width:11%;height:9.4%">OpenSEO<small>keywords · SERPs · GSC</small></div>
+        <div class="callout" style="left:64%;top:4.4%">OpenSEO is here</div>
+        <div class="callout" style="left:22.5%;top:9.6%">Paperclip is here</div>
+        <div class="screen bot" style="left:73.5%;top:6%;width:7%;height:6.2%">Vedic bot</div>
+        <div class="screen bot" style="left:81%;top:6%;width:7%;height:6.2%">Tarot bot</div>
+        <div class="screen bot" style="left:88.5%;top:6%;width:7.5%;height:6.2%">Numerology</div>
+        <div class="screen gsc" style="left:84%;top:71%;width:14%;height:13%">Search Console<small>+ GA4, via OpenSEO</small></div>
+        <div class="screen site" style="left:20%;top:71%;width:27%;height:25%"><b style="font-size:11px">starstell.com/blog</b><div class="langs" id="sitelangs"><span>EN</span><span>HI</span><span>Hinglish</span><span>MR</span><span>TA</span><span>TE</span><span>BN</span></div><div style="font-size:9px;margin-top:5px" id="sitestate">Waiting for approved posts</div></div>
+        <div class="board" style="left:14%;top:11%;width:16.5%">
+          <div><b>Research</b><span class="tk" id="tk-r">ST-142</span></div>
+          <div><b>Writing</b><span class="tk" id="tk-w" hidden>ST-142</span></div>
+          <div><b>Live</b><span class="tk" id="tk-l" hidden>ST-142</span></div>
+        </div>
+        <div class="budget" style="left:14%;top:22.5%">Budget this blog: <b id="spend">$0.00</b> of $20<div class="bar"><div class="fill" id="spendbar"></div></div></div>
+
+        <div id="agents"></div>
+        <div class="bubble" id="bubble" hidden></div>
+        <div class="token" id="token">ST-142</div>
+        <div id="minis"></div>
+      </div></div>
+      <div class="chips" id="chips" aria-label="Steps"></div>
+      <div class="legend">
+        <span><i style="background:var(--gold);border:1px solid var(--dusk)"></i>Paperclip (HQ)</span>
+        <span><i style="background:var(--research)"></i>Research agents</span>
+        <span><i style="background:var(--know)"></i>Knowledge agents</span>
+        <span><i style="background:var(--write)"></i>Writing agents</span>
+        <span><i style="background:var(--design)"></i>Designer</span>
+        <span><i style="background:var(--human);border-radius:2px"></i>People</span>
+        <span><i style="background:var(--pub)"></i>Publishing</span>
+        <span><i style="background:var(--ana)"></i>Analytics</span>
+      </div>
+    </div>
+
+    <aside class="panel" aria-live="polite">
+      <div class="ph"><span class="stepno" id="stepno">Step 1</span><h2 id="ptitle">-</h2><span class="who" id="pwho">-</span><span class="tool" id="ptool">-</span></div>
+      <div class="out" id="pout"></div>
+      <div class="log"><h3>Paperclip activity log</h3><ol id="log"></ol></div>
+    </aside>
+  </div>
+
+  <section class="preview" id="preview">
+    <h2>The published result</h2>
+    <p style="margin:0;max-width:75ch">This is what the reader sees once step 15 goes live. Switch languages to see each of the 7 links and Google listings. Article body shown in English; each language's body is written natively by its Language Writer.</p>
+    <div class="browser">
+      <div class="bar"><span class="url" id="purl">https://www.starstell.com/blog/sade-sati-remedies</span><div class="langbar" id="langbar"></div></div>
+      <article class="post">
+        <h1 id="ph1">Sade Sati remedies: what actually helps</h1>
+        <div class="byline">Reviewed by [SME astrologer name] · Last updated [DD/MM/YYYY] · 7 min read</div>
+        <figure><div id="fimg1"></div><figcaption>Saturn's slow walk through three signs, lit by a single diya.</figcaption></figure>
+        <div class="takeaways"><b>Key takeaways</b>Sade Sati is the roughly 7.5-year period when Saturn moves through the sign before your Moon sign, your Moon sign, and the sign after it. It asks for patience and steady effort. The remedies that help most build discipline: a regular routine, service to others, and honest work, alongside simple Saturn practices your astrologer suggests for your chart.</div>
+        <nav class="toc"><b>In this article</b><ol><li>What is Sade Sati?</li><li>The three phases</li><li>Which remedies actually help?</li><li>Does it affect everyone the same way?</li><li>Questions people ask</li></ol></nav>
+        <h2>What is Sade Sati?</h2>
+        <p>In Vedic astrology, Sade Sati ("seven and a half") is the time Saturn (Shani) spends moving through three signs around your natal Moon. Saturn takes about two and a half years to cross one sign, so the full period runs close to seven and a half years.</p>
+        <p>It has a heavy reputation. In practice, Saturn is the planet of structure, patience and responsibility. Sade Sati is a season that asks you to slow down and build properly, not a sentence handed down to you.</p>
+        <h2>The three phases</h2>
+        <figure><div id="fimg2"></div><figcaption>Each phase lasts about two and a half years. Diagram labels are drawn per language.</figcaption></figure>
+        <p>The first phase, with Saturn in the 12th sign from your Moon, often touches expenses and sleep. The middle phase, over the Moon itself, is the most personal: mood, health and self-image. The last phase, in the 2nd sign, tends to show up in family matters and savings. How strongly any of this is felt depends on the rest of your chart.</p>
+        <h2>Which remedies actually help?</h2>
+        <figure><div id="fimg3"></div><figcaption>Routine and steady work are the remedies Saturn responds to.</figcaption></figure>
+        <p><b>Routine.</b> Saturn rewards consistency. Fixed sleep, honest timekeeping and finishing what you start matter more than any single ritual.</p>
+        <p><b>Service.</b> Helping elders, workers and people in need on Saturdays is a traditional Shani remedy, and it also changes how the period feels.</p>
+        <p><b>Mantra with understanding.</b> Chanting a Shani mantra helps most when you know what it means and do it regularly, not as a one-off.</p>
+        <p><b>Gemstones are not a default.</b> A blue sapphire is considered only after a full chart reading, never as a quick fix.</p>
+        <h2>Does Sade Sati affect everyone the same way?</h2>
+        <figure><div id="fimg4"></div><figcaption>Saturn's position relative to your natal Moon decides the phase.</figcaption></figure>
+        <p>No. Saturn's own strength in your chart, your current dasha and the house Saturn rules all change the experience. Two people in the same phase can have very different years. That is why a reading of your own chart is more useful than a general prediction list.</p>
+        <section class="faq"><h2>Questions people ask</h2>
+          <details><summary>How long does Sade Sati last?</summary><p>About seven and a half years: roughly two and a half years in each of the three signs around your Moon.</p></details>
+          <details><summary>Is Sade Sati always bad?</summary><p>No. Many people finish it with stronger habits, careers and relationships. It is demanding, not doomed.</p></details>
+          <details><summary>Does Sade Sati affect marriage?</summary><p>It can test patience in relationships, mostly in the middle phase. Clear communication and shared routines help more than fear.</p></details>
+        </section>
+        <div class="author"><div class="av">ST</div><div><b>StarsTell editorial team</b><br>Reviewed by [SME astrologer name], [years] years of Vedic practice. Every StarsTell article is checked against our astrologers' guidance.</div></div>
+        <div class="cta"><b>Want to know what Saturn's transit means in your own chart?</b><br>Talk to a StarsTell astrologer who will remember your story. The first three minutes are free.</div>
+      </article>
+    </div>
+    <div class="side">
+      <div><h3 style="font-size:18px;margin-bottom:6px">How it shows on Google</h3><div class="serp"><div class="u" id="surl">starstell.com › blog › sade-sati-remedies</div><div class="t" id="stitle">Sade Sati Remedies: What Actually Helps | StarsTell</div><div class="d" id="sdesc">Sade Sati is a season, not a curse. Learn its three phases, which remedies help, and how to use this Saturn period for steady growth.</div></div></div>
+      <div class="metabox"><h3 style="font-size:18px;margin-bottom:6px">Behind the page</h3>
+        <div>Slug: <code id="mslug">/blog/sade-sati-remedies</code></div>
+        <div>Primary keyword: <code id="mkw">sade sati remedies</code></div>
+        <div>Schema: <code>BlogPosting, BreadcrumbList, FAQPage</code></div>
+        <div>hreflang: <code>en, hi, hi-Latn, mr, ta, te, bn, x-default</code></div>
+        <div>Images: <code>4 WebP, alt text in 7 languages</code></div>
+        <div>Approved by: <code>[reviewer] · SME not needed (no dates)</code></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Confidential | Hungama Digital Media Entertainment Pvt. Ltd.</span><span>Example walkthrough. Real data appears once OpenSEO, Paperclip and the StarsTell bots are connected.</span></footer>
+</div>
+
+<script>
+/* ---------- images (StarsTell style, drawn as SVG) ---------- */
+const IMG = {
+  featured: () => `<svg viewBox="0 0 600 315" role="img" aria-label="Saturn with golden rings above a lit brass diya on a dark sky"><rect width="600" height="315" fill="#421206"/>${Array.from({length:40},(_,i)=>`<circle cx="${(i*137)%600}" cy="${(i*71)%200}" r="${i%3?1:1.8}" fill="#E3DBC7" opacity="${0.35+((i*7)%5)/10}"/>`).join('')}<ellipse cx="300" cy="120" rx="150" ry="28" fill="none" stroke="#E0BF71" stroke-width="6" transform="rotate(-12 300 120)"/><circle cx="300" cy="120" r="62" fill="#A45B3E"/><path d="M240 104 Q300 92 360 104" stroke="#CCBFAB" stroke-width="5" fill="none" opacity=".5"/><path d="M245 132 Q300 122 356 132" stroke="#2A0A03" stroke-width="6" fill="none" opacity=".35"/><ellipse cx="300" cy="120" rx="150" ry="28" fill="none" stroke="#E0BF71" stroke-width="6" stroke-dasharray="300 640" transform="rotate(-12 300 120)"/><path d="M250 285 Q300 312 350 285 L340 270 H260 Z" fill="#E0BF71"/><path d="M300 270 C286 252 292 236 300 222 C308 236 314 252 300 270 Z" fill="#F5821F"/><path d="M300 266 C294 256 296 247 300 240 C304 247 306 256 300 266 Z" fill="#FCDE5A"/><ellipse cx="300" cy="246" rx="60" ry="40" fill="#E0BF71" opacity=".12"/></svg>`,
+  phases: (l) => { const t = l || ['12th from Moon','Your Moon sign','2nd from Moon','Phase 1','Phase 2','Phase 3','about 2.5 years each'];
+    return `<svg viewBox="0 0 600 260" role="img" aria-label="Diagram of the three Sade Sati phases"><rect width="600" height="260" fill="#F5EDE0"/>${[0,1,2].map(i=>`<rect x="${30+i*185}" y="60" width="170" height="110" fill="${i==1?'#421206':'#E3DBC7'}" stroke="#421206"/><text x="${115+i*185}" y="98" text-anchor="middle" font-family="Noto Sans,Arial" font-size="15" font-weight="700" fill="${i==1?'#E0BF71':'#421206'}">${t[3+i]}</text><text x="${115+i*185}" y="126" text-anchor="middle" font-family="Noto Sans,Arial" font-size="14" fill="${i==1?'#E3DBC7':'#421206'}">${t[i]}</text>`).join('')}<circle cx="300" cy="200" r="10" fill="#A45B3E"/><path d="M60 200 H540" stroke="#A45B3E" stroke-width="2" stroke-dasharray="6 6"/><path d="M530 194 L542 200 L530 206" fill="none" stroke="#A45B3E" stroke-width="2"/><text x="300" y="38" text-anchor="middle" font-family="Noto Sans,Arial" font-size="14" fill="#421206">Saturn moves left to right · ${t[6]}</text><text x="300" y="235" text-anchor="middle" font-family="Noto Sans,Arial" font-size="12" fill="#421206">Saturn</text></svg>`; },
+  routine: () => `<svg viewBox="0 0 600 260" role="img" aria-label="An open notebook, a lit lamp and a cup on a desk at dusk"><rect width="600" height="260" fill="#E3DBC7"/><rect y="180" width="600" height="80" fill="#CCBFAB"/><rect x="150" y="150" width="240" height="40" fill="#F5EDE0" stroke="#421206"/><path d="M270 150 V190" stroke="#421206"/>${[0,1,2,3].map(i=>`<path d="M165 ${160+i*7} H255 M285 ${160+i*7} H375" stroke="#A45B3E" stroke-width="1.5"/>`).join('')}<rect x="430" y="120" width="12" height="62" fill="#421206"/><path d="M405 120 H468 L452 85 H421 Z" fill="#E0BF71" stroke="#421206"/><ellipse cx="436" cy="125" rx="70" ry="30" fill="#E0BF71" opacity=".25"/><rect x="90" y="160" width="34" height="28" fill="#A45B3E"/><path d="M124 168 q12 6 0 14" fill="none" stroke="#A45B3E" stroke-width="3"/><circle cx="520" cy="50" r="22" fill="#F5EDE0" opacity=".8"/></svg>`,
+  wheel: () => { let s=''; for(let i=0;i<12;i++){const a=(i*30-90)*Math.PI/180; s+=`<line x1="${300+Math.cos(a)*40}" y1="${130+Math.sin(a)*40}" x2="${300+Math.cos(a)*110}" y2="${130+Math.sin(a)*110}" stroke="#A45B3E" stroke-width="1"/>`;}
+    const p=(k,r)=>{const a=((k*30)+15-90)*Math.PI/180;return [300+Math.cos(a)*r,130+Math.sin(a)*r]}; const [mx,my]=p(0,78),[sx,sy]=p(11,78),[sx2,sy2]=p(1,78);
+    return `<svg viewBox="0 0 600 260" role="img" aria-label="Zodiac wheel showing the Moon sign and Saturn in the sign before it"><rect width="600" height="260" fill="#F5EDE0"/><circle cx="300" cy="130" r="110" fill="#E3DBC7" stroke="#421206" stroke-width="2"/><circle cx="300" cy="130" r="40" fill="#F5EDE0" stroke="#421206"/>${s}<path d="M${sx} ${sy} A78 78 0 0 1 ${sx2} ${sy2}" fill="none" stroke="#E0BF71" stroke-width="16" opacity=".7"/><circle cx="${mx}" cy="${my}" r="12" fill="#F5EDE0" stroke="#421206" stroke-width="2"/><text x="${mx}" y="${my+4}" text-anchor="middle" font-size="11" font-family="Noto Sans,Arial" fill="#421206">☾</text><circle cx="${sx}" cy="${sy}" r="12" fill="#A45B3E"/><text x="${sx}" y="${sy+4}" text-anchor="middle" font-size="10" font-family="Noto Sans,Arial" fill="#fff">♄</text><text x="470" y="110" font-size="13" font-family="Noto Sans,Arial" fill="#421206">Gold arc: the three</text><text x="470" y="128" font-size="13" font-family="Noto Sans,Arial" fill="#421206">Sade Sati signs</text></svg>`; }
+};
+
+/* ---------- agents ---------- */
+const C={research:'#5B6C8F',know:'#7A5A9A',write:'#A45B3E',design:'#3F7F6E',human:'#C98A1B',pub:'#2F6F8F',ana:'#4D7A3A',hq:'#E0BF71'};
+const AG={
+  head:{n:'Head of SEO',i:'HS',c:C.hq,x:90,y:140,dark:1},
+  kw:{n:'Keyword Research',i:'KR',c:C.research,x:360,y:125},
+  comp:{n:'Competitor Intel',i:'CI',c:C.research,x:430,y:165},
+  intent:{n:'Search Intent',i:'SI',c:C.research,x:500,y:125},
+  strat:{n:'Strategist',i:'CS',c:C.research,x:560,y:165},
+  brief:{n:'Content Brief',i:'CB',c:C.research,x:620,y:150},
+  vedic:{n:'Vedic Research',i:'VR',c:C.know,x:745,y:150},
+  tarot:{n:'Tarot Research',i:'TR',c:C.know,x:830,y:150},
+  num:{n:'Numerology Research',i:'NR',c:C.know,x:915,y:150},
+  writer:{n:'Senior Writer',i:'SW',c:C.write,x:55,y:265},
+  fact:{n:'Fact Checker',i:'FC',c:C.write,x:155,y:265},
+  seo:{n:'SEO Optimizer',i:'SO',c:C.write,x:255,y:265},
+  editor:{n:'Senior Editor',i:'ED',c:C.write,x:355,y:265},
+  l1:{n:'Hindi',i:'HI',c:C.write,x:55,y:355},
+  l2:{n:'Hinglish',i:'HG',c:C.write,x:125,y:355},
+  l3:{n:'Marathi',i:'MR',c:C.write,x:195,y:355},
+  l4:{n:'Tamil',i:'TA',c:C.write,x:265,y:355},
+  l5:{n:'Telugu',i:'TE',c:C.write,x:335,y:355},
+  l6:{n:'Bengali',i:'BN',c:C.write,x:405,y:355},
+  visual:{n:'Visual Designer',i:'VD',c:C.design,x:780,y:270},
+  rev:{n:'Reviewer',i:'RV',c:C.human,x:770,y:385,human:1},
+  sme:{n:'SME Astrologer',i:'SM',c:C.human,x:860,y:385,human:1},
+  cms:{n:'CMS Publisher',i:'CP',c:C.pub,x:80,y:520},
+  analyst:{n:'Analyst',i:'PA',c:C.ana,x:560,y:530},
+  refresh:{n:'Refresh',i:'RF',c:C.ana,x:660,y:570}
+};
+const SPOT={openseo:[640,112],vault:[590,330],site:[260,540],gsc:[900,520],approval:[815,345],board:[230,115],bots:[800,95]};
+const LANGS=[
+ {k:'EN',code:'en',url:'/blog/sade-sati-remedies',kw:'sade sati remedies',title:'Sade Sati Remedies: What Actually Helps | StarsTell',h1:'Sade Sati remedies: what actually helps',d:'Sade Sati is a season, not a curse. Learn its three phases, which remedies help, and how to use this Saturn period for steady growth.'},
+ {k:'HI',code:'hi',url:'/hi/blog/sade-sati-ke-upay',kw:'साढ़ेसाती के उपाय',title:'साढ़ेसाती के उपाय: क्या सच में मदद करता है | StarsTell',h1:'साढ़ेसाती के उपाय: क्या सच में मदद करता है',d:'साढ़ेसाती डर का नहीं, धैर्य का समय है। जानिए इसके तीन चरण, कौन से उपाय सच में काम आते हैं और शनि के इस दौर में कैसे आगे बढ़ें।'},
+ {k:'Hinglish',code:'hi-Latn',url:'/hinglish/blog/sade-sati-ke-upay',kw:'sade sati ke upay',title:'Sade Sati Ke Upay: Kya Sach Mein Kaam Karta Hai | StarsTell',h1:'Sade Sati ke upay: kya sach mein kaam karta hai',d:'Sade Sati darne ka nahi, sabr ka samay hai. Jaaniye iske teen phase, kaunse upay sach mein madad karte hain aur Shani ke is daur ko kaise sambhalein.'},
+ {k:'MR',code:'mr',url:'/mr/blog/sadesati-upay',kw:'साडेसाती उपाय',title:'साडेसातीचे उपाय: खरंच काय उपयोगी पडते | StarsTell',h1:'साडेसातीचे उपाय: खरंच काय उपयोगी पडते',d:'साडेसाती म्हणजे संकट नव्हे, संयमाचा काळ. तिचे तीन टप्पे, उपयोगी उपाय आणि शनीच्या या काळात स्थिर प्रगती कशी करावी ते जाणून घ्या.'},
+ {k:'TA',code:'ta',url:'/ta/blog/ezharai-sani-pariharam',kw:'ஏழரைச் சனி பரிகாரம்',title:'ஏழரைச் சனி பரிகாரங்கள்: உண்மையில் எது உதவும் | StarsTell',h1:'ஏழரைச் சனி பரிகாரங்கள்: உண்மையில் எது உதவும்',d:'ஏழரைச் சனி ஒரு சாபம் அல்ல, பொறுமையின் காலம். அதன் மூன்று கட்டங்கள், உதவும் பரிகாரங்கள், இந்தக் காலத்தை எப்படிக் கடப்பது என்பதை அறியுங்கள்.'},
+ {k:'TE',code:'te',url:'/te/blog/elinati-shani-pariharalu',kw:'ఏలినాటి శని పరిహారాలు',title:'ఏలినాటి శని పరిహారాలు: నిజంగా ఏవి సహాయపడతాయి | StarsTell',h1:'ఏలినాటి శని పరిహారాలు: నిజంగా ఏవి సహాయపడతాయి',d:'ఏలినాటి శని శాపం కాదు, ఓర్పు కాలం. దాని మూడు దశలు, ఉపయోగపడే పరిహారాలు, ఈ శని కాలాన్ని స్థిరంగా ఎలా దాటాలో తెలుసుకోండి.'},
+ {k:'BN',code:'bn',url:'/bn/blog/sade-sati-protikar',kw:'সাড়ে সাতির প্রতিকার',title:'সাড়ে সাতির প্রতিকার: আসলে কী কাজে আসে | StarsTell',h1:'সাড়ে সাতির প্রতিকার: আসলে কী কাজে আসে',d:'সাড়ে সাতি কোনো অভিশাপ নয়, ধৈর্যের সময়। এর তিনটি পর্যায়, কোন প্রতিকার সত্যিই সাহায্য করে এবং শনির এই সময়টা কীভাবে পার করবেন জানুন।'}
+];
+
+/* ---------- steps ---------- */
+const S=[
+{a:'head',go:'board',tok:'board',board:'r',title:'Weekly plan starts',room:'Paperclip HQ',tool:['paperclip','Paperclip · routine'],say:'Monday routine fired. New task ST-142 for the Shani cluster.',cost:0,
+ out:`<p>Paperclip's weekly <b>routine</b> wakes the Head of SEO and creates a tracked task. Every move from here is logged on the right.</p><div class="tw"><table><tr><th>Task</th><th>Goal</th><th>Budget</th><th>Status</th></tr><tr><td>ST-142</td><td>Shani content cluster, January plan</td><td class="num">$20</td><td>Research</td></tr></table></div>`,log:'Routine "weekly-plan" created ST-142, assigned to Keyword Research'},
+{a:'kw',go:'openseo',tok:'openseo',title:'Find the keyword',room:'SEO Research room',tool:['openseo','OpenSEO · get_suggested_keywords'],say:'Asking OpenSEO which Sade Sati searches have volume.',cost:.12,
+ out:`<p>The Keyword Research agent walks to the <b>OpenSEO</b> screen. OpenSEO calls DataForSEO and returns keywords per language.</p><div class="tw"><table><tr><th>Keyword</th><th>Lang</th><th class="num">Monthly</th><th class="num">KD</th><th>Intent</th></tr><tr><td>sade sati remedies</td><td>en</td><td class="num">9,900</td><td class="num">31</td><td>Info</td></tr><tr><td>sade sati ke upay</td><td>hi</td><td class="num">27,100</td><td class="num">22</td><td>Info</td></tr><tr><td>shani sade sati effects</td><td>en</td><td class="num">6,600</td><td class="num">34</td><td>Info</td></tr><tr><td>ஏழரைச் சனி பரிகாரம்</td><td>ta</td><td class="num">4,400</td><td class="num">18</td><td>Info</td></tr></table></div><p class="note">Example numbers. Real volumes come from OpenSEO once connected.</p>`,log:'Keyword Research: 46 keywords saved, primary "sade sati remedies"'},
+{a:'comp',go:'openseo',tok:'openseo',title:'Study the top 10',room:'SEO Research room',tool:['openseo','OpenSEO · get_serp_results'],say:'Reading the top 10 Google results for this keyword.',cost:.18,
+ out:`<p>The Competitor agent pulls the live Google top 10 and records each page's outline, length and FAQs.</p><div class="tw"><table><tr><th>#</th><th>Page</th><th class="num">Words</th><th>Phases explained</th><th>FAQ</th></tr><tr><td>1</td><td>Competitor 1</td><td class="num">2,300</td><td class="pill ok">yes</td><td>yes</td></tr><tr><td>2</td><td>Competitor 2</td><td class="num">1,400</td><td class="pill no">no</td><td>no</td></tr><tr><td>3</td><td>Competitor 3</td><td class="num">1,900</td><td class="pill ok">yes</td><td>yes</td></tr><tr><td>4</td><td>Competitor 4</td><td class="num">900</td><td class="pill no">no</td><td>no</td></tr></table></div><div class="q"><b>Gap note:</b> 3 of 10 pages explain the phases clearly; few say how effects depend on your own chart; target about 1,800 words with a phase diagram.</div><p class="note">Real domains (AstroTalk, AstroSage, Astroyogi and others) appear here at runtime.</p>`,log:'Competitor Intel: gap note attached to ST-142'},
+{a:'head',go:'board',tok:'board',title:'Head of SEO approves the idea',room:'Paperclip HQ',tool:['paperclip','Paperclip · task decision'],say:'Fits January\'s Shani cluster. Approved.',cost:.03,
+ out:`<p>The Head of SEO checks the idea against the monthly plan and the budget, then moves the task on. A rejected idea would stop here.</p><div class="q good">Accepted: fits "Shani" pillar, no other page targets this keyword.</div>`,log:'Head of SEO approved ST-142 for briefing'},
+{a:'brief',go:null,tok:'brief',title:'Write the brief',room:'SEO Research room',tool:['cs','Content Service · save_brief'],say:'Persona: The Legacy Believer. 6 H2s, 3 FAQs.',cost:.4,
+ out:`<h3>Brief: Sade Sati remedies</h3><div class="tw"><table><tr><td><b>Persona</b></td><td>The Legacy Believer (Hindi-first, 38 to 55)</td></tr><tr><td><b>H2 outline</b></td><td>What is Sade Sati · The three phases · Which remedies help · Does it affect everyone the same way · FAQ</td></tr><tr><td><b>FAQs</b></td><td>How long? · Is it always bad? · Does it affect marriage?</td></tr><tr><td><b>Length</b></td><td>About 1,800 words</td></tr><tr><td><b>Must avoid</b></td><td>Fear, guarantees, gemstone selling, specific dates</td></tr></table></div>`,log:'Content Brief saved brief v1 to Content Service'},
+{a:'vedic',go:'vault',tok:'vault',board:'w',title:'Ask the Vedic bot',room:'Content Service',tool:['cs','Content Service · vedic_ask'],say:'Asking our Vedic bot how Sade Sati phases and remedies work.',cost:.1,
+ out:`<p>The Vedic agent never holds the API key. It walks to the <b>Content Service</b>, which calls your Vedic bot and logs the answer.</p><pre>vedic_ask(
+  question: "Explain the three phases of Sade Sati
+             and traditional remedies, for a blog."
+)
+// Real endpoint and fields added from your API docs</pre><div class="q"><b>Bot answer (example):</b> Sade Sati spans Saturn's transit through the 12th, 1st and 2nd signs from the natal Moon. Effects depend on Saturn's dignity, the running dasha... Traditional remedies: Saturday service, Shani mantra, discipline in work.</div>`,log:'vedic_ask logged as bot_call #881 (latency 2.1s)'},
+{a:'writer',go:null,tok:'writer',title:'English draft',room:'Writing room',tool:['cs','Content Service · save_version'],say:'Drafting from the brief and the bot\'s answer only.',cost:.84,
+ out:`<p>The Senior Writer writes the English version using only the brief, the logged bot answer and cited sources.</p><div class="q">"...Sade Sati always brings hardship, so prepare for the worst..."</div><p class="note">One sentence is overstated. The Fact Checker will catch it next.</p>`,log:'Senior Writer saved draft v1 (1,760 words)'},
+{a:'fact',go:null,tok:'fact',title:'Fact check: one claim fails',room:'Writing room',tool:['cs','Content Service · check_claims'],say:'Claim 4 is overstated. Sending it back.',cost:.56,
+ out:`<div class="tw"><table><tr><th>Claim</th><th>Verdict</th></tr><tr><td>Sade Sati covers 12th, 1st and 2nd signs from the Moon</td><td class="pill ok">supported</td></tr><tr><td>Each phase is about 2.5 years</td><td class="pill ok">supported</td></tr><tr><td>Effects depend on Saturn's strength and dasha</td><td class="pill ok">supported</td></tr><tr><td>"Sade Sati always brings hardship"</td><td class="pill no">overstated</td></tr></table></div><div class="q bad">Loop: draft returns to the Senior Writer with claim 4.</div>`,log:'Fact Checker: 1 of 14 claims failed, ST-142 returned to writer'},
+{a:'writer',go:null,tok:'writer',title:'Writer fixes it',room:'Writing room',tool:['cs','Content Service · save_version'],say:'Rewritten: it is a season that asks for patience.',cost:.3,
+ out:`<div class="q bad">Before: "Sade Sati always brings hardship, so prepare for the worst."</div><div class="q good">After: "Sade Sati is a season that asks you to slow down and build properly, not a sentence handed down to you."</div><p>Fact check runs again: <span class="pill ok">14 of 14 supported</span></p>`,log:'Senior Writer saved v2; Fact Checker passed 14/14'},
+{a:'l1',go:null,tok:'writer',fan:1,title:'6 more languages, written natively',room:'Writing room',tool:['cs','Content Service · save_version x6'],say:'Each Language Writer writes from the brief and the verified claims.',cost:3.6,
+ out:`<p>The task splits into 7 copies. Each Language Writer uses its own keywords, not a translation.</p><div class="tw"><table><tr><th>Lang</th><th>Title (draft)</th></tr>${LANGS.map(l=>`<tr><td>${l.k}</td><td>${l.h1}</td></tr>`).join('')}</table></div><p class="note">Draft titles; a native reviewer checks each language.</p>`,log:'6 Language Writers saved native drafts (hi, hi-Latn, mr, ta, te, bn)'},
+{a:'visual',go:null,tok:'visual',title:'Make 4 images',room:'Design studio',tool:['cs','Content Service · image_generate'],say:'2 illustrations from the image model, 2 diagrams from templates.',cost:.6,
+ out:`<div class="imgs"><figure>${IMG.featured()}<figcaption>Featured · AI image</figcaption></figure><figure>${IMG.phases()}<figcaption>Phases · SVG diagram</figcaption></figure><figure>${IMG.routine()}<figcaption>Routine · AI image</figcaption></figure><figure>${IMG.wheel()}<figcaption>Wheel · SVG diagram</figcaption></figure></div><p class="note">Alt text written in all 7 languages. No text inside AI images.</p>`,log:'Visual Designer saved 4 images, 28 alt texts'},
+{a:'writer',go:null,tok:'writer',fan:1,title:'Humanize every version',room:'Writing room',tool:['cs','humanizer skill + claim check'],say:'Removing AI tells, then re-checking every claim.',cost:.9,
+ out:`<div class="q bad">Before: "Sade Sati is not just a challenging period, it's a transformative journey that can reshape your life."</div><div class="q good">After: "Sade Sati is the roughly seven and a half years when Saturn moves through the sign before your Moon sign, your Moon sign and the one after it."</div><p>Claim check after humanizing: <span class="pill ok">7 of 7 versions pass</span></p>`,log:'Humanize pass done on 7 versions; claims unchanged'},
+{a:'seo',go:null,tok:'seo',fan:1,title:'SEO pass',room:'Writing room',tool:['cs','claude-seo skills · schema, hreflang'],say:'Meta, slug, schema, hreflang and internal links for all 7.',cost:.9,
+ out:`<div class="tw"><table><tr><td><b>Title</b></td><td>Sade Sati Remedies: What Actually Helps | StarsTell <span class="pill ok">51 chars</span></td></tr><tr><td><b>Description</b></td><td>Sade Sati is a season, not a curse... <span class="pill ok">146 chars</span></td></tr><tr><td><b>Slug</b></td><td>/blog/sade-sati-remedies</td></tr><tr><td><b>Schema</b></td><td>BlogPosting, BreadcrumbList, FAQPage</td></tr><tr><td><b>hreflang</b></td><td>7 languages + x-default</td></tr></table></div>`,log:'SEO Optimizer: 9 of 9 automatic checks pass on 7 versions'},
+{a:'editor',go:null,tok:'editor',title:'Senior Editor review',room:'Writing room',tool:['cs','copy-editing + scrub'],say:'Voice matches StarsTell. No em dashes, no hidden characters. Sending to people.',cost:1.9,
+ out:`<div class="tw"><table><tr><th>Check</th><th>Result</th></tr><tr><td>Brand voice (no fear, no guarantees)</td><td class="pill ok">pass</td></tr><tr><td>Readability</td><td class="pill ok">pass</td></tr><tr><td>Hidden Unicode / em dashes</td><td class="pill ok">0 found</td></tr><tr><td>Specific dates needing SME</td><td class="pill ok">none</td></tr></table></div>`,log:'Senior Editor approved ST-142 for human review'},
+{a:'rev',go:'approval',tok:'approval',title:'A person approves',room:'Approval desk',tool:['paperclip','Paperclip · approval stage'],say:'Read it, looks right. Approved. (No dates, so SME not needed.)',cost:0,
+ out:`<p>Nothing can go live without this. The reviewer can approve, reject, request revisions or edit, and sees the sources and agent history.</p><div class="tw"><table><tr><td>EN, HI, Hinglish</td><td class="pill ok">approved</td></tr><tr><td>MR, TA, TE, BN</td><td class="pill ok">approved by native reviewers</td></tr><tr><td>SME sign-off</td><td>not required: no tithi, muhurat or festival date</td></tr></table></div>`,log:'Human approval recorded (approval id ap_5521)'},
+{a:'cms',go:'site',tok:'site',board:'l',live:1,title:'Publish 7 links',room:'Publishing dock',tool:['cs','Content Service · cms_publish'],say:'Approval id checked. Publishing 7 links, pinging sitemap and IndexNow.',cost:.05,
+ out:`<div class="tw"><table>${LANGS.map(l=>`<tr><td>${l.k}</td><td><code>starstell.com${l.url}</code></td></tr>`).join('')}</table></div><p>Sitemap updated, IndexNow pinged. Scroll down to see the published page.</p>`,log:'CMS Publisher: 7 URLs live, sitemap + IndexNow done'},
+{a:'analyst',go:'gsc',tok:'gsc',title:'28 days later: measure',room:'Analytics room',tool:['openseo','OpenSEO · Search Console + GA4'],say:'Reading Search Console through OpenSEO.',cost:.08,
+ out:`<div class="tw"><table><tr><th>Version</th><th class="num">Impr.</th><th class="num">Clicks</th><th class="num">Pos.</th></tr><tr><td>EN</td><td class="num">18,400</td><td class="num">610</td><td class="num">9.2</td></tr><tr><td>HI</td><td class="num">41,200</td><td class="num">1,930</td><td class="num">5.8</td></tr><tr><td>Hinglish</td><td class="num">22,700</td><td class="num">880</td><td class="num">7.1</td></tr><tr><td>TA</td><td class="num">6,300</td><td class="num">340</td><td class="num">4.4</td></tr></table></div><p class="note">Example numbers.</p>`,log:'Analyst: weekly report updated for ST-142'},
+{a:'refresh',go:'board',tok:'board',title:'Refresh idea goes back to HQ',room:'Paperclip HQ',tool:['paperclip','Paperclip · new task'],say:'"Sade Sati and marriage" is rising. Add a section to EN.',cost:.05,
+ out:`<div class="q">New task ST-163: English version sits at position 9. Rising query "does sade sati affect marriage". Expand that FAQ into a full H2.</div><p>The loop starts again from step 1 next week.</p>`,log:'Refresh created ST-163 from ST-142 results'}
+];
+
+/* ---------- render ---------- */
+const floor=document.getElementById('floor'), agentsEl=document.getElementById('agents'), bubble=document.getElementById('bubble'), token=document.getElementById('token'), minis=document.getElementById('minis');
+const pos=(x,y)=>({left:(x/10)+'%',top:(y/6.4)+'%'});
+for(const [id,a] of Object.entries(AG)){const d=document.createElement('div');d.className='agent'+(a.human?' human':'');d.id='ag-'+id;d.style.background=a.c;if(a.c===C.hq)d.style.color='#421206';d.innerHTML=`${a.i}<span class="nm">${a.n}</span>`;d.title=a.n;Object.assign(d.style,pos(a.x,a.y));agentsEl.appendChild(d);}
+const chips=document.getElementById('chips');
+S.forEach((s,i)=>{const b=document.createElement('button');b.textContent=i+1;b.title=s.title;b.onclick=()=>{stop();go(i)};chips.appendChild(b);});
+const at=k=>SPOT[k]||[AG[k].x,AG[k].y];
+let cur=-1, timer=null, logItems=[];
+function go(i){
+  cur=Math.max(0,Math.min(S.length-1,i)); const s=S[cur];
+  for(const [id,a] of Object.entries(AG)){const d=document.getElementById('ag-'+id);Object.assign(d.style,pos(a.x,a.y));d.classList.remove('active');}
+  const ag=AG[s.a], el=document.getElementById('ag-'+s.a); const [gx,gy]=s.go?SPOT[s.go]:[ag.x,ag.y];
+  Object.assign(el.style,pos(gx,gy)); el.classList.add('active');
+  bubble.hidden=false; bubble.textContent=s.say; Object.assign(bubble.style,pos(Math.min(870,Math.max(130,gx)),Math.max(150,gy)));
+  const [tx,ty]=at(s.tok); Object.assign(token.style,pos(tx,ty));
+  minis.innerHTML=''; if(s.fan){['writer','l1','l2','l3','l4','l5','l6'].forEach(k=>{const m=document.createElement('div');m.className='token mini';m.textContent=k==='writer'?'EN':AG[k].i;Object.assign(m.style,pos(AG[k].x,AG[k].y));minis.appendChild(m);});token.style.opacity=0;} else token.style.opacity=1;
+  ['r','w','l'].forEach(k=>document.getElementById('tk-'+k).hidden=true);
+  let col='r'; for(let j=0;j<=cur;j++){if(S[j].board)col=S[j].board;} document.getElementById('tk-'+col).hidden=false;
+  const spent=S.slice(0,cur+1).reduce((t,x)=>t+x.cost,0); document.getElementById('spend').textContent='$'+spent.toFixed(2); document.getElementById('spendbar').style.width=Math.min(100,spent/20*100)+'%';
+  const live=S.slice(0,cur+1).some(x=>x.live); document.querySelectorAll('#sitelangs span').forEach(x=>x.classList.toggle('live',live)); document.getElementById('sitestate').textContent=live?'7 links live':'Waiting for approved posts';
+  document.getElementById('stepno').textContent=`Step ${cur+1} of ${S.length} · ${s.room}`;
+  document.getElementById('ptitle').textContent=s.title;
+  document.getElementById('pwho').textContent=ag.n+(s.go?' walks to '+({openseo:'the OpenSEO screen',vault:'the Content Service',site:'the website',gsc:'Search Console',approval:'the approval desk',board:'the Paperclip task board'})[s.go]:' at their desk');
+  const t=document.getElementById('ptool'); t.className='tool '+s.tool[0]; t.textContent=s.tool[1];
+  document.getElementById('pout').innerHTML=s.out;
+  logItems=S.slice(0,cur+1).map((x,j)=>`<li><span>${String(9+Math.floor(j*25/60)).padStart(2,'0')}:${String((j*25)%60).padStart(2,'0')}</span>${x.log}</li>`).reverse();
+  document.getElementById('log').innerHTML=logItems.join('');
+  [...chips.children].forEach((b,j)=>{b.className=j===cur?'on':(j<cur?'done':'')});
+}
+const playBtn=document.getElementById('play');
+function stop(){clearInterval(timer);timer=null;playBtn.textContent='Play';}
+function play(){if(cur>=S.length-1)go(0);timer=setInterval(()=>{if(cur>=S.length-1){stop();return;}go(cur+1)},+document.getElementById('speed').value);playBtn.textContent='Pause';}
+playBtn.onclick=()=>timer?stop():play();
+document.getElementById('next').onclick=()=>{stop();go(cur+1)};
+document.getElementById('prev').onclick=()=>{stop();go(cur-1)};
+document.getElementById('reset').onclick=()=>{stop();go(0)};
+document.getElementById('speed').onchange=()=>{if(timer){stop();play();}};
+document.addEventListener('keydown',e=>{if(e.target.tagName==='SELECT')return;if(e.key==='ArrowRight'){stop();go(cur+1)}if(e.key==='ArrowLeft'){stop();go(cur-1)}if(e.key===' '){e.preventDefault();timer?stop():play()}});
+
+/* ---------- blog preview ---------- */
+document.getElementById('fimg1').innerHTML=IMG.featured();
+document.getElementById('fimg2').innerHTML=IMG.phases();
+document.getElementById('fimg3').innerHTML=IMG.routine();
+document.getElementById('fimg4').innerHTML=IMG.wheel();
+const lb=document.getElementById('langbar');
+LANGS.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.k;b.onclick=()=>setLang(i);lb.appendChild(b);});
+function setLang(i){const l=LANGS[i];
+  document.getElementById('purl').textContent='https://www.starstell.com'+l.url;
+  document.getElementById('ph1').textContent=l.h1; document.getElementById('ph1').lang=l.code.split('-')[0];
+  document.getElementById('surl').textContent='starstell.com › '+l.url.split('/').filter(Boolean).join(' › ');
+  document.getElementById('stitle').textContent=l.title; document.getElementById('sdesc').textContent=l.d;
+  document.getElementById('mslug').textContent=l.url; document.getElementById('mkw').textContent=l.kw;
+  [...lb.children].forEach((b,j)=>b.classList.toggle('on',j===i));}
+setLang(0); go(0);
+</script>
+</body>
+</html>
