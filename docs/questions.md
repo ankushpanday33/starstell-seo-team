@@ -59,5 +59,7 @@ Tick items as they arrive.
 - [ ] Legal: must AI-generated images be labelled?
 - [ ] Who approves deity imagery
 - [ ] Licensed or StarsTell-owned tarot deck images
+- [ ] 3 to 5 approved StarsTell writing samples per language for context/writing-examples.md
+- [ ] Is the StarsTell CMS WordPress? (decides whether seomachine's WordPress publisher is reused)
 - [ ] Budget cap for 280 pages a month (estimate $810 to $980 a month)
 - [ ] Anthropic API account and DataForSEO account: existing or new

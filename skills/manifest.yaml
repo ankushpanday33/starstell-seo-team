@@ -1,0 +1,80 @@
+# Third-party skills used by the agents, pinned to exact commits.
+# Never auto-update. Change a SHA only in a reviewed pull request.
+# Decision record: docs/decisions/0002-skill-libraries.md
+
+sources:
+  claude-seo:
+    repo: https://github.com/AgriciDaniel/claude-seo
+    commit: 468ed5b0d9e3249394783710e54abb02837e326b   # v2.6.2, 15/11/2026
+    license: MIT
+  marketingskills:
+    repo: https://github.com/coreyhaines31/marketingskills
+    commit: 73573e94a06a39965978b3fa1f9c1eace8cebc7c   # v2.14.13, 18/11/2026
+    license: MIT
+  seomachine:
+    repo: https://github.com/TheCraigHewitt/seomachine
+    commit: 120e7b46dc07c98382cd4f68ac5b6515ab9f2604   # 23/10/2026
+    license: MIT
+  humanizer:
+    repo: https://github.com/blader/humanizer
+    commit: b48c832f0f809c1b5658edbb838c2521b72f2413   # v4.0.0, 10/11/2026
+    license: MIT
+
+# Which agent gets which skill. Every agent also reads context/*.md.
+agents:
+  head-of-seo:
+    - claude-seo/skills/seo-plan
+    - marketingskills/skills/content-strategy
+  keyword-research:
+    - claude-seo/skills/seo-cluster
+  competitor-intelligence:
+    - marketingskills/skills/competitor-profiling
+    - claude-seo/skills/seo-backlinks
+  search-intent:
+    - claude-seo/skills/seo-sxo
+  content-strategist:
+    - marketingskills/skills/content-strategy
+    - marketingskills/skills/site-architecture
+    - claude-seo/skills/seo-cluster
+  content-brief:
+    - claude-seo/skills/seo-content-brief
+  senior-blog-writer:
+    - marketingskills/skills/copywriting
+    - humanizer
+  language-writer:          # x6: hi, hi-Latn, mr, ta, te, bn
+    - marketingskills/skills/copywriting
+    - humanizer
+  visual-designer:
+    - claude-seo/skills/seo-images
+    - claude-seo/skills/seo-image-gen     # candidate for the Phase 2 image model test
+  seo-optimization:
+    - claude-seo/skills/seo-schema
+    - claude-seo/skills/seo-hreflang
+    - claude-seo/skills/seo-geo
+    - marketingskills/skills/ai-seo
+    - seomachine/.claude/agents/meta-creator.md        # adapted, not copied as-is
+    - seomachine/.claude/agents/internal-linker.md     # adapted, not copied as-is
+  fact-checking:
+    - claude-seo/skills/seo-content       # E-E-A-T and source checks
+  senior-editor:
+    - marketingskills/skills/copy-editing
+    - claude-seo/skills/seo-content
+    - humanizer
+    - seomachine/.claude/commands/scrub.md               # invisible Unicode and em-dash cleanup
+  cms-publishing:
+    - claude-seo/skills/seo-sitemap
+    # seomachine/wordpress/* only if the StarsTell CMS is WordPress
+  seo-performance-analyst:
+    - claude-seo/skills/seo-google
+    - claude-seo/skills/seo-drift
+  content-refresh:
+    - claude-seo/skills/seo-page
+    - claude-seo/skills/seo-content
+
+# Deliberately not used
+excluded:
+  - marketingskills: cro, popups, offers, paywalls, marketing-psychology, ads, ad-creative, cold-email   # conflict with StarsTell brand walls or out of scope
+  - marketingskills: programmatic-seo   # risk of thin pages; revisit only with SME review
+  - claude-seo: seo-dataforseo          # OpenSEO is the single source of SEO data
+  - seomachine: .claude/skills/*        # copies of marketingskills
+  - seomachine: research_*.py, data_sources/modules/dataforseo.py   # overlap OpenSEO

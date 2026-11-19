@@ -25,6 +25,8 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 - [docs/multilingual.md](docs/multilingual.md): every blog in 7 languages (English, Hindi, Hinglish, Marathi, Tamil, Telugu, Bengali), so 7 links
 - [docs/images.md](docs/images.md): 3 to 5 generated images per blog, alt text in every language
 - [docs/humanizing.md](docs/humanizing.md): humanizer skill plus an Indic style guide; what IndicLLMSuite is and is not used for
+- [docs/decisions/0002-skill-libraries.md](docs/decisions/0002-skill-libraries.md): how claude-seo, marketingskills, seomachine and humanizer are used; pinned in [skills/manifest.yaml](skills/manifest.yaml)
+- [context/](context/): brand voice, style guide and SEO rules every agent reads first
 - [docs/competitor-research.md](docs/competitor-research.md): how AstroTalk, AstroSage, Astroyogi, InstaAstro, AstroTak and Drik Panchang are studied before each article
 - [docs/questions.md](docs/questions.md): everything needed from the StarsTell team before coding
 
@@ -32,6 +34,8 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 
 ```
 agents/                    Agent roster; Paperclip agent and skill definitions go here later
+context/                   Brand voice, style guide, SEO rules, keyword and link maps read by every agent
+skills/manifest.yaml       Third-party skills pinned to exact commits, mapped to agents
 docs/                      Architecture, decisions, open questions, proposal page
 infra/                     Docker Compose for Paperclip, OpenSEO, Content Service, Postgres (Phase 1)
 integrations/
