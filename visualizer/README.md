@@ -2,6 +2,8 @@
 
 A live 3D office with one desk area per department. Every StarsTell agent sits at its own desk in its own department all day and works there. An agent only gets up to **walk to another department to coordinate** (a handover or a question), to fetch knowledge from the StarsTell bots shelf, or to send finished work out.
 
+![The StarsTell agent office: six departments, every agent at its own desk](office-screenshot.png)
+
 Built on [The Roving Office](https://github.com/atlassian-labs/roving-office) by Atlassian Labs (Apache-2.0), included as a git submodule pinned to commit `f3c51c8`, plus a small StarsTell patch.
 
 ## Run it
