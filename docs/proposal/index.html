@@ -1,0 +1,627 @@
+<title>StarsTell SEO Department</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: one reading column on an Ivory Spark canvas, Cosmic Dusk used only as panels. Single light theme by brand rule. */
+:root{
+  --dusk:#421206; --terra:#A45B3E; --gold:#E0BF71; --sand:#CCBFAB;
+  --ivory:#E3DBC7; --soft:#F5EDE0; --deep:#2A0A03;
+  --green:#22C55E; --amber:#F59E0B; --red:#EF4444;
+  --display:"Playfair Display", Georgia, "Times New Roman", serif;
+  --body:"Noto Sans", Arial, Helvetica, sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+body{background:var(--ivory);color:var(--dusk);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0}
+h1,h2,h3{font-family:var(--display);font-weight:700;color:var(--dusk);text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,5vw,50px);line-height:1.08}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15}
+h3{font-size:21px;line-height:1.25}
+.num{font-family:var(--body)}
+p{margin:0;max-width:70ch}
+a{color:var(--terra)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dusk)}
+.rule{height:2px;width:33%;background:var(--terra);border:0;margin:0}
+
+/* header */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-block:28px 0}
+.top img{width:124px;height:auto;flex:none}
+.hero{display:grid;gap:18px;padding-block:28px 36px}
+.hero .lede{font-size:19px;line-height:1.55}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px}
+.meta b{font-weight:700}
+
+/* dark panel */
+.panel{background:var(--dusk);color:var(--ivory)}
+.panel .inner{padding-block:34px}
+.panel h2,.panel h3{color:var(--gold)}
+.panel .muted{color:var(--sand)}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.verdict div{background:var(--deep);border:1px solid var(--terra);padding:16px 18px}
+.verdict .tag{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sand)}
+.verdict .name{font-family:var(--display);font-size:24px;color:var(--gold);margin:4px 0 6px}
+.verdict p{font-size:15px;color:var(--ivory)}
+
+/* toc */
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px 22px;padding-block:30px;margin:0;list-style:none;padding-left:0}
+.toc a{color:var(--dusk);text-decoration:none;display:flex;gap:10px;font-size:15px;padding:4px 0;border-bottom:1px solid var(--sand)}
+.toc a:hover{color:var(--terra)}
+.toc .n{font-weight:700;min-width:24px;font-variant-numeric:tabular-nums}
+
+section.block{padding-block:44px;border-top:1px solid var(--sand);display:grid;gap:20px}
+.sechead{display:grid;gap:10px}
+.sechead .eyebrow .num{color:var(--terra);font-size:15px}
+
+/* badges */
+.b{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;white-space:nowrap;vertical-align:middle}
+.b.v{background:var(--dusk);color:var(--ivory)}
+.b.a{border:1px solid var(--terra);color:var(--dusk);background:transparent}
+.b.p{border:1px dashed var(--dusk);color:var(--dusk);background:var(--soft)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px;align-items:center}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--sand);background:var(--soft)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:720px}
+th{background:var(--dusk);color:var(--ivory);text-align:left;font-weight:700;padding:10px 12px;vertical-align:bottom}
+td{padding:10px 12px;border-top:1px solid var(--sand);vertical-align:top}
+tbody tr:nth-child(even) td{background:var(--ivory)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td b{font-weight:700}
+.status{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.status::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.s-use{color:#15803D}.s-later{color:#B45309}.s-no{color:#B91C1C}
+.s-use span,.s-later span,.s-no span{color:var(--dusk)}
+
+/* architecture diagram */
+.arch{display:grid;gap:12px;background:var(--soft);border:1px solid var(--sand);padding:20px}
+.layer{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:stretch}
+.layer .lbl{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;align-self:center}
+.boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.box{border:1px solid var(--dusk);background:var(--ivory);padding:10px 12px;font-size:14px;line-height:1.4}
+.box strong{display:block;font-size:15px}
+.box.dark{background:var(--dusk);color:var(--ivory);border-color:var(--dusk)}
+.box.dark strong{color:var(--gold)}
+.box.own{border-style:dashed}
+.flowdown{text-align:center;color:var(--terra);font-weight:700;font-size:13px;letter-spacing:.08em}
+
+/* org chart */
+.org{display:grid;gap:14px}
+.org .chief{justify-self:center;text-align:center;background:var(--dusk);color:var(--ivory);padding:14px 22px;min-width:260px}
+.org .chief strong{font-family:var(--display);color:var(--gold);font-size:20px;display:block}
+.org .board{justify-self:center;text-align:center;border:1px solid var(--dusk);padding:8px 18px;font-size:14px;background:var(--soft)}
+.depts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.dept{background:var(--soft);border:1px solid var(--sand);padding:14px 16px;display:grid;gap:8px;align-content:start}
+.dept h3{font-size:19px}
+.dept ol{margin:0;padding-left:22px;font-size:14px;display:grid;gap:3px}
+.dept .model{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+/* workflow */
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:s}
+.flow li{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:start;background:var(--soft);border:1px solid var(--sand);padding:10px 14px}
+.flow li::before{counter-increment:s;content:counter(s);font-weight:700;font-size:20px;color:var(--terra);font-family:var(--body)}
+.flow .who{font-size:13px;font-weight:700;text-align:right;white-space:nowrap}
+.flow li.gate{background:var(--dusk);color:var(--ivory);border-color:var(--dusk)}
+.flow li.gate::before{color:var(--gold)}
+.flow li.gate b{color:var(--gold)}
+.statuses{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;font-weight:700}
+.statuses span{border:1px solid var(--dusk);padding:4px 9px;background:var(--soft)}
+.statuses span.h{background:var(--dusk);color:var(--gold)}
+.statuses i{font-style:normal;color:var(--terra)}
+.loops{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{background:var(--soft);border:1px solid var(--sand);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.card h3{font-size:18px}
+.card p,.card li{font-size:15px}
+ul.sq{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+ul.sq li{padding-left:20px;position:relative}
+ul.sq li::before{content:"\25A0";font-family:var(--display);color:var(--terra);position:absolute;left:0;top:0;font-size:12px;line-height:1.9}
+
+/* mermaid */
+.erd{background:var(--soft);border:1px solid var(--sand);padding:12px;overflow-x:auto}
+
+/* dashboard wireframe */
+.dash{border:1px solid var(--dusk);background:var(--soft);padding:16px;display:grid;gap:14px}
+.dash .bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;font-size:13px}
+.dash .tabs{display:flex;gap:6px;flex-wrap:wrap}
+.dash .tabs span{border:1px solid var(--dusk);padding:3px 10px}
+.dash .tabs span.on{background:var(--dusk);color:var(--ivory)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--ivory);border:1px solid var(--sand);padding:12px}
+.kpi .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.kpi .v{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi .d{font-size:13px}
+.dgrid{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.pane{background:var(--ivory);border:1px solid var(--sand);padding:12px;display:grid;gap:8px;align-content:start;min-width:0}
+.pane .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.spark{width:100%;height:90px;display:block}
+.queue{display:grid;gap:6px;font-size:13px}
+.queue div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--sand);padding-bottom:4px}
+.pill{font-size:11px;font-weight:700;padding:1px 7px;border:1px solid var(--dusk);white-space:nowrap}
+.pill.hold{background:var(--dusk);color:var(--gold)}
+.example{font-size:13px;font-style:italic}
+
+/* questions */
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.q{background:var(--soft);border:1px solid var(--sand);padding:16px;display:grid;gap:8px;align-content:start}
+.q h3{font-size:19px}
+.q ol{margin:0;padding-left:22px;font-size:15px;display:grid;gap:3px}
+.note{border-left:3px solid var(--terra);background:var(--soft);padding:12px 16px;font-size:15px}
+.note b{font-weight:700}
+
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.road .ph{background:var(--soft);border:1px solid var(--sand);border-top:3px solid var(--terra);padding:12px 14px;display:grid;gap:6px;align-content:start}
+.road .w{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.road .ph h3{font-size:18px}
+.road ul{font-size:14px}
+.road .exit{font-size:13px;border-top:1px solid var(--sand);padding-top:6px}
+
+/* close */
+.lockup{display:grid;gap:8px;justify-items:start;padding-block:36px 24px}
+.lockup .r{width:154px;height:1px;background:var(--terra)}
+.lockup .t{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--terra)}
+.lockup img{width:134px;height:auto}
+footer{border-top:1px solid var(--terra);padding-block:10px 22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px}
+
+@media (max-width:640px){
+  .layer{grid-template-columns:1fr}
+  .dgrid{grid-template-columns:1fr}
+  .flow li{grid-template-columns:34px 1fr}
+  .flow .who{grid-column:2;text-align:left}
+  .top img{width:96px}
+}
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+:focus-visible{outline:2px solid var(--terra);outline-offset:2px}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Architecture proposal · For approval · 19/11/2026</div>
+    <img src="assets/logo-starstell.png" alt="StarsTell">
+  </header>
+
+  <div class="hero">
+    <h1>One managed team of 15 AI agents, built on your 3 existing bots, with a person approving every article</h1>
+    <hr class="rule">
+    <p class="lede">The smallest stack that does the job is <b>Paperclip</b> to run the team, <b>OpenSEO</b> for search data, one <b>StarsTell Content Service</b> we build, and <b>one PostgreSQL</b>. CrawlSEO waits until Phase 4. n8n is not needed. No code gets written until you approve this and send the API documentation.</p>
+    <div class="meta">
+      <span><b>Prepared for:</b> StarsTell growth team</span>
+      <span><b>Repos inspected:</b> 19/11/2026, latest default branch</span>
+      <span><b>Numbers:</b> International, ₹ at an assumed ₹88 per US$1</span>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="wrap inner">
+    <span class="eyebrow muted">The recommendation in one screen</span>
+    <h2 style="margin-top:8px">Four building blocks, not seven</h2>
+    <div class="verdict">
+      <div><span class="tag">Management layer · Use</span><div class="name">Paperclip</div><p>Org chart, tasks, approval stages, budgets with hard stops, scheduled routines, secrets and a full activity log. Everything the brief asks the "department" to have.</p></div>
+      <div><span class="tag">SEO intelligence · Use</span><div class="name">OpenSEO</div><p>Keywords, SERPs, competitors, backlinks, rank tracking, site audits, Search Console, GA4 and AI visibility, all over MCP. Pay-per-use DataForSEO, no Semrush seat.</p></div>
+      <div><span class="tag">We build · Use</span><div class="name">Content Service</div><p>One TypeScript service that wraps your 3 bots, stores every draft and claim, publishes to the CMS only with an approval, and feeds the dashboard.</p></div>
+      <div><span class="tag">Defer · Skip</span><div class="name">CrawlSEO, n8n</div><p>CrawlSEO overlaps OpenSEO; add it in Phase 4 only for crawling and decay alerts. n8n duplicates Paperclip's scheduler and adds a second audit trail.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <ol class="toc" aria-label="Contents">
+    <li><a href="#audit"><span class="n num">1</span>Repository audit</a></li>
+    <li><a href="#architecture"><span class="n num">2</span>Architecture diagram</a></li>
+    <li><a href="#org"><span class="n num">3</span>AI org chart</a></li>
+    <li><a href="#matrix"><span class="n num">4</span>Agent responsibility matrix</a></li>
+    <li><a href="#workflow"><span class="n num">5</span>Content workflow</a></li>
+    <li><a href="#api"><span class="n num">6</span>API integration design</a></li>
+    <li><a href="#schema"><span class="n num">7</span>Database schema</a></li>
+    <li><a href="#dashboard"><span class="n num">8</span>Dashboard wireframe</a></li>
+    <li><a href="#security"><span class="n num">9</span>Security architecture</a></li>
+    <li><a href="#cost"><span class="n num">10</span>Cost estimate</a></li>
+    <li><a href="#roadmap"><span class="n num">11</span>Roadmap</a></li>
+    <li><a href="#questions"><span class="n num">12</span>What I need from you</a></li>
+  </ol>
+
+  <div class="legend">
+    <span><span class="b v">Verified</span> read in the repo's README or source on 19/11/2026</span>
+    <span><span class="b a">Assumption</span> likely, not yet confirmed</span>
+    <span><span class="b p">Proposed</span> something we would build</span>
+  </div>
+
+  <!-- 1 -->
+  <section class="block" id="audit">
+    <div class="sechead"><span class="eyebrow"><span class="num">1</span> · Repository audit</span>
+      <h2>All four repos are alive this week; only two earn a place</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Repo</th><th>Maintenance</th><th>License</th><th>Verified capabilities</th><th>Overlap and risk</th><th>Decision</th></tr></thead>
+      <tbody>
+        <tr><td><b>Paperclip</b><br>paperclipai/paperclip</td>
+          <td><span class="num">114,896</span> stars. Commits today. Release v2026.1117.0 on 18/11/2026. <span class="num">6,924</span> open issues.</td>
+          <td>MIT. Free for commercial use.</td>
+          <td><span class="b v">Verified</span> Org chart with roles, titles and reporting lines. Tasks with atomic checkout. Review and approval stages. Budgets per company, agent and project with warnings and hard stops. Routines on cron, webhook or API. Encrypted secrets. Durable activity log. MCP and app connections with Allowed / Ask first / Off. Claude Code, Codex, CLI and HTTP agents. Plugins with UI contributions. Embedded Postgres locally, your own Postgres in production. Node 24.11+.</td>
+          <td>Very fast release pace, so we pin a version and upgrade on purpose. Budget stops use reported spend, so an in-flight run can overshoot slightly.</td>
+          <td><span class="status s-use"><span>Use as the management layer</span></span></td></tr>
+        <tr><td><b>OpenSEO</b><br>every-app/open-seo</td>
+          <td><span class="num">28,283</span> stars. Commits today. v0.1.30 on 18/11/2026.</td>
+          <td>MIT.</td>
+          <td><span class="b v">Verified</span> Keyword research, rank tracking, competitor insights, backlinks, site audits, AI visibility. MCP tools read in source include get_serp_results, get_suggested_keywords, get_domain_overview, get_domain_keyword_suggestions, get_backlinks_profile, get_rank_history, Search Console and GA4 tools, saved reports. Docker self-host with password accounts.</td>
+          <td>Needs a DataForSEO key (pay per call). Pre-1.0 version, so tool names may shift. <span class="b a">Assumption</span> it can run on Postgres (a LOCAL_POSTGRES doc exists).</td>
+          <td><span class="status s-use"><span>Use for SEO research</span></span></td></tr>
+        <tr><td><b>CrawlSEO</b><br>crawlseo/crawlseo</td>
+          <td><span class="num">712</span> stars. Last release v0.3.6 on 02/11/2026. Small team.</td>
+          <td>MIT.</td>
+          <td><span class="b v">Verified</span> Search Console sync, site crawler up to <span class="num">2,000</span> pages, Core Web Vitals via PageSpeed, striking-distance, low-CTR, content-decay and cannibalization reports, alerts to webhook or email, read-only MCP. Next.js, Prisma, Postgres, Docker.</td>
+          <td>Keyword, backlink and Search Console features repeat OpenSEO. Smaller maintainer base. Its decay and cannibalization reports are its real value.</td>
+          <td><span class="status s-later"><span>Phase 4, only if needed</span></span></td></tr>
+        <tr><td><b>n8n</b><br>n8n-io/n8n</td>
+          <td><span class="num">211,294</span> stars. Release n8n@2.48.6 today.</td>
+          <td>Sustainable Use License. Internal business use is allowed; reselling or hosting it for others is not. ".ee" files need a paid licence.</td>
+          <td><span class="b v">Verified</span> 400+ integrations, webhooks, schedules, AI nodes, self-host or cloud.</td>
+          <td>Paperclip routines and webhooks already schedule and trigger work. A second orchestrator means two places to debug and two audit trails.</td>
+          <td><span class="status s-no"><span>Not needed now</span></span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>Why this is the smallest effective stack:</b> Paperclip already covers task management, approvals, budgets, scheduling and the audit log. OpenSEO already covers the SEO data. The only thing neither can do is talk to your bots and your CMS safely, so that is the one service we write.</div>
+  </section>
+
+  <!-- 2 -->
+  <section class="block" id="architecture">
+    <div class="sechead"><span class="eyebrow"><span class="num">2</span> · Architecture</span>
+      <h2>Agents never hold a key; they call tools, and tools hold the keys</h2></div>
+    <div class="arch" role="img" aria-label="Five layers: people, Paperclip management, agents, tool servers, and external systems">
+      <div class="layer"><div class="lbl">People</div><div class="boxes">
+        <div class="box"><strong>Admins and editors</strong>Approve, reject, request revisions, edit drafts</div>
+        <div class="box"><strong>SME astrologer</strong>Signs off festival, panchang, muhurat and remedy content</div></div></div>
+      <div class="flowdown">approve · assign · budget</div>
+      <div class="layer"><div class="lbl">Manage</div><div class="boxes">
+        <div class="box dark"><strong>Paperclip</strong>Org chart · tasks · approval stages · budgets · routines · secrets · activity log</div></div></div>
+      <div class="flowdown">wakes agents on tasks and schedules</div>
+      <div class="layer"><div class="lbl">Agents</div><div class="boxes">
+        <div class="box"><strong>15 agents</strong>Claude Code runtime via Paperclip, one role and one skill set each</div></div></div>
+      <div class="flowdown">MCP tool calls only</div>
+      <div class="layer"><div class="lbl">Tools</div><div class="boxes">
+        <div class="box"><strong>OpenSEO MCP</strong>Keywords, SERPs, competitors, rank, GSC, GA4, AI visibility</div>
+        <div class="box own"><strong>StarsTell Content Service</strong>Bot tools · article store · claims · CMS publish gate · cost ledger · dashboard</div>
+        <div class="box"><strong>Web search and fetch</strong>External references for the fact checker</div></div></div>
+      <div class="flowdown">server-side, keys from secrets</div>
+      <div class="layer"><div class="lbl">Systems</div><div class="boxes">
+        <div class="box"><strong>Your 3 bot APIs</strong>Vedic · Tarot · Numerology</div>
+        <div class="box"><strong>StarsTell CMS</strong>Drafts, publish, sitemap</div>
+        <div class="box"><strong>Google</strong>Search Console, GA4, IndexNow</div>
+        <div class="box"><strong>PostgreSQL</strong>One instance, three databases</div></div></div>
+    </div>
+    <div class="loops">
+      <div class="card"><h3>Paperclip <span class="b v">Verified</span></h3><p>Each article is a Paperclip task that moves through stages. Approval gates, budgets and the activity log come from Paperclip, not from code we write.</p></div>
+      <div class="card"><h3>Content Service <span class="b p">Proposed</span></h3><p>TypeScript, one container. Exposes MCP tools to agents and a small web app for editors. It is the only component that holds your bot keys and CMS credentials.</p></div>
+      <div class="card"><h3>Hosting <span class="b a">Assumption</span></h3><p>One VM in India (4 vCPU, 16 GB) runs Paperclip, OpenSEO, the Content Service and Postgres in Docker. Managed Postgres is an optional upgrade.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="block" id="org">
+    <div class="sechead"><span class="eyebrow"><span class="num">3</span> · AI organisation</span>
+      <h2>The AI Head of SEO reports to people, and every team reports to the Head of SEO</h2></div>
+    <div class="org">
+      <div class="board">Human board: growth lead, editor, SME astrologer</div>
+      <div class="chief"><strong>AI Head of SEO</strong>Strategy · targets · assigns work · weekly report</div>
+      <div class="depts">
+        <div class="dept"><h3>SEO Research</h3><span class="model">4 agents</span><ol><li>Keyword Research</li><li>Competitor Intelligence</li><li>Search Intent</li><li>Content Strategist</li></ol></div>
+        <div class="dept"><h3>Domain Knowledge</h3><span class="model">3 agents</span><ol start="5"><li>Vedic Astrology Research</li><li>Tarot Research</li><li>Numerology Research</li></ol></div>
+        <div class="dept"><h3>Content Production</h3><span class="model">5 agents</span><ol start="8"><li>Content Brief</li><li>Senior Blog Writer</li><li>SEO Optimization</li><li>Fact Checking</li><li>Senior Editor</li></ol></div>
+        <div class="dept"><h3>Publishing and Analytics</h3><span class="model">3 agents</span><ol start="13"><li>CMS Publishing</li><li>SEO Performance Analyst</li><li>Content Refresh</li></ol></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="block" id="matrix">
+    <div class="sechead"><span class="eyebrow"><span class="num">4</span> · Responsibility matrix</span>
+      <h2>Each agent gets only the tools its job needs</h2>
+      <p>Models are a starting point, tuned later on cost and quality. Opus 5.5 where judgement or writing matters, Sonnet 5.5 for research, Haiku 5.5 for mechanical steps.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Agent</th><th>Model</th><th>Tools it can use</th><th>Produces</th><th>Cannot do</th></tr></thead>
+      <tbody>
+        <tr><td><b>Head of SEO</b></td><td>Opus 5.5</td><td>OpenSEO read, Content Service read, Paperclip tasks</td><td>Monthly plan, approved opportunities, weekly report</td><td>Publish, edit drafts</td></tr>
+        <tr><td><b>Keyword Research</b></td><td>Sonnet 5.5</td><td>OpenSEO keyword and SERP tools</td><td>Scored keywords and clusters</td><td>Create articles</td></tr>
+        <tr><td><b>Competitor Intelligence</b></td><td>Sonnet 5.5</td><td>OpenSEO domain and backlink tools, web fetch</td><td>Gap notes, differentiation angle</td><td>Write content</td></tr>
+        <tr><td><b>Search Intent</b></td><td>Sonnet 5.5</td><td>OpenSEO SERP tools</td><td>Format, questions, snippet targets</td><td>Write content</td></tr>
+        <tr><td><b>Content Strategist</b></td><td>Opus 5.5</td><td>Content Service clusters, OpenSEO saved keywords</td><td>Calendar, pillar map, cannibalization check</td><td>Publish</td></tr>
+        <tr><td><b>Vedic Research</b></td><td>Sonnet 5.5</td><td>vedic_* tools only</td><td>Logged bot answers, terminology check</td><td>Call Tarot or Numerology tools</td></tr>
+        <tr><td><b>Tarot Research</b></td><td>Sonnet 5.5</td><td>tarot_* tools only</td><td>Logged bot answers, card checks</td><td>Other bots</td></tr>
+        <tr><td><b>Numerology Research</b></td><td>Sonnet 5.5</td><td>numerology_* tools only</td><td>Logged answers, calculation checks</td><td>Other bots</td></tr>
+        <tr><td><b>Content Brief</b></td><td>Sonnet 5.5</td><td>Content Service briefs</td><td>Outline, persona, FAQs, link plan</td><td>Write body copy</td></tr>
+        <tr><td><b>Senior Blog Writer</b></td><td>Opus 5.5</td><td>Briefs, logged bot answers, sources</td><td>Draft version</td><td>Call bots directly, publish</td></tr>
+        <tr><td><b>SEO Optimization</b></td><td>Sonnet 5.5</td><td>Draft read and write, schema builder</td><td>Meta, headings, links, alt text, JSON-LD</td><td>Change factual claims</td></tr>
+        <tr><td><b>Fact Checking</b></td><td>Opus 5.5</td><td>Claims table, bot logs, web search and fetch</td><td>Verdict per claim with evidence</td><td>Edit the draft</td></tr>
+        <tr><td><b>Senior Editor</b></td><td>Opus 5.5</td><td>Draft, claims, brand rubric</td><td>Approve to human, or send back</td><td>Publish</td></tr>
+        <tr><td><b>CMS Publishing</b></td><td>Haiku 5.5</td><td>cms_create_draft, cms_publish (needs approval id)</td><td>CMS draft, live post, sitemap ping</td><td>Publish without a human approval</td></tr>
+        <tr><td><b>Performance Analyst</b></td><td>Sonnet 5.5</td><td>OpenSEO GSC and GA4 tools, metrics tables</td><td>Daily metrics, weekly numbers</td><td>Edit content</td></tr>
+        <tr><td><b>Content Refresh</b></td><td>Sonnet 5.5</td><td>Metrics, articles, OpenSEO</td><td>Refresh tasks with reasons</td><td>Publish changes</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="block" id="workflow">
+    <div class="sechead"><span class="eyebrow"><span class="num">5</span> · Content workflow</span>
+      <h2>Fourteen steps, two quality loops, and nothing goes live without a person</h2></div>
+    <div class="statuses" aria-label="Article statuses">
+      <span>Research</span><i>›</i><span>Brief</span><i>›</i><span>Writing</span><i>›</i><span>Fact Checking</span><i>›</i><span>SEO Review</span><i>›</i><span>Editorial Review</span><i>›</i><span class="h">Human Approval</span><i>›</i><span>Published</span><i>›</i><span>Monitoring</span>
+    </div>
+    <ol class="flow">
+      <li><div>Finds the opportunity: keyword, volume, difficulty, intent.</div><span class="who">Keyword Research</span></li>
+      <li><div>Studies the top 10 ranking pages and finds the gap.</div><span class="who">Competitor</span></li>
+      <li><div>Accepts or drops the opportunity against the monthly plan.</div><span class="who">Head of SEO</span></li>
+      <li><div>Writes the brief and names the target persona.</div><span class="who">Strategist + Brief</span></li>
+      <li><div>Calls the right StarsTell bot. Every request and response is stored.</div><span class="who">Domain agent</span></li>
+      <li><div>Collects external references with URLs and access dates.</div><span class="who">Fact Checking</span></li>
+      <li><div>Writes the first draft only from the brief, bot answers and sources.</div><span class="who">Senior Writer</span></li>
+      <li><div>Splits the draft into claims and gives each one a verdict.</div><span class="who">Fact Checking</span></li>
+      <li><div>Meta, headings, internal links, schema, alt text.</div><span class="who">SEO Optimization</span></li>
+      <li><div>Readability, repetition, brand voice, originality check.</div><span class="who">Senior Editor</span></li>
+      <li class="gate"><div><b>Human approval.</b> Approve, reject, request revisions or edit. Festival, panchang, muhurat and remedy articles also need SME sign-off.</div><span class="who">People</span></li>
+      <li><div>Publishes, adds metadata and schema, pings sitemap and IndexNow.</div><span class="who">CMS Publishing</span></li>
+      <li><div>Tracks impressions, clicks, CTR, position, conversions.</div><span class="who">Analyst</span></li>
+      <li><div>Flags decaying or outdated posts and opens refresh tasks.</div><span class="who">Refresh</span></li>
+    </ol>
+    <div class="loops">
+      <div class="card"><h3>Fact-check loop</h3><p>Any claim marked unsupported or contradicted sends the draft back to the writer with the claim list. After 2 failed rounds the task goes to the Head of SEO and a person.</p></div>
+      <div class="card"><h3>Editorial loop</h3><p>The editor scores against a rubric. Below the bar, the draft returns to the writer, or to the brief if the angle is wrong. Maximum 3 rounds, then escalate.</p></div>
+      <div class="card"><h3>Retries</h3><p>API calls retry on timeouts and 5xx with backoff (3 tries). Errors that waiting cannot fix, like a bad key, fail at once with the reason on the task.</p></div>
+      <div class="card"><h3>Audit log</h3><p>Paperclip records every task change, run, cost and approval. The Content Service records every tool call, bot response and version.</p></div>
+    </div>
+    <div class="note"><b>Brand rules every draft is checked against:</b> name the astrological mechanism, tie outcomes to the reader's own effort, never guarantee a result, never use fear to sell, never write "predict", "destiny" or "fate". No specific tithi, muhurat or festival date goes live without SME sign-off.</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="block" id="api">
+    <div class="sechead"><span class="eyebrow"><span class="num">6</span> · API integration design</span>
+      <h2>One adapter per bot, and nothing inside it is written until your documentation arrives</h2></div>
+    <div class="loops">
+      <div class="card"><h3>Adapter contract <span class="b p">Proposed</span></h3>
+        <ul class="sq"><li>Every bot is wrapped behind the same small interface in the Content Service.</li><li>Endpoints, parameters and response fields are copied from your docs, never guessed.</li><li>Each response is validated against a schema; a mismatch fails loudly.</li></ul></div>
+      <div class="card"><h3>What gets logged</h3>
+        <ul class="sq"><li>Request, response, latency, status and cost per call.</li><li>Linked to the article and the claim that used it.</li><li>The writer quotes logged answers, so every interpretation is traceable.</li></ul></div>
+      <div class="card"><h3>Limits and failures</h3>
+        <ul class="sq"><li>Rate limits from your docs become a queue, not errors.</li><li>Responses are cached per question to cut repeat calls.</li><li>If a bot is down, the task pauses with a clear reason.</li></ul></div>
+      <div class="card"><h3>Other integrations</h3>
+        <ul class="sq"><li><b>CMS:</b> draft and publish calls, behind the approval check.</li><li><b>Search Console and GA4:</b> through OpenSEO's Google connection.</li><li><b>IndexNow:</b> one call after each publish.</li></ul></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Tool name (placeholder)</th><th>Wraps</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>vedic_ask, vedic_validate</td><td>Your Vedic Astrology bot</td><td><span class="b a">Waiting for docs</span></td></tr>
+        <tr><td>tarot_ask, tarot_validate</td><td>Your Tarot bot</td><td><span class="b a">Waiting for docs</span></td></tr>
+        <tr><td>numerology_ask, numerology_calculate</td><td>Your Numerology bot</td><td><span class="b a">Waiting for docs</span></td></tr>
+        <tr><td>cms_create_draft, cms_publish</td><td>StarsTell CMS</td><td><span class="b a">Waiting for CMS details</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="block" id="schema">
+    <div class="sechead"><span class="eyebrow"><span class="num">7</span> · Database schema</span>
+      <h2>Every claim in an article can be traced to a bot answer or a source</h2>
+      <p>This is the Content Service's own database. Paperclip and OpenSEO keep their own databases on the same Postgres instance.</p></div>
+    <div class="erd">
+<pre class="mermaid">
+erDiagram
+  CLUSTERS ||--o{ KEYWORDS : groups
+  KEYWORDS ||--o{ OPPORTUNITIES : becomes
+  OPPORTUNITIES ||--o| ARTICLES : approved_as
+  ARTICLES ||--|| BRIEFS : has
+  ARTICLES ||--o{ ARTICLE_VERSIONS : drafts
+  ARTICLES ||--o{ BOT_CALLS : grounded_by
+  ARTICLES ||--o{ SOURCES : cites
+  ARTICLE_VERSIONS ||--o{ CLAIMS : contains
+  CLAIMS }o--o| BOT_CALLS : evidence
+  CLAIMS }o--o| SOURCES : evidence
+  ARTICLES ||--o{ REVIEWS : reviewed_in
+  ARTICLES ||--o{ PUBLICATIONS : published_as
+  ARTICLES ||--o{ PAGE_METRICS_DAILY : measured_by
+  KEYWORDS ||--o{ RANK_DAILY : tracked_by
+  ARTICLES ||--o{ COST_EVENTS : costs
+  ARTICLES ||--o{ TOOL_CALLS : logged_in
+  CLUSTERS { uuid id PK
+    text name
+    text vertical
+    text lang }
+  KEYWORDS { uuid id PK
+    uuid cluster_id FK
+    text term
+    int volume
+    int difficulty
+    text intent }
+  OPPORTUNITIES { uuid id PK
+    uuid keyword_id FK
+    numeric score
+    text status
+    text paperclip_task_id }
+  ARTICLES { uuid id PK
+    text slug
+    text lang
+    text vertical
+    text persona
+    text status
+    bool sme_required
+    text cms_id
+    timestamptz published_at }
+  BRIEFS { uuid id PK
+    uuid article_id FK
+    jsonb outline
+    jsonb faqs }
+  ARTICLE_VERSIONS { uuid id PK
+    uuid article_id FK
+    text stage
+    text body_md
+    jsonb seo_meta
+    text author_agent }
+  BOT_CALLS { uuid id PK
+    uuid article_id FK
+    text bot
+    jsonb request
+    jsonb response
+    int latency_ms }
+  SOURCES { uuid id PK
+    uuid article_id FK
+    text url
+    text credibility }
+  CLAIMS { uuid id PK
+    uuid version_id FK
+    text claim
+    text verdict }
+  REVIEWS { uuid id PK
+    uuid article_id FK
+    text reviewer
+    text decision
+    text notes }
+  PUBLICATIONS { uuid id PK
+    uuid article_id FK
+    text url
+    uuid approval_id
+    text indexnow_status }
+  PAGE_METRICS_DAILY { date day
+    text url
+    int clicks
+    int impressions
+    numeric position }
+  RANK_DAILY { date day
+    uuid keyword_id FK
+    numeric position }
+  COST_EVENTS { uuid id PK
+    text agent
+    text provider
+    numeric usd }
+  TOOL_CALLS { uuid id PK
+    text agent
+    text tool
+    text status }
+</pre>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="block" id="dashboard">
+    <div class="sechead"><span class="eyebrow"><span class="num">8</span> · Dashboard wireframe</span>
+      <h2>A working control room, not a poster: every tile opens the tasks behind it</h2>
+      <p>Organisation and cost views come from Paperclip's API. Content and SEO views come from the Content Service and OpenSEO. The approval queue is where editors act.</p></div>
+    <div class="dash" aria-label="Dashboard wireframe with example figures">
+      <div class="bar"><div class="tabs"><span class="on">Overview</span><span>Organisation</span><span>Content</span><span>SEO</span><span>Costs</span><span>Approvals</span></div><span class="example">All figures are examples</span></div>
+      <div class="kpis">
+        <div class="kpi"><div class="k">Pending approvals</div><div class="v">6</div><div class="d">2 need SME sign-off</div></div>
+        <div class="kpi"><div class="k">Published this month</div><div class="v">18</div><div class="d">Target 30</div></div>
+        <div class="kpi"><div class="k">Organic clicks, 28d</div><div class="v">42.1K</div><div class="d">+12% vs prior 28d</div></div>
+        <div class="kpi"><div class="k">Cost per published</div><div class="v">$4.60</div><div class="d">₹405 · LLM + data APIs</div></div>
+      </div>
+      <div class="dgrid">
+        <div class="pane"><span class="k">Clicks and impressions, last 90 days</span>
+          <svg class="spark" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="85" x2="400" y2="85" stroke="#CCBFAB" stroke-width="1"/>
+            <line x1="0" y1="45" x2="400" y2="45" stroke="#CCBFAB" stroke-width="0.5"/>
+            <path d="M0 70 L40 66 L80 68 L120 60 L160 58 L200 52 L240 50 L280 44 L320 40 L360 34 L400 28 L400 85 L0 85 Z" fill="#A45B3E" fill-opacity="0.15"/>
+            <path d="M0 70 L40 66 L80 68 L120 60 L160 58 L200 52 L240 50 L280 44 L320 40 L360 34 L400 28" fill="none" stroke="#421206" stroke-width="2"/>
+            <circle cx="398" cy="28" r="3.5" fill="#421206"/>
+          </svg>
+          <div class="queue"><div><span>Top keyword: "sade sati remedies"</span><b class="num">#4</b></div><div><span>Declining: "life path number 7"</span><b class="num">#9 to #14</b></div></div>
+        </div>
+        <div class="pane"><span class="k">Approval queue</span>
+          <div class="queue">
+            <div><span>Shani transit in Pisces</span><span class="pill hold">SME</span></div>
+            <div><span>Tower card in love readings</span><span class="pill">Editor</span></div>
+            <div><span>Name numerology for business</span><span class="pill">Editor</span></div>
+            <div><span>Karwa Chauth puja guide</span><span class="pill hold">SME</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="k">Agents active</div><div class="v">11 / 15</div><div class="d">1 failed task today</div></div>
+        <div class="kpi"><div class="k">In pipeline</div><div class="v">23</div><div class="d">Research 9 · Writing 8 · Review 6</div></div>
+        <div class="kpi"><div class="k">Avg position</div><div class="v">17.4</div><div class="d">CTR 2.9%</div></div>
+        <div class="kpi"><div class="k">Spend this month</div><div class="v">$212</div><div class="d">Budget $400 · Writer is top spender</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="block" id="security">
+    <div class="sechead"><span class="eyebrow"><span class="num">9</span> · Security</span>
+      <h2>Keys stay on the server, publishing needs a person, and every action is logged</h2></div>
+    <div class="loops">
+      <div class="card"><h3>Secrets</h3><ul class="sq"><li>Bot, CMS, DataForSEO and Anthropic keys live in Paperclip secrets or server environment variables.</li><li>Never in the browser, never in a prompt, never in chat.</li><li>Google access through an OAuth or service account you add to Search Console.</li></ul></div>
+      <div class="card"><h3>Permissions</h3><ul class="sq"><li>Each agent gets only its own tools (see section 4).</li><li>cms_publish rejects any call without a recorded human approval id.</li><li>Paperclip connection actions set to "Ask first" for anything that changes the live site.</li></ul></div>
+      <div class="card"><h3>Network and access</h3><ul class="sq"><li>Paperclip in authenticated mode on a private network or behind SSO.</li><li>OpenSEO with password accounts or Cloudflare Access.</li><li>Postgres not exposed to the internet; nightly backups.</li></ul></div>
+      <div class="card"><h3>Budgets and misuse</h3><ul class="sq"><li>Monthly budget per agent and company, with warnings and hard stops.</li><li>Competitor pages and web results are treated as untrusted text, never as instructions.</li><li>No customer data from your bots enters articles or logs.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="block" id="cost">
+    <div class="sechead"><span class="eyebrow"><span class="num">10</span> · Cost estimate</span>
+      <h2>About $3 to $5 per published article, roughly $350 a month at 40 articles</h2>
+      <p>LLM prices are current Anthropic list prices (Opus 5.5 $4 / $20, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50 per million input / output tokens). Token counts per step are estimates and will be replaced with measured numbers after the first 10 articles.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Per article</th><th>Model</th><th class="n">Est. tokens in / out</th><th class="n">US$</th></tr></thead>
+      <tbody>
+        <tr><td>Research: keywords, competitors, intent</td><td>Sonnet 5.5</td><td class="n">150K / 10K</td><td class="n">0.40</td></tr>
+        <tr><td>Strategy and brief</td><td>Opus 5.5 + Sonnet 5.5</td><td class="n">80K / 8K</td><td class="n">0.40</td></tr>
+        <tr><td>Domain bot calls (your own APIs)</td><td>Sonnet 5.5</td><td class="n">30K / 4K</td><td class="n">0.10</td></tr>
+        <tr><td>Writing, with one revision</td><td>Opus 5.5</td><td class="n">120K / 18K</td><td class="n">0.84</td></tr>
+        <tr><td>Fact check incl. ~10 web searches</td><td>Opus 5.5</td><td class="n">100K / 8K</td><td class="n">0.66</td></tr>
+        <tr><td>SEO optimization</td><td>Sonnet 5.5</td><td class="n">40K / 5K</td><td class="n">0.13</td></tr>
+        <tr><td>Senior edit</td><td>Opus 5.5</td><td class="n">40K / 6K</td><td class="n">0.28</td></tr>
+        <tr><td>Publishing</td><td>Haiku 5.5</td><td class="n">20K / 2K</td><td class="n">0.01</td></tr>
+        <tr><td>DataForSEO calls via OpenSEO <span class="b a">Assumption</span></td><td>n/a</td><td class="n">n/a</td><td class="n">0.20 to 0.60</td></tr>
+        <tr><td><b>Total per article</b></td><td></td><td class="n"></td><td class="n"><b>3.0 to 3.5</b></td></tr>
+        <tr><td>With rejected and abandoned drafts (about 1 in 3)</td><td></td><td class="n"></td><td class="n"><b>~4.6 per published</b></td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Monthly, at 40 published articles</th><th class="n">US$</th><th class="n">₹</th></tr></thead>
+      <tbody>
+        <tr><td>Article pipeline</td><td class="n">185</td><td class="n">16,300</td></tr>
+        <tr><td>Head of SEO, analyst and refresh routines</td><td class="n">40</td><td class="n">3,500</td></tr>
+        <tr><td>Rank tracking and monthly research (DataForSEO) <span class="b a">Assumption</span></td><td class="n">30 to 60</td><td class="n">2,600 to 5,300</td></tr>
+        <tr><td>VM in India, 4 vCPU / 16 GB, plus backups <span class="b a">Assumption</span></td><td class="n">50 to 80</td><td class="n">4,400 to 7,000</td></tr>
+        <tr><td>Paperclip, OpenSEO, CrawlSEO licences</td><td class="n">0</td><td class="n">0</td></tr>
+        <tr><td><b>Total</b></td><td class="n"><b>305 to 365</b></td><td class="n"><b>26,800 to 32,100</b></td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>Not included:</b> the cost of calling your own bot APIs, CMS hosting, and people's review time. A Paperclip budget hard stop (for example $400 a month) caps the downside.</div>
+  </section>
+
+  <!-- 11 -->
+  <section class="block" id="roadmap">
+    <div class="sechead"><span class="eyebrow"><span class="num">11</span> · Roadmap</span>
+      <h2>First approved article in about 4 weeks, the full department in about 10</h2></div>
+    <div class="road">
+      <div class="ph"><span class="w">Week 0 to 1</span><h3>Discovery</h3><ul class="sq"><li>Your answers to section 12</li><li>API docs reviewed</li><li>CMS and Search Console access</li></ul><div class="exit">Done when: every integration is documented</div></div>
+      <div class="ph"><span class="w">Week 1 to 2</span><h3>Foundation</h3><ul class="sq"><li>VM, Postgres, Paperclip, OpenSEO</li><li>Content Service skeleton</li><li>CMS drafts only</li></ul><div class="exit">Done when: an agent can save a CMS draft</div></div>
+      <div class="ph"><span class="w">Week 2 to 4</span><h3>First pipeline</h3><ul class="sq"><li>3 bot adapters</li><li>Research, brief, write, fact check</li><li>5 articles end to end</li></ul><div class="exit">Done when: 5 drafts reach human approval</div></div>
+      <div class="ph"><span class="w">Week 5 to 7</span><h3>Publish and measure</h3><ul class="sq"><li>SEO agent, editor, publish gate</li><li>Schema, sitemap, IndexNow</li><li>Dashboard v1</li></ul><div class="exit">Done when: approved posts go live in one click</div></div>
+      <div class="ph"><span class="w">Week 8 to 10</span><h3>Grow</h3><ul class="sq"><li>Analyst and refresh agents</li><li>AI visibility, Hindi and Hinglish</li><li>Decide on CrawlSEO</li></ul><div class="exit">Done when: weekly report runs on its own</div></div>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="block" id="questions">
+    <div class="sechead"><span class="eyebrow"><span class="num">12</span> · What I need from you</span>
+      <h2>Send documentation, never keys: secrets go straight into the secret store</h2>
+      <p>Please don't paste API keys, tokens or passwords into chat. Share docs and a sample with the key removed; we add real keys on the server together.</p></div>
+    <div class="qgrid">
+      <div class="q"><h3>API 1 · Vedic Astrology bot</h3><ol><li>Base URL (staging and production)</li><li>API documentation (OpenAPI, Postman or PDF)</li><li>Authentication method</li><li>Request parameters</li><li>Sample request, key removed</li><li>Sample response</li><li>Capabilities, including panchang, muhurat or festival dates</li><li>Rate limits and cost per call</li></ol></div>
+      <div class="q"><h3>API 2 · Tarot bot</h3><ol><li>Base URL</li><li>API documentation</li><li>Authentication method</li><li>Request parameters</li><li>Sample request, key removed</li><li>Sample response</li><li>Capabilities (spreads, combinations, yes/no)</li><li>Rate limits</li></ol></div>
+      <div class="q"><h3>API 3 · Numerology bot</h3><ol><li>Base URL</li><li>API documentation</li><li>Authentication method</li><li>Request parameters</li><li>Sample request, key removed</li><li>Sample response</li><li>Capabilities (systems: Chaldean, Pythagorean)</li><li>Rate limits</li></ol></div>
+      <div class="q"><h3>Website and publishing</h3><ol><li>StarsTell website URL</li><li>CMS technology. I can read the StarsTell repo on this machine to find out, if you allow it.</li><li>CMS API docs or how blog posts are stored</li><li>Hosting preference: AWS, GCP, Hungama data centre</li></ol></div>
+      <div class="q"><h3>Google access</h3><ol><li>Search Console: who can add a service account as a user</li><li>GA4 property and who can grant Viewer access</li><li>Which conversion event counts as a "StarsTell user"</li></ol></div>
+      <div class="q"><h3>Decisions only you can make</h3><ol><li>Brand: I'm using the StarsTell brand guide on file. Is it current?</li><li>Who is the SME for festival, panchang and remedy sign-off?</li><li>Byline and AI disclosure: your brand says AI stays backstage. Who is the named author or reviewer on each article?</li><li>Monthly article target and budget cap</li><li>Languages in Phase 1: English only, or Hindi too?</li><li>Anthropic API account and DataForSEO account: existing or new?</li></ol></div>
+    </div>
+  </section>
+
+  <div class="lockup">
+    <div class="r"></div>
+    <div class="t">POWERED BY</div>
+    <img src="assets/hungama-logo-orange.png" alt="Hungama">
+  </div>
+  <footer><span>Confidential | Hungama Digital Media Entertainment Pvt. Ltd.</span><span>Page <span class="num">1</span> of <span class="num">1</span></span></footer>
+</div>
