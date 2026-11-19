@@ -12,7 +12,7 @@ Domain `www.starstell.com` below is a placeholder until the site URL is confirme
 | 3 to 5 words; drop filler words (the, a, for, of) | `/blog/tower-card-love-meaning` |
 | No dates or IDs on evergreen posts | Not `/blog/2027/11/post-4821` |
 | Year only on time-bound posts | `/blog/diwali-2027-lakshmi-puja` |
-| Hindi posts on their own path | `/hi/blog/sade-sati-ke-upay` |
+| Each of the 7 languages on its own path, Romanised slug ([multilingual.md](multilingual.md)) | `/hi/blog/sade-sati-ke-upay` |
 | Never changed after publishing; if forced, 301 redirect | |
 
 ## 2. Meta title (`<title>`)
@@ -86,11 +86,13 @@ Set per article from the top 10 Google results (see [competitor-research.md](com
 
 ## 7. Images and alt text
 
-- 1 featured image at 1200 x 630 (also the share image) plus 1 to 3 inline.
+Full rules in [images.md](images.md).
+
+- 3 to 5 generated images per blog, shared by all 7 language versions: 1 featured image at 1200 x 630 (also the share image) plus 2 to 4 inline. No text inside AI images; labelled diagrams are drawn from SVG templates per language.
 - StarsTell palette (Cosmic Dusk, Terracotta, Stellar Gold, Ivory). Calm and warm. No fearful Shani or Rahu imagery. No AI-made faces presented as real astrologers.
 - Tarot images only from a licensed or StarsTell-owned deck. Numerology and kundli as simple diagrams.
 - WebP, under 150 KB, descriptive filenames (`sade-sati-three-phases.webp`). Lazy-load all but the featured image.
-- **Alt text on every image**: describes the image, under 125 characters, keyword only where natural (about one image). Decorative images get `alt=""`.
+- **Alt text on every image, in every language**: describes the image, under 125 characters, keyword only where natural (about one image). Decorative images get `alt=""`.
 - A person approves every AI-generated image.
 
 ## 8. Hashtags
@@ -107,7 +109,7 @@ One primary keyword per article; the Content Strategist blocks two articles targ
 | Secondary and long-tail ("sade sati remedies for career") | H2 and H3 headings, body |
 | Questions from "People also ask" | H2 headings and FAQ |
 | Related terms (Shani, dhaiya, Saturn transit, 12th house) | Body, naturally |
-| Hindi keywords ("sade sati ke upay") | Separate Hindi article, linked with hreflang |
+| Keywords in each of the 7 languages ("sade sati ke upay") | That language's own version, from its own keyword research, linked with hreflang |
 
 No target keyword density. A sentence that reads unnaturally because of a keyword is rewritten.
 
@@ -117,7 +119,7 @@ BlogPosting (author and reviewer), BreadcrumbList, FAQPage. Google shows FAQ ric
 
 ## 11. Voice and safety
 
-Every sentence passes the StarsTell copy test: name the astrological mechanism, tie outcomes to the reader's effort, promise nothing guaranteed or overnight. Never "predict", "destiny", "fate" or "fortune". No specific tithi, muhurat or festival date goes live without SME sign-off.
+Every version gets a humanize pass ([humanizing.md](humanizing.md)). Every sentence passes the StarsTell copy test: name the astrological mechanism, tie outcomes to the reader's effort, promise nothing guaranteed or overnight. Never "predict", "destiny", "fate" or "fortune". No specific tithi, muhurat or festival date goes live without SME sign-off.
 
 ## 12. Automatic checks (Content Service)
 

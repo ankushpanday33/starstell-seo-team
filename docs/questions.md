@@ -51,5 +51,13 @@ Tick items as they arrive.
 - [ ] SME astrologer for festival, panchang, muhurat and remedy sign-off
 - [ ] Byline and AI disclosure policy: who is the named author or reviewer on each article
 - [ ] Monthly article target and monthly budget cap
-- [ ] Phase 1 languages: English only, or Hindi too
+- [x] Languages: English, Hindi, Hinglish, Marathi, Tamil, Telugu, Bengali (7 links per blog)
+- [ ] Native-speaker reviewer for each of the 7 languages
+- [ ] Full review for every language, or sample review for some once quality is proven
+- [x] Image model: test 2 models in Phase 2
+- [ ] Image model API account for the test (Google, OpenAI or other)
+- [ ] Legal: must AI-generated images be labelled?
+- [ ] Who approves deity imagery
+- [ ] Licensed or StarsTell-owned tarot deck images
+- [ ] Budget cap for 280 pages a month (estimate $810 to $980 a month)
 - [ ] Anthropic API account and DataForSEO account: existing or new

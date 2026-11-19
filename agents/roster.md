@@ -1,6 +1,6 @@
 # Agent roster
 
-Fifteen agents plus the human board. Each becomes a Paperclip agent with its own role, reporting line, budget and skill set. Models are a starting point and will be tuned on measured cost and quality: Opus 5.5 where judgement or writing matters, Sonnet 5.5 for research, Haiku 5.5 for mechanical steps.
+Fifteen core agents plus 6 Language Writers and a Visual Designer (22 in all), and the human board. The Senior Blog Writer, Language Writers and Senior Editor all use the [humanizer skill](../docs/humanizing.md). Each becomes a Paperclip agent with its own role, reporting line, budget and skill set. Models are a starting point and will be tuned on measured cost and quality: Opus 5.5 where judgement or writing matters, Sonnet 5.5 for research, Haiku 5.5 for mechanical steps.
 
 | # | Agent | Team | Model | Tools it can use | Produces | Cannot do |
 |---|---|---|---|---|---|---|
@@ -14,6 +14,8 @@ Fifteen agents plus the human board. Each becomes a Paperclip agent with its own
 | 7 | Numerology Research | Domain Knowledge | Sonnet 5.5 | `numerology_*` tools only | Logged answers, calculation checks | Call other bots |
 | 8 | Content Brief | Content Production | Sonnet 5.5 | Content Service briefs | Outline, persona, FAQs, link plan | Write body copy |
 | 9 | Senior Blog Writer | Content Production | Opus 5.5 | Briefs, logged bot answers, sources | Draft version | Call bots directly, publish |
+| 9a | Language Writer x6 (Hindi, Hinglish, Marathi, Tamil, Telugu, Bengali) | Content Production | Opus 5.5 | Brief, verified claims, that language's keywords, humanizer skill, Indic style guide | Native version in its language | Add claims, translate word for word, publish |
+| 9b | Visual Designer | Content Production | Sonnet 5.5 + image model | Brief, `image_generate`, SVG diagram templates | 3 to 5 images, alt text in 7 languages | Put text inside AI images, publish |
 | 10 | SEO Optimization | Content Production | Sonnet 5.5 | Draft read and write, schema builder | Meta, headings, links, alt text, JSON-LD | Change factual claims |
 | 11 | Fact Checking | Content Production | Opus 5.5 | Claims table, bot logs, web search and fetch | Verdict per claim with evidence | Edit the draft |
 | 12 | Senior Editor | Content Production | Opus 5.5 | Draft, claims, brand rubric | Approve to human, or send back | Publish |

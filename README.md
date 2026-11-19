@@ -22,6 +22,9 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 - [docs/decisions/0001-stack.md](docs/decisions/0001-stack.md): why these four components and not more
 - [agents/roster.md](agents/roster.md): the 15 agents, their models, tools and limits
 - [docs/article-spec.md](docs/article-spec.md): URL, meta title, meta description, meta tags, headings, images, alt text, keywords for every article
+- [docs/multilingual.md](docs/multilingual.md): every blog in 7 languages (English, Hindi, Hinglish, Marathi, Tamil, Telugu, Bengali), so 7 links
+- [docs/images.md](docs/images.md): 3 to 5 generated images per blog, alt text in every language
+- [docs/humanizing.md](docs/humanizing.md): humanizer skill plus an Indic style guide; what IndicLLMSuite is and is not used for
 - [docs/competitor-research.md](docs/competitor-research.md): how AstroTalk, AstroSage, Astroyogi, InstaAstro, AstroTak and Drik Panchang are studied before each article
 - [docs/questions.md](docs/questions.md): everything needed from the StarsTell team before coding
 

@@ -83,8 +83,11 @@ Statuses: Research → Brief → Writing → Fact Checking → SEO Review → Ed
 | 4 | Write the brief and name the target persona | Content Strategist + Content Brief |
 | 5 | Call the right StarsTell bot; store request and response | Domain agent |
 | 6 | Collect external references with URLs and access dates | Fact Checking |
-| 7 | Write the first draft from brief, bot answers and sources only | Senior Blog Writer |
+| 7 | Write the English draft from brief, bot answers and sources only | Senior Blog Writer |
 | 8 | Split the draft into claims and give each a verdict | Fact Checking |
+| 8a | Write the Hindi, Hinglish, Marathi, Tamil, Telugu and Bengali versions natively from the brief and verified claims ([multilingual.md](multilingual.md)) | Language Writers |
+| 8b | Humanize pass on every version, then claim check ([humanizing.md](humanizing.md)) | Writers + Fact Checking |
+| 8c | Generate 3 to 5 images and alt text in all 7 languages ([images.md](images.md)) | Visual Designer |
 | 9 | Meta, headings, internal links, schema, alt text, per [article-spec.md](article-spec.md) | SEO Optimization |
 | 10 | Readability, repetition, brand voice, originality | Senior Editor |
 | 11 | **Human approval:** approve, reject, request revisions or edit. SME sign-off for festival, panchang, muhurat and remedy content | People |
@@ -322,6 +325,27 @@ LLM list prices per million tokens (input / output): Opus 5.5 $4 / $20, Sonnet 5
 | **Total** | **305 to 365** | **26,800 to 32,100** |
 
 Not included: calls to StarsTell's own bot APIs, CMS hosting, and review time. A Paperclip budget hard stop (for example $400 a month) caps the downside.
+
+### Update 19/11/2026: 7 languages and 3 to 5 images per blog
+
+The tables above are for one English version. With 7 language versions and generated images, the estimate becomes:
+
+| Per blog (7 versions) | US$ |
+|---|---:|
+| Shared once: research, brief, bot calls, fact check, publishing | ~1.6 |
+| Per language: native writing, humanize pass, claim check, SEO, edit (~1.2 x 7) | ~8.4 |
+| Keyword research per language [Assumption] | 1.0 to 3.0 |
+| 3 to 5 images, 2 options each [Assumption, depends on model chosen] | 0.3 to 1.0 |
+| **Total per blog** | **~11 to 14** |
+| With rejected drafts (about 1 in 3) | **~16 to 18 per published blog (~$2.4 per page)** |
+
+| Monthly, 40 blogs = 280 pages | US$ | ₹ |
+|---|---:|---:|
+| Blog pipeline | 640 to 720 | 56,300 to 63,400 |
+| Routines (Head of SEO, analyst, refresh) | 60 | 5,300 |
+| Rank tracking in 7 languages [Assumption] | 60 to 120 | 5,300 to 10,600 |
+| VM plus backups [Assumption] | 50 to 80 | 4,400 to 7,000 |
+| **Total** | **810 to 980** | **71,300 to 86,300** |
 
 ---
 
