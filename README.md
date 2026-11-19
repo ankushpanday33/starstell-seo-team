@@ -37,6 +37,10 @@ node visualizer/starstell-office.mjs
 
 Then open http://127.0.0.1:8090/office/STAR-7EAM. Already cloned without submodules? Run `git submodule update --init` first. A step-by-step example with each step's output and the published blog in 7 languages is in [visualizer/walkthrough.html](visualizer/walkthrough.html).
 
+## A finished example
+
+[examples/life-path-number-7](examples/life-path-number-7/) is one blog, "Life path number 7", taken end to end by Claude playing every agent: the published page in 7 languages, 4 images with alt text, meta tags and schema, and every step's output from keyword research to the approval queue.
+
 ## Credentials and `.env`
 
 This repository is public, so **real values never go in it**. Copy the template, fill it in on the server, and keep it there:
