@@ -1,6 +1,6 @@
 # Third-party notices
 
-This project uses or adapts material from the following projects, each under the MIT License. Exact commits are pinned in [skills/manifest.yaml](skills/manifest.yaml).
+This project uses or adapts material from the following projects, under the MIT License unless noted. Exact commits are pinned in [skills/manifest.yaml](skills/manifest.yaml).
 
 | Project | Copyright holder | Use |
 |---|---|---|
@@ -10,5 +10,6 @@ This project uses or adapts material from the following projects, each under the
 | [humanizer](https://github.com/blader/humanizer) | blader and contributors | Agent skill |
 | [Paperclip](https://github.com/paperclipai/paperclip) | Paperclip Labs, Inc | Agent management platform (run as a service) |
 | [OpenSEO](https://github.com/every-app/open-seo) | Every App and contributors | SEO data platform (run as a service) |
+| [The Roving Office](https://github.com/atlassian-labs/roving-office) | Atlassian US, Inc. (Apache-2.0) | 3D agent office visualizer, git submodule at `visualizer/roving-office`, unmodified. Its NOTICE excludes third-party logos from the licence grant; we do not copy or redistribute them |
 
 When any of this material is copied into this repository, its original MIT license text and copyright line are kept alongside it.

@@ -17,13 +17,17 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 
 ## See it working
 
-[visualizer/office.html](visualizer/office.html) is an interactive "agent office": one example blog moves room to room while you watch where Paperclip and OpenSEO sit, which agent works when, what each step produces, and the published page in 7 languages. All data in it is illustrative. To open it locally:
+A live 3D agent office built on [The Roving Office](https://github.com/atlassian-labs/roving-office): every agent is a character who walks in when Paperclip gives it work, turns the globe for OpenSEO, pulls a book for your StarsTell bots, and waits on you for approval. Details and the full legend in [visualizer/README.md](visualizer/README.md).
 
 ```bash
-python -m http.server 8765 --bind 127.0.0.1 --directory visualizer
+git submodule update --init
 ```
 
-Then visit http://127.0.0.1:8765/office.html
+```bash
+node visualizer/starstell-office.mjs
+```
+
+Then open http://127.0.0.1:8090/office/STAR-7EAM. A step-by-step example with each step's output and the published blog in 7 languages is in [visualizer/walkthrough.html](visualizer/walkthrough.html).
 
 ## Read the proposal
 

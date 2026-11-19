@@ -1,0 +1,3 @@
+[submodule "visualizer/roving-office"]
+	path = visualizer/roving-office
+	url = https://github.com/atlassian-labs/roving-office.git
