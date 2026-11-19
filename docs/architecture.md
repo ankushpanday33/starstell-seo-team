@@ -78,14 +78,14 @@ Statuses: Research → Brief → Writing → Fact Checking → SEO Review → Ed
 | # | Step | Owner |
 |---|---|---|
 | 1 | Find the opportunity: keyword, volume, difficulty, intent | Keyword Research |
-| 2 | Study the top 10 ranking pages and find the gap | Competitor Intelligence |
+| 2 | Study the top 10 ranking pages and the watched competitors, and find the gap ([competitor-research.md](competitor-research.md)) | Competitor Intelligence |
 | 3 | Accept or drop against the monthly plan | Head of SEO |
 | 4 | Write the brief and name the target persona | Content Strategist + Content Brief |
 | 5 | Call the right StarsTell bot; store request and response | Domain agent |
 | 6 | Collect external references with URLs and access dates | Fact Checking |
 | 7 | Write the first draft from brief, bot answers and sources only | Senior Blog Writer |
 | 8 | Split the draft into claims and give each a verdict | Fact Checking |
-| 9 | Meta, headings, internal links, schema, alt text | SEO Optimization |
+| 9 | Meta, headings, internal links, schema, alt text, per [article-spec.md](article-spec.md) | SEO Optimization |
 | 10 | Readability, repetition, brand voice, originality | Senior Editor |
 | 11 | **Human approval:** approve, reject, request revisions or edit. SME sign-off for festival, panchang, muhurat and remedy content | People |
 | 12 | Publish, add metadata and schema, ping sitemap and IndexNow | CMS Publishing |
@@ -146,6 +146,23 @@ erDiagram
   KEYWORDS ||--o{ RANK_DAILY : tracked_by
   ARTICLES ||--o{ COST_EVENTS : costs
   ARTICLES ||--o{ TOOL_CALLS : logged_in
+  COMPETITORS ||--o{ COMPETITOR_PAGES : publishes
+  KEYWORDS ||--o{ COMPETITOR_PAGES : ranks_for
+  COMPETITORS {
+    uuid id PK
+    text domain
+    bool active
+  }
+  COMPETITOR_PAGES {
+    uuid id PK
+    uuid competitor_id FK
+    uuid keyword_id FK
+    text url
+    int position
+    jsonb outline
+    int word_count
+    text gaps
+  }
   CLUSTERS {
     uuid id PK
     text name

@@ -21,6 +21,8 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 - [docs/proposal/index.html](docs/proposal/index.html): the designed proposal page; open it in a browser
 - [docs/decisions/0001-stack.md](docs/decisions/0001-stack.md): why these four components and not more
 - [agents/roster.md](agents/roster.md): the 15 agents, their models, tools and limits
+- [docs/article-spec.md](docs/article-spec.md): URL, meta title, meta description, meta tags, headings, images, alt text, keywords for every article
+- [docs/competitor-research.md](docs/competitor-research.md): how AstroTalk, AstroSage, Astroyogi, InstaAstro, AstroTak and Drik Panchang are studied before each article
 - [docs/questions.md](docs/questions.md): everything needed from the StarsTell team before coding
 
 ## Repository layout

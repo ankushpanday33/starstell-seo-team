@@ -6,7 +6,7 @@ Fifteen agents plus the human board. Each becomes a Paperclip agent with its own
 |---|---|---|---|---|---|---|
 | 0 | Head of SEO | Leadership | Opus 5.5 | OpenSEO read, Content Service read, Paperclip tasks | Monthly plan, approved opportunities, weekly report | Publish, edit drafts |
 | 1 | Keyword Research | SEO Research | Sonnet 5.5 | OpenSEO keyword and SERP tools | Scored keywords and clusters | Create articles |
-| 2 | Competitor Intelligence | SEO Research | Sonnet 5.5 | OpenSEO domain and backlink tools, web fetch | Gap notes, differentiation angle | Write content |
+| 2 | Competitor Intelligence | SEO Research | Sonnet 5.5 | OpenSEO domain, SERP and backlink tools, web fetch | Monthly keyword gap vs watched competitors, per-article top 10 study, gap note ([playbook](../docs/competitor-research.md)) | Write content, copy competitor text |
 | 3 | Search Intent | SEO Research | Sonnet 5.5 | OpenSEO SERP tools | Format, questions, snippet targets | Write content |
 | 4 | Content Strategist | SEO Research | Opus 5.5 | Content Service clusters, OpenSEO saved keywords | Calendar, pillar map, cannibalization check | Publish |
 | 5 | Vedic Astrology Research | Domain Knowledge | Sonnet 5.5 | `vedic_*` tools only | Logged bot answers, terminology check | Call Tarot or Numerology tools |
