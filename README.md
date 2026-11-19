@@ -17,17 +17,58 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 
 ## See it working
 
-A live 3D agent office built on [The Roving Office](https://github.com/atlassian-labs/roving-office): every agent is a character who walks in when Paperclip gives it work, turns the globe for OpenSEO, pulls a book for your StarsTell bots, and waits on you for approval. Details and the full legend in [visualizer/README.md](visualizer/README.md).
+A live 3D agent office built on [The Roving Office](https://github.com/atlassian-labs/roving-office): six departments, every agent seated at its own desk, walking to another department only to hand over work or ask a question. Details in [visualizer/README.md](visualizer/README.md).
+
+![The StarsTell agent office](visualizer/office-screenshot.png)
+
+Needs Node 18 or newer and git. No credentials or `.env` are needed for this part.
 
 ```bash
-git submodule update --init
+git clone --recurse-submodules https://github.com/ankushpanday33/starstell-seo-team.git
+```
+
+```bash
+cd starstell-seo-team
 ```
 
 ```bash
 node visualizer/starstell-office.mjs
 ```
 
-Then open http://127.0.0.1:8090/office/STAR-7EAM. A step-by-step example with each step's output and the published blog in 7 languages is in [visualizer/walkthrough.html](visualizer/walkthrough.html).
+Then open http://127.0.0.1:8090/office/STAR-7EAM. Already cloned without submodules? Run `git submodule update --init` first. A step-by-step example with each step's output and the published blog in 7 languages is in [visualizer/walkthrough.html](visualizer/walkthrough.html).
+
+## Credentials and `.env`
+
+This repository is public, so **real values never go in it**. Copy the template, fill it in on the server, and keep it there:
+
+```bash
+cp .env.example .env
+```
+
+`.env` is git-ignored. In production the same values go into Paperclip's secret store or the server's environment instead.
+
+**What you need today:** nothing. The agent office visualizer runs without any keys.
+
+**What the full system needs, by phase:**
+
+| Variable | Needed in | What it is | Where to get it |
+|---|---|---|---|
+| `ANTHROPIC_API_KEY` | Phase 1 | Runs the Claude agents through Paperclip | console.anthropic.com > API keys |
+| `DATABASE_URL` | Phase 1 | PostgreSQL for the Content Service | Your Postgres server or managed database |
+| `DATAFORSEO_API_KEY` | Phase 1 | Keyword, SERP, competitor and rank data for OpenSEO (pay per call) | dataforseo.com > API access |
+| `AUTH_MODE` | Phase 1 | OpenSEO sign-in mode; `password` for a self-hosted Docker install | Set it yourself |
+| `BETTER_AUTH_SECRET` | Phase 1 | OpenSEO session secret, also encrypts stored Google tokens (32+ random characters) | Generate it yourself |
+| `BETTER_AUTH_URL` | Phase 1 | Public URL of the OpenSEO install | Your hosting |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Phase 1 | Lets OpenSEO read Search Console and GA4 | Google Cloud Console > Credentials > OAuth client; a Search Console owner then grants access |
+| `STARSTELL_VEDIC_API_URL`, `STARSTELL_VEDIC_API_KEY` | Phase 2 | Vedic Astrology bot (placeholder names) | StarsTell team, with the API docs |
+| `STARSTELL_TAROT_API_URL`, `STARSTELL_TAROT_API_KEY` | Phase 2 | Tarot bot (placeholder names) | StarsTell team |
+| `STARSTELL_NUMEROLOGY_API_URL`, `STARSTELL_NUMEROLOGY_API_KEY` | Phase 2 | Numerology bot (placeholder names) | StarsTell team |
+| `GOOGLE_AI_API_KEY`, `OPENAI_API_KEY` | Phase 2 | The two image models tested; only the winner's key stays | Google AI Studio / OpenAI platform |
+| `STARSTELL_CMS_API_URL`, `STARSTELL_CMS_API_KEY` | Phase 3 | Publishing to the StarsTell site (placeholder names) | StarsTell web team, once the CMS is confirmed |
+| `INDEXNOW_KEY` | Phase 3 | Tells search engines about new pages; any random 8 to 128 character string, also served at `/<key>.txt` | Generate it yourself |
+| `PORT`, `SPEED` | Optional | Port and speed of the agent office visualizer | Defaults: `8090`, `1` |
+
+Variables marked "placeholder" are renamed if the StarsTell API or CMS documentation calls for it. Paperclip itself is set up with `npx paperclipai onboard` and keeps its own configuration.
 
 ## Read the proposal
 
