@@ -1,6 +1,6 @@
 # Agent roster
 
-Fifteen core agents plus 6 Language Writers and a Visual Designer (22 in all), and the human board. The Senior Blog Writer, Language Writers and Senior Editor all use the [humanizer skill](../docs/humanizing.md). Each agent's third-party skills (claude-seo, marketingskills, seomachine) are listed in [skills/manifest.yaml](../skills/manifest.yaml), and every agent reads [context/](../context/) first. Each becomes a Paperclip agent with its own role, reporting line, budget and skill set. Models are a starting point and will be tuned on measured cost and quality: Opus 5.5 where judgement or writing matters, Sonnet 5.5 for research, Haiku 5.5 for mechanical steps.
+Fifteen core agents plus 6 Language Writers and a Visual Designer (22 in all), and the human board. The Senior Blog Writer, Language Writers and Senior Editor all use the [humanizer skill](../docs/humanizing.md). Each agent's third-party skills (claude-seo, marketingskills, seomachine) are listed in [skills/manifest.yaml](../skills/manifest.yaml), and every agent reads [context/](../context/) first. In code, the team is the crewAI crew in [crew/](../crew/README.md). Each becomes a Paperclip agent with its own role, reporting line, budget and skill set. Models are a starting point and will be tuned on measured cost and quality: Opus 5.5 where judgement or writing matters, Sonnet 5.5 for research, Haiku 5.5 for mechanical steps.
 
 | # | Agent | Team | Model | Tools it can use | Produces | Cannot do |
 |---|---|---|---|---|---|---|

@@ -14,6 +14,7 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 | [OpenSEO](https://github.com/every-app/open-seo) | Keywords, SERPs, competitors, backlinks, rank tracking, Search Console, GA4, AI visibility (MCP) | MIT, self-hosted, DataForSEO pay per call |
 | StarsTell Content Service | Bot adapters, article store, claims, CMS publish gate, cost ledger, dashboard | Built in this repo |
 | PostgreSQL | One instance, three databases | Self-hosted or managed |
+| [crewAI](https://github.com/crewAIInc/crewAI) | Runs the 17-agent blog pipeline: order, loops, parallel work, code guardrails | MIT, Python library, pinned 1.15.44 |
 | [Seryvon](https://github.com/seryvon-com/seryvon) | Score gate: SEO, GEO and AEO must each be 90+ before the CMS | AGPL-3.0, self-hosted, unmodified |
 
 ## See it working
@@ -37,6 +38,14 @@ node visualizer/starstell-office.mjs
 ```
 
 Then open http://127.0.0.1:8090/office/STAR-7EAM. Already cloned without submodules? Run `git submodule update --init` first. A step-by-step example with each step's output and the published blog in 7 languages is in [visualizer/walkthrough.html](visualizer/walkthrough.html).
+
+## The AI team in code (crewAI)
+
+[crew/](crew/) is the blog team written with crewAI: 17 agents in one Flow per blog, with code guardrails for the article spec and the 90+ score gate, a fact-check loop, and a hard stop at human approval. Paperclip still manages schedules, budgets and approvals. See [crew/README.md](crew/README.md) and [decision 0003](docs/decisions/0003-crewai.md).
+
+```bash
+cd crew && python -m starstell_crew.run produce --task ST-144 --topic "Life path number 7" --vertical numerology --dry-run
+```
 
 ## Score gate: 90+ or it does not publish
 
@@ -79,6 +88,8 @@ cp .env.example .env
 | `GSC_SERVICE_ACCOUNT` | Phase 3 (site run) | Search Console data in Seryvon's weekly site run | Google Cloud service account added to the Search Console property |
 | `GEMINI_API_KEY`, `PERPLEXITY_API_KEY` | Optional (score gate) | AI citation tracking, raises GEO coverage (Seryvon also uses `OPENAI_API_KEY` and `ANTHROPIC_API_KEY`) | Google AI Studio / Perplexity |
 | `STARSTELL_SCORE_THRESHOLD`, `STARSTELL_MIN_COVERAGE`, `STARSTELL_PREVIEW_HOSTS` | Score gate | Gate rules; defaults `90`, `0.45`, `127.0.0.1` | Set them yourself |
+| `SERYVON_PYTHON` | Score gate in the crew | Path to the Python that has Seryvon installed | Your server |
+| `OPENSEO_MCP_URL`, `OPENSEO_MCP_TOKEN` | Phase 1 (crew) | Gives the research agents live OpenSEO data over MCP | Your OpenSEO install |
 | `PORT`, `SPEED` | Optional | Port and speed of the agent office visualizer | Defaults: `8090`, `1` |
 
 Variables marked "placeholder" are renamed if the StarsTell API or CMS documentation calls for it. Paperclip itself is set up with `npx paperclipai onboard` and keeps its own configuration.
@@ -112,6 +123,7 @@ integrations/
   numerology/              Numerology bot adapter        (blocked: waiting for API docs)
   cms/                     StarsTell CMS adapter         (blocked: waiting for CMS details)
 services/content-service/  MCP server and editor web app (Phase 1)
+crew/                      The blog team in crewAI: agents, flow, guardrails, tests
 scoring/                   Score gate: Seryvon wrapper and gate config (SEO, GEO, AEO 90+)
 .env.example               Variable names only, never values
 ```

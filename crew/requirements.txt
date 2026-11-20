@@ -1,0 +1,2 @@
+# The StarsTell blog crew. Pinned to the version it was built and tested against.
+crewai[anthropic]==1.15.44

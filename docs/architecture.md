@@ -106,6 +106,12 @@ Statuses: Research → Brief → Writing → Fact Checking → SEO Review → Ed
 
 ---
 
+### Execution engine
+
+The steps above run as a crewAI Flow ([crew/](../crew/README.md), [decision 0003](decisions/0003-crewai.md)); Paperclip starts each run and owns the approval that allows publishing.
+
+---
+
 ## 6. API integration design
 
 **Adapter contract [Proposed]**
