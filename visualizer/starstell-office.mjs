@@ -275,6 +275,19 @@ async function pipeline(blog) {
     ['ContentService.run_checks', 'execute', f(blog, 'checks.json'), 2500],
   ]);
 
+  // Score gate: Seryvon scores the preview page; SEO, GEO and AEO must each be 90+.
+  const gated = await work(T.seo, blog, 'Score gate (Seryvon): SEO, GEO, AEO 90+', [
+    ['Seryvon.audit', 'execute', 'preview/' + blog.key, 5000, blog.fail ? 'error' : 'ok'],
+  ]);
+  if (!gated) {
+    console.log(`[feed] ${blog.key}: score below 90, back to the writer`);
+    await work(T.seo, blog, 'Scores below 90: send fixes', [
+      ['Coordinate', T.writer, 'AEO below 90: needs a direct answer and a comparison table'],
+    ]);
+    await work(T.writer, blog, 'Fix for the score gate', [['Edit', 'edit', f(blog, 'draft-en.md'), 4500]]);
+    await work(T.seo, blog, 'Score gate re-run', [['Seryvon.audit', 'execute', 'preview/' + blog.key, 5000]]);
+  }
+
   await work(T.editor, blog, 'Final edit, then human approval', [
     ['Read', 'read', f(blog, 'draft-en.md'), 3500],
     ['seomachine.scrub', 'execute', f(blog, 'draft-en.md'), 2000],

@@ -16,7 +16,7 @@ Fifteen core agents plus 6 Language Writers and a Visual Designer (22 in all), a
 | 9 | Senior Blog Writer | Content Production | Opus 5.5 | Briefs, logged bot answers, sources | Draft version | Call bots directly, publish |
 | 9a | Language Writer x6 (Hindi, Hinglish, Marathi, Tamil, Telugu, Bengali) | Content Production | Opus 5.5 | Brief, verified claims, that language's keywords, humanizer skill, Indic style guide | Native version in its language | Add claims, translate word for word, publish |
 | 9b | Visual Designer | Content Production | Sonnet 5.5 + image model | Brief, `image_generate`, SVG diagram templates | 3 to 5 images, alt text in 7 languages | Put text inside AI images, publish |
-| 10 | SEO Optimization | Content Production | Sonnet 5.5 | Draft read and write, schema builder | Meta, headings, links, alt text, JSON-LD | Change factual claims |
+| 10 | SEO Optimization | Content Production | Sonnet 5.5 | Draft read and write, schema builder | Meta, headings, links, alt text, JSON-LD; runs the Seryvon score gate (SEO, GEO, AEO 90+) | Change factual claims, pass a version below 90 |
 | 11 | Fact Checking | Content Production | Opus 5.5 | Claims table, bot logs, web search and fetch | Verdict per claim with evidence | Edit the draft |
 | 12 | Senior Editor | Content Production | Opus 5.5 | Draft, claims, brand rubric | Approve to human, or send back | Publish |
 | 13 | CMS Publishing | Publishing and Analytics | Haiku 5.5 | `cms_create_draft`, `cms_publish` (needs approval id) | CMS draft, live post, sitemap ping | Publish without a human approval |

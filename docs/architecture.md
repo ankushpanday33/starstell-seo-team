@@ -90,6 +90,7 @@ Statuses: Research → Brief → Writing → Fact Checking → SEO Review → Ed
 | 8c | Generate 3 to 5 images and alt text in all 7 languages ([images.md](images.md)) | Visual Designer |
 | 9 | Meta, headings, internal links, schema, alt text, per [article-spec.md](article-spec.md) | SEO Optimization |
 | 10 | Readability, repetition, brand voice, originality | Senior Editor |
+| 10a | **Score gate:** Seryvon scores each version's preview page; SEO, GEO and AEO must each be 90+ or it goes back to the writer ([scoring/README.md](../scoring/README.md)) | SEO Optimizer |
 | 11 | **Human approval:** approve, reject, request revisions or edit. SME sign-off for festival, panchang, muhurat and remedy content | People |
 | 12 | Publish, add metadata and schema, ping sitemap and IndexNow | CMS Publishing |
 | 13 | Track impressions, clicks, CTR, position, conversions | Performance Analyst |

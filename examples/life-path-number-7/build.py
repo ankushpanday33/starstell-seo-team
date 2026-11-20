@@ -94,7 +94,8 @@ EN_BODY = f'''
 <h2 id="mulank">Life path 7, Mulank 7 or Bhagyank 7?</h2>
 {fig(2,'en','Mulank uses the day only. Bhagyank, your life path, uses the whole date.')}
 <p>This is where most of the confusion starts. Your <b>Mulank</b> (birth number) comes from the day you were born, nothing else. Your <b>Bhagyank</b> (life path number) comes from the whole date. Someone born on 12/03/1990 has Mulank 3 and Bhagyank 7: they may come across as lively and social, the 3, while their deeper pull is towards study and meaning, the 7.</p>
-<p>Indian numerology links the number 7 with Ketu, the south node of the Moon, associated with detachment and inner search. Western numerology links 7 with Neptune. Both point at the same theme: looking beneath the surface.</p>
+<table class="cmp"><caption>Mulank vs Bhagyank at a glance</caption><thead><tr><th scope="col"></th><th scope="col">Mulank (birth number)</th><th scope="col">Bhagyank (life path)</th></tr></thead><tbody><tr><th scope="row">Uses</th><td>Day of birth only</td><td>Full date of birth</td></tr><tr><th scope="row">12/03/1990 gives</th><td>1 + 2 = 3</td><td>3 + 3 + 1 = 7</td></tr><tr><th scope="row">Describes</th><td>How you show up day to day</td><td>The direction of your life's work</td></tr><tr><th scope="row">Planet for 7</th><td colspan="2">Ketu in Indian numerology; Neptune in Western numerology</td></tr></tbody></table>
+<p>Indian numerology links the number 7 with <a href="https://en.wikipedia.org/wiki/Ketu_(mythology)" rel="noopener">Ketu</a>, the south node of the Moon, associated with detachment and inner search. Western <a href="https://en.wikipedia.org/wiki/Numerology" rel="noopener">numerology</a>, which traces its method to Pythagorean ideas, links 7 with Neptune. Both point at the same theme: looking beneath the surface.</p>
 <h2 id="strengths">Strengths of a life path 7</h2>
 <ul class="sq"><li><b>A researcher's mind.</b> You notice the detail other people skim past, and you enjoy going deep.</li><li><b>Intuition you check.</b> You often sense the answer first, then you test it before acting on it.</li><li><b>Depth over noise.</b> A few close friends matter more to you than a large circle.</li><li><b>Calm in a crisis.</b> When others panic, you think.</li><li><b>Independence.</b> You can work for long stretches without needing anyone to push you.</li></ul>
 {fig(3,'en','Quiet, focused study is where a 7 does its best thinking.')}
@@ -107,7 +108,7 @@ EN_BODY = f'''
 <p>A 7 usually trusts slowly and loves loyally. They need a partner who respects their quiet time and enjoys a real conversation. Numerology books often pair 7 with 4, 5 and 9, but these are traditional pairings, not rules: how two people talk to each other matters far more than their numbers.</p>
 <h2 id="use">Making the most of a 7</h2>
 <ul class="sq"><li><b>Protect focus time.</b> Block two hours a day for deep work and guard them.</li><li><b>Share one honest update a week</b> with someone you trust, even when nothing is wrong.</li><li><b>Learn in public.</b> Write or teach what you study; it turns private thinking into something useful.</li><li><b>Test your intuition</b> on small decisions first, and keep a note of when it was right.</li></ul>
-<p class="disclaimer">Numerology is a traditional system for reflection. It is not a science, and it cannot tell you what will happen. Use it to understand yourself, not to make your choices for you.</p>
+<p class="disclaimer">Numerology is a traditional system for reflection (<a href="https://en.wikipedia.org/wiki/Numerology" rel="noopener">background</a>). It is not a science, and it cannot tell you what will happen. Use it to understand yourself, not to make your choices for you.</p>
 <section class="faq" id="faq"><h2>Questions people ask</h2>
 <details><summary>Is life path 7 a lucky number?</summary><p>Some sources call 7 lucky, but that is a cultural association, not a promise. In numerology, 7 is about depth and learning; whatever good comes from it comes from the work you put in.</p></details>
 <details><summary>Is Bhagyank 7 the same as Mulank 7?</summary><p>No. Mulank uses only the day you were born. Bhagyank uses the full date. You can have one without the other.</p></details>
@@ -127,7 +128,8 @@ HI_BODY = f'''
 <h2>मूलांक 7 या भाग्यांक 7?</h2>
 {fig(2,'hi','मूलांक सिर्फ़ दिन से बनता है, भाग्यांक पूरी तारीख़ से।')}
 <p>सबसे ज़्यादा उलझन यहीं होती है। <b>मूलांक</b> सिर्फ़ जन्म के दिन से बनता है, <b>भाग्यांक</b> पूरी तारीख़ से। 12/03/1990 को जन्मे व्यक्ति का मूलांक 3 और भाग्यांक 7 है: बाहर से वे खुशमिज़ाज और मिलनसार (3) दिख सकते हैं, जबकि अंदर से उनका झुकाव अध्ययन और अर्थ की ओर (7) होता है।</p>
-<p>भारतीय अंक ज्योतिष में 7 का संबंध केतु से है, जो वैराग्य और भीतर की खोज से जुड़ा है। पश्चिमी अंक ज्योतिष 7 को नेपच्यून से जोड़ता है। दोनों एक ही बात कहते हैं: सतह के नीचे देखना।</p>
+<table class="cmp"><caption>मूलांक और भाग्यांक एक नज़र में</caption><thead><tr><th scope="col"></th><th scope="col">मूलांक</th><th scope="col">भाग्यांक</th></tr></thead><tbody><tr><th scope="row">किससे बनता है</th><td>सिर्फ़ जन्म का दिन</td><td>पूरी जन्मतिथि</td></tr><tr><th scope="row">12/03/1990 पर</th><td>1 + 2 = 3</td><td>3 + 3 + 1 = 7</td></tr><tr><th scope="row">क्या बताता है</th><td>रोज़मर्रा में आप कैसे दिखते हैं</td><td>आपके जीवन के काम की दिशा</td></tr><tr><th scope="row">7 का ग्रह</th><td colspan="2">भारतीय अंक ज्योतिष में केतु; पश्चिमी में नेपच्यून</td></tr></tbody></table>
+<p>भारतीय अंक ज्योतिष में 7 का संबंध <a href="https://hi.wikipedia.org/wiki/%E0%A4%95%E0%A5%87%E0%A4%A4%E0%A5%81" rel="noopener">केतु</a> से है, जो वैराग्य और भीतर की खोज से जुड़ा है। पश्चिमी <a href="https://en.wikipedia.org/wiki/Numerology" rel="noopener">अंक ज्योतिष</a> 7 को नेपच्यून से जोड़ता है। दोनों एक ही बात कहते हैं: सतह के नीचे देखना।</p>
 <h2>भाग्यांक 7 की ताकतें</h2>
 <ul class="sq"><li><b>शोधकर्ता का दिमाग।</b> जो बारीकी दूसरे छोड़ देते हैं, आप उसे पकड़ लेते हैं।</li><li><b>परखा हुआ अंतर्ज्ञान।</b> जवाब अक्सर पहले महसूस होता है, फिर आप उसे जाँचते हैं।</li><li><b>कम लेकिन गहरे रिश्ते।</b> बड़ी भीड़ से ज़्यादा आपके लिए कुछ करीबी लोग मायने रखते हैं।</li><li><b>मुश्किल में शांत दिमाग।</b> जब दूसरे घबराते हैं, आप सोचते हैं।</li><li><b>आत्मनिर्भरता।</b> आप बिना किसी के धक्का दिए लंबे समय तक काम कर सकते हैं।</li></ul>
 {fig(3,'hi','शांत और एकाग्र अध्ययन में 7 सबसे अच्छा सोचते हैं।')}
@@ -279,7 +281,21 @@ step(12, 'SEO Optimizer', 'Writing Room', 'Meta, schema, hreflang and automatic 
  '<div class="tw"><table><tr><th>Language</th><th>Meta title</th><th>Description</th></tr>' + ''.join(f'<tr><td>{v["name"]}</td><td>{v["title"]} <span class="cc">({len(v["title"])})</span></td><td>{v["desc"]} <span class="cc">({len(v["desc"])})</span></td></tr>' for v in L.values()) + '</table></div>'
  f'<h4>Automatic checks: {passed} of {len(checks)} passed</h4><div class="tw"><table><tr><th>Version</th><th>Check</th><th>Value</th><th>Result</th></tr>' + ''.join(f'<tr><td>{a}</td><td>{b}</td><td>{html.escape(str(c))}</td><td><span class="pill {"ok" if d else "no"}">{"pass" if d else "fail"}</span></td></tr>' for a, b, c, d in checks) + '</table></div>'
  f'<h4>Head tags (English page)</h4><pre>{html.escape(head_tags)}</pre>', 'claude-seo: seo-schema, seo-hreflang')
-step(13, 'Senior Editor → SEO Head', 'Writing Room → Paperclip HQ', 'Waiting for human approval',
+import os as _os
+_sd = _os.path.join(_os.path.dirname(_os.path.abspath(OUT)), 'scores')
+_runs = [('English, first draft (Seryvon defaults)', 'en-run1-blocked.json'), ('English, after fixes', 'en-run2-passed.json'),
+         ('Hindi', 'hi-passed.json'), ('Tamil, summary only', 'ta-blocked.json')]
+_rows = ''
+for _label, _f in _runs:
+    _r = json.load(open(_os.path.join(_sd, _f), encoding='utf-8'))
+    _sc = _r['scores']
+    _rows += f'<tr><td>{_label}</td>' + ''.join(f'<td class="num">{_sc[p]}</td>' for p in ('seo','geo','aeo')) + f'<td><span class="pill {"ok" if _r["passed"] else "no"}">{"passed" if _r["passed"] else "blocked"}</span></td></tr>'
+step(13, 'SEO Optimizer', 'Writing Room', 'Score gate: SEO, GEO and AEO must each be 90+',
+ '<p>Seryvon (self-hosted, deterministic) scored each version on its private preview page. These are the real runs.</p>'
+ '<div class="tw"><table><tr><th>Run</th><th>SEO</th><th>GEO</th><th>AEO</th><th>Gate</th></tr>' + _rows + '</table></div>'
+ '<div class="q"><b>First run blocked</b> on: no direct-answer first paragraph, no comparison table, no defined terms, no outside source links, incomplete Twitter tags, reviewer without structured credentials. All six were fixed in the article; site-wide items (HTTPS, sitemap, About page, Knowledge Graph, social profiles) moved to the weekly site run.</div>'
+ '<p>Tamil stays blocked until its full body is written: thin content, no table, no Q&amp;A. It cannot reach approval or the CMS.</p>', 'Seryvon · scoring/score_gate.py')
+step(14, 'Senior Editor → SEO Head', 'Writing Room → Paperclip HQ', 'Waiting for human approval',
  '<ul class="sq"><li>Brand voice: no fear, no guarantees, mechanism named, effort-tied <span class="pill ok">pass</span></li><li>Hidden Unicode and em dashes <span class="pill ok">none</span></li><li>Dates needing SME sign-off <span class="pill ok">none</span></li><li>Numerology reviewer named on the page <span class="pill no">to add</span></li></ul>'
  '<div class="q"><b>Status:</b> awaiting approval in Paperclip. Not published. Approve, reject, request revisions or edit.</div>', 'Paperclip approval stage')
 
@@ -347,7 +363,7 @@ ul.sq li::before{{content:"\\25A0";position:absolute;left:0;color:var(--terra);f
 th{{background:var(--dusk);color:var(--ivory);text-align:left;padding:6px 8px}}td{{border-top:1px solid var(--sand);padding:6px 8px;vertical-align:top}}
 td a{{color:var(--terra)}}
 .pill{{display:inline-block;font-size:12px;font-weight:700;padding:0 7px;border:1px solid currentColor;white-space:nowrap}}
-.pill.ok{{color:#15803D}}.pill.no{{color:#B91C1C}}
+.num{{text-align:right;font-variant-numeric:tabular-nums}}.pill.ok{{color:#15803D}}.pill.no{{color:#B91C1C}}
 .q{{border-left:3px solid var(--terra);background:var(--ivory);padding:8px 12px}}.q.bad{{border-left-color:#B91C1C}}.q.good{{border-left-color:#15803D}}
 .note{{font-size:13px;font-style:italic}}
 .cc{{color:var(--terra);font-size:12px}}.lk{{font-weight:700}}
@@ -375,7 +391,7 @@ footer{{margin-top:28px;border-top:1px solid var(--terra);padding-top:8px;displa
 </section>
 
 <section id="pipeline" hidden>
-<p style="max-width:75ch">13 steps, 8 departments' worth of work, done by Claude playing each agent. Where a real system is not connected yet (OpenSEO, the StarsTell Numerology bot, the image model, the CMS), the step says so and shows what stood in for it.</p>
+<p style="max-width:75ch">14 steps, 8 departments' worth of work, done by Claude playing each agent. Where a real system is not connected yet (OpenSEO, the StarsTell Numerology bot, the image model, the CMS), the step says so and shows what stood in for it.</p>
 {''.join(steps)}
 <div class="sources"><h3 style="font-size:18px">Sources used</h3><ul>
 {''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{u}</a></li>' for _, u, _ in COMPETITORS)}
@@ -407,3 +423,79 @@ open(OUT, 'w', encoding='utf-8', newline='\n').write(page)
 print('checks', passed, 'of', len(checks), '| en words', en_words)
 for c in checks:
     if not c[3]: print('FAIL', c)
+
+# ---------------------------------------------------------------- "as published" preview pages
+# One real page per language with its own head tags, schema and the article only.
+# This is what the score gate audits before anything may go to the CMS.
+import os
+PREV = os.path.join(os.path.dirname(os.path.abspath(OUT)), 'preview')
+os.makedirs(os.path.join(PREV, 'images'), exist_ok=True)
+import shutil
+for im in IMAGES:
+    shutil.copy(os.path.join(os.path.dirname(os.path.abspath(OUT)), 'images', im['file']), os.path.join(PREV, 'images', im['file']))
+
+def published(k):
+    v = L[k]
+    body = BODY.get(k)
+    faqs = re.findall(r'<summary>(.*?)</summary><p>(.*?)</p>', body or '')
+    ld = [
+     {"@context": "https://schema.org", "@type": "BlogPosting", "headline": v['h1'], "description": v['desc'],
+      "inLanguage": v['code'], "mainEntityOfPage": SITE + v['slug'],
+      "image": [SITE + "/images/blog/life-path-number-7/featured.webp"],
+      "author": {"@type": "Organization", "name": "StarsTell editorial team", "url": SITE + "/about"},
+      "reviewedBy": {"@type": "Person", "name": "[Numerology reviewer name]", "jobTitle": "Numerologist",
+                     "knowsAbout": ["Numerology", "Vedic astrology", "Chaldean numerology"],
+                     "hasCredential": {"@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "[Reviewer's numerology certification]"},
+                     "worksFor": {"@type": "Organization", "name": "StarsTell"}},
+      "publisher": {"@type": "Organization", "name": "StarsTell", "url": SITE, "logo": {"@type": "ImageObject", "url": SITE + "/logo.png"}},
+      "datePublished": "2026-11-20", "dateModified": "2026-11-20"},
+     {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Blog", "item": SITE + "/blog"},
+      {"@type": "ListItem", "position": 2, "name": "Numerology", "item": SITE + "/blog/numerology"},
+      {"@type": "ListItem", "position": 3, "name": v['h1'], "item": SITE + v['slug']}]},
+    ]
+    ld.append({"@context": "https://schema.org", "@type": "DefinedTermSet", "name": "Numerology terms", "hasDefinedTerm": [
+        {"@type": "DefinedTerm", "name": "Life path number (Bhagyank)", "description": "The sum of every digit of the full date of birth, reduced to one digit."},
+        {"@type": "DefinedTerm", "name": "Mulank (birth number)", "description": "The day of birth reduced to one digit."},
+        {"@type": "DefinedTerm", "name": "Master number", "description": "A total of 11, 22 or 33 that many numerologists keep instead of reducing further."}]})
+    if faqs:
+        ld.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]})
+    tags = f'''<title>{v['title']}</title>
+<meta name="description" content="{v['desc']}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="{SITE}{v['slug']}">
+{hreflang}
+<meta property="og:type" content="article"><meta property="og:title" content="{v['title'].replace(' | StarsTell','')}">
+<meta property="og:description" content="{v['desc']}"><meta property="og:image" content="{SITE}/images/blog/life-path-number-7/featured.webp">
+<meta property="og:url" content="{SITE}{v['slug']}"><meta property="og:locale" content="{v['code'].replace('-', '_')}">
+<meta property="article:published_time" content="2026-11-20"><meta property="article:modified_time" content="2026-11-20">
+<meta name="author" content="StarsTell editorial team">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{v['title'].replace(' | StarsTell','')}">
+<meta name="twitter:description" content="{v['desc']}"><meta name="twitter:image" content="{SITE}/images/blog/life-path-number-7/featured.webp">
+<meta name="twitter:image:alt" content="{html.escape(IMAGES[0]['alt'][k])}">
+<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'''
+    content = body if body else ''
+    return f'''<!doctype html>
+<html lang="{v['code']}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+{tags}
+<style>body{{font-family:"Noto Sans",Arial,sans-serif;max-width:760px;margin:0 auto;padding:24px 16px;color:#2a1a12;line-height:1.7;background:#E3DBC7}}img{{max-width:100%;height:auto}}h1,h2,h3{{font-family:"Playfair Display",Georgia,serif;color:#421206}}</style>
+</head><body>
+<header><nav aria-label="Breadcrumb"><a href="/blog">Blog</a> › <a href="/blog/numerology">Numerology</a> › {v['h1']}</nav></header>
+<main><article>
+<h1>{v['h1']}</h1>
+<p class="lead">{v['tk']}</p>
+<p><time datetime="2026-11-20">20/11/2026</time> · By <a href="/about" rel="author">StarsTell editorial team</a> · Reviewed by [numerology reviewer], numerologist</p>
+{fig(0, k if k in IMAGES[0]['alt'] else 'en', '')}
+{content}
+<aside><p>StarsTell: guidance from astrologers and numerologists who remember your story. <a href="/consult">Talk to an expert</a>.</p></aside>
+</article></main>
+<footer><p><a href="/about">About StarsTell</a> · <a href="/privacy">Privacy</a> · <a href="/contact">Contact</a></p></footer>
+</body></html>'''
+
+for k, v in L.items():
+    path = os.path.join(PREV, v['slug'].lstrip('/'), 'index.html')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    # images resolve from the preview root
+    open(path, 'w', encoding='utf-8', newline='\n').write(published(k).replace('src="images/', 'src="/images/'))
+print('preview pages written to', PREV)

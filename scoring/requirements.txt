@@ -1,0 +1,4 @@
+# Seryvon, pinned to the commit the gate was built and tested against (AGPL-3.0).
+seryvon @ git+https://github.com/seryvon-com/seryvon.git@ab060edb81ea0688ee2bacb090517a56a3a38e0c
+# Seryvon imports selectolax's old parser, removed in selectolax 1.0.
+selectolax<1.0

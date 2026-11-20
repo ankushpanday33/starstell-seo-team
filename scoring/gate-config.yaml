@@ -1,0 +1,26 @@
+# Seryvon config for the StarsTell ARTICLE gate.
+#
+# The gate scores one draft page on a private preview host. Some Seryvon criteria
+# describe the whole site, or need the page to be live, so a draft can never pass or
+# fail them. They get weight 0 here, and are scored instead by the weekly SITE run
+# against the live starstell.com (scoring/README.md). Nothing is hidden: every
+# excluded criterion is listed below with the reason.
+
+crawl:
+  max_pages: 1
+  max_depth: 0
+
+criteria_overrides:
+  # The preview host is plain http and has no sitemap; starstell.com does.
+  crawl.https: {weight: 0}
+  crawl.sitemap: {weight: 0}
+  # Site pages and brand identity, owned by the website team, checked weekly.
+  aeo.about_page: {weight: 0}
+  aeo.kg_presence: {weight: 0}        # StarsTell entity in Wikidata / Knowledge Graph
+  geo.cross_platform: {weight: 0}     # sameAs links to official StarsTell profiles
+  links.orphans: {weight: 0}          # needs the site's link graph, not one page
+  # Only exist after publishing; measured by the Analyst on the live page.
+  authority.backlinks: {weight: 0}
+  authority.opr: {weight: 0}
+  seo.avg_position: {weight: 0}
+  seo.click_through_rate: {weight: 0}

@@ -14,6 +14,7 @@ An AI SEO and content marketing department for StarsTell. Fifteen specialised AI
 | [OpenSEO](https://github.com/every-app/open-seo) | Keywords, SERPs, competitors, backlinks, rank tracking, Search Console, GA4, AI visibility (MCP) | MIT, self-hosted, DataForSEO pay per call |
 | StarsTell Content Service | Bot adapters, article store, claims, CMS publish gate, cost ledger, dashboard | Built in this repo |
 | PostgreSQL | One instance, three databases | Self-hosted or managed |
+| [Seryvon](https://github.com/seryvon-com/seryvon) | Score gate: SEO, GEO and AEO must each be 90+ before the CMS | AGPL-3.0, self-hosted, unmodified |
 
 ## See it working
 
@@ -36,6 +37,10 @@ node visualizer/starstell-office.mjs
 ```
 
 Then open http://127.0.0.1:8090/office/STAR-7EAM. Already cloned without submodules? Run `git submodule update --init` first. A step-by-step example with each step's output and the published blog in 7 languages is in [visualizer/walkthrough.html](visualizer/walkthrough.html).
+
+## Score gate: 90+ or it does not publish
+
+Every draft is scored by [Seryvon](https://github.com/seryvon-com/seryvon) on a private preview page. **SEO, GEO and AEO must each reach 90** or the draft goes back for fixes and never reaches the CMS. See [scoring/README.md](scoring/README.md).
 
 ## A finished example
 
@@ -70,6 +75,10 @@ cp .env.example .env
 | `GOOGLE_AI_API_KEY`, `OPENAI_API_KEY` | Phase 2 | The two image models tested; only the winner's key stays | Google AI Studio / OpenAI platform |
 | `STARSTELL_CMS_API_URL`, `STARSTELL_CMS_API_KEY` | Phase 3 | Publishing to the StarsTell site (placeholder names) | StarsTell web team, once the CMS is confirmed |
 | `INDEXNOW_KEY` | Phase 3 | Tells search engines about new pages; any random 8 to 128 character string, also served at `/<key>.txt` | Generate it yourself |
+| `PSI_API_KEY` | Phase 1 (score gate) | Core Web Vitals in Seryvon's SEO score | Google Cloud Console > PageSpeed Insights API |
+| `GSC_SERVICE_ACCOUNT` | Phase 3 (site run) | Search Console data in Seryvon's weekly site run | Google Cloud service account added to the Search Console property |
+| `GEMINI_API_KEY`, `PERPLEXITY_API_KEY` | Optional (score gate) | AI citation tracking, raises GEO coverage (Seryvon also uses `OPENAI_API_KEY` and `ANTHROPIC_API_KEY`) | Google AI Studio / Perplexity |
+| `STARSTELL_SCORE_THRESHOLD`, `STARSTELL_MIN_COVERAGE`, `STARSTELL_PREVIEW_HOSTS` | Score gate | Gate rules; defaults `90`, `0.45`, `127.0.0.1` | Set them yourself |
 | `PORT`, `SPEED` | Optional | Port and speed of the agent office visualizer | Defaults: `8090`, `1` |
 
 Variables marked "placeholder" are renamed if the StarsTell API or CMS documentation calls for it. Paperclip itself is set up with `npx paperclipai onboard` and keeps its own configuration.
@@ -103,6 +112,7 @@ integrations/
   numerology/              Numerology bot adapter        (blocked: waiting for API docs)
   cms/                     StarsTell CMS adapter         (blocked: waiting for CMS details)
 services/content-service/  MCP server and editor web app (Phase 1)
+scoring/                   Score gate: Seryvon wrapper and gate config (SEO, GEO, AEO 90+)
 .env.example               Variable names only, never values
 ```
 

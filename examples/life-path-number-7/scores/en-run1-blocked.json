@@ -1,0 +1,461 @@
+{
+ "url": "http://127.0.0.1:8767/blog/life-path-number-7/",
+ "threshold": 90.0,
+ "scores": {
+  "seo": 88.4,
+  "geo": 68.4,
+  "aeo": 53.2
+ },
+ "passed": false,
+ "pillars": {
+  "seo": {
+   "score": 88.4,
+   "coverage": 0.6,
+   "passed": false,
+   "criteria": [
+    {
+     "key": "authority.backlinks",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.0,
+     "explanation": "No referring-domains source configured — add a DataForSEO key to enable domain rank (authority.opr). Referring-domain count requires the DataForSEO Backlinks API ($100 minimum deposit)."
+    },
+    {
+     "key": "authority.opr",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.0,
+     "explanation": "Domain authority not configured — add a DataForSEO key (recommended) or an OPR key."
+    },
+    {
+     "key": "crawl.https",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.0,
+     "explanation": "1/1 page(s) not served over HTTPS."
+    },
+    {
+     "key": "crawl.sitemap",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 0.8,
+     "explanation": "No valid sitemap found."
+    },
+    {
+     "key": "img.svg_alt",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 0.4,
+     "explanation": "No non-decorative SVG to evaluate."
+    },
+    {
+     "key": "links.orphans",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 0.7,
+     "explanation": "Link graph not evaluable (< 2 pages)."
+    },
+    {
+     "key": "perf.cls",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.2,
+     "explanation": "CLS unavailable — PSI key not configured."
+    },
+    {
+     "key": "perf.inp",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.2,
+     "explanation": "INP unavailable — PSI key not configured."
+    },
+    {
+     "key": "perf.lcp",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.5,
+     "explanation": "LCP unavailable — PSI key not configured."
+    },
+    {
+     "key": "perf.lighthouse",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.0,
+     "explanation": "Lighthouse score unavailable (PSI not configured)."
+    },
+    {
+     "key": "seo.avg_position",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 2.0,
+     "explanation": "Google Search Console not configured (GSC_SERVICE_ACCOUNT missing or property inaccessible)."
+    },
+    {
+     "key": "seo.click_through_rate",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.5,
+     "explanation": "Google Search Console not configured (GSC_SERVICE_ACCOUNT missing or property inaccessible)."
+    },
+    {
+     "key": "twitter.cards",
+     "score": 50.0,
+     "status": "warning",
+     "weight": 0.4,
+     "explanation": "1/1 non-conforming page(s) (mean score 50.0)."
+    },
+    {
+     "key": "content.depth",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.3,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "content.text_ratio",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.6,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "crawl.indexable",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.2,
+     "explanation": "0/1 non-indexable page(s)."
+    },
+    {
+     "key": "crawl.redirects",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.5,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "i18n.hreflang",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.5,
+     "explanation": "1 page(s) with hreflang (mean score 100.0)."
+    },
+    {
+     "key": "img.alt",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.5,
+     "explanation": "0/4 image(s) missing an alt attribute."
+    },
+    {
+     "key": "links.internal",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.8,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "meta.canonical",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "meta.description",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.2,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "meta.robots",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "meta.title",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.5,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "meta.title_unique",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "1 unique title(s) across 1 titled page(s)."
+    },
+    {
+     "key": "og.complete",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.6,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "struct.h1",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "struct.hierarchy",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.8,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    },
+    {
+     "key": "struct.schema",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.5,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    }
+   ]
+  },
+  "geo": {
+   "score": 68.4,
+   "coverage": 0.6,
+   "passed": false,
+   "criteria": [
+    {
+     "key": "aeo.kg_presence",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.5,
+     "explanation": "Absent."
+    },
+    {
+     "key": "geo.citation_confidence",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 0.8,
+     "explanation": "LLM citation tracking unavailable (BYOK API key required)."
+    },
+    {
+     "key": "geo.citation_position",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 0.8,
+     "explanation": "LLM citation tracking unavailable (BYOK API key required)."
+    },
+    {
+     "key": "geo.citation_rate",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 2.0,
+     "explanation": "LLM citation tracking unavailable (BYOK API key required)."
+    },
+    {
+     "key": "geo.cross_platform",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.0,
+     "explanation": "0 linked platform(s): none."
+    },
+    {
+     "key": "geo.knowledge_presence",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 0.8,
+     "explanation": "LLM citation tracking unavailable (BYOK API key required)."
+    },
+    {
+     "key": "geo.mention_rate",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.0,
+     "explanation": "LLM citation tracking unavailable (BYOK API key required)."
+    },
+    {
+     "key": "geo.primary_sources",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.2,
+     "explanation": "1/1 content page(s) (≥300 words) lack static-HTML outbound links to external sources. 0 lightweight page(s) excluded (listing/catalog pages are not expected to cite sources)."
+    },
+    {
+     "key": "geo.share_of_voice",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.0,
+     "explanation": "Share of voice unavailable — no competitors declared in citation tracking run."
+    },
+    {
+     "key": "gso.ai_overview_presence",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.5,
+     "explanation": "SERP API not configured (Phase 4)."
+    },
+    {
+     "key": "aeo.dates_structured",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "Present."
+    },
+    {
+     "key": "aso.agent_access",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.2,
+     "explanation": "All known agent bots are allowed."
+    },
+    {
+     "key": "geo.authors",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.2,
+     "explanation": "Structured author present."
+    },
+    {
+     "key": "geo.entity_density",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "Estimated entity density over 1 page(s) (heuristic)."
+    },
+    {
+     "key": "geo.freshness",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "Most recent content dated 0 day(s) ago."
+    },
+    {
+     "key": "geo.noise_ratio",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 0.8,
+     "explanation": "Mean content/noise ratio over 1 page(s)."
+    },
+    {
+     "key": "geo.ssr",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.8,
+     "explanation": "A JS-free crawler sees 100% of the content on average. 0 of 1 pages inject most of their content via JavaScript — one rendering-strategy issue, not 0 separate fixes."
+    }
+   ]
+  },
+  "aeo": {
+   "score": 53.2,
+   "coverage": 0.82,
+   "passed": false,
+   "criteria": [
+    {
+     "key": "aeo.about_page",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.0,
+     "explanation": "No About page detected."
+    },
+    {
+     "key": "aeo.answer_directness",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.0,
+     "explanation": "1/1 page(s) without a lead answer paragraph."
+    },
+    {
+     "key": "aeo.comparison_tables",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 0.8,
+     "explanation": "No comparison tables found in static HTML."
+    },
+    {
+     "key": "aeo.defined_terms",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.0,
+     "explanation": "Absent."
+    },
+    {
+     "key": "aeo.kg_presence",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.5,
+     "explanation": "Absent."
+    },
+    {
+     "key": "aeo.llm_citation",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 2.0,
+     "explanation": "LLM citation tracking unavailable (BYOK API key required)."
+    },
+    {
+     "key": "aso.brand_coherence",
+     "score": 0.0,
+     "status": "not_measured",
+     "weight": 1.3,
+     "explanation": "Brand coherence not measured (Wikidata entity absent or disabled)."
+    },
+    {
+     "key": "geo.primary_sources",
+     "score": 0.0,
+     "status": "critical",
+     "weight": 1.2,
+     "explanation": "1/1 content page(s) (≥300 words) lack static-HTML outbound links to external sources. 0 lightweight page(s) excluded (listing/catalog pages are not expected to cite sources)."
+    },
+    {
+     "key": "aeo.author_credentials",
+     "score": 50.0,
+     "status": "warning",
+     "weight": 1.5,
+     "explanation": "Identifiable author without structured credentials."
+    },
+    {
+     "key": "aeo.dates_structured",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "Present."
+    },
+    {
+     "key": "geo.authors",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.2,
+     "explanation": "Structured author present."
+    },
+    {
+     "key": "geo.freshness",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "Most recent content dated 0 day(s) ago."
+    },
+    {
+     "key": "geo.ssr",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.8,
+     "explanation": "A JS-free crawler sees 100% of the content on average. 0 of 1 pages inject most of their content via JavaScript — one rendering-strategy issue, not 0 separate fixes."
+    },
+    {
+     "key": "gso.qa_format",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.0,
+     "explanation": "Extractable Q&A format present."
+    },
+    {
+     "key": "struct.schema",
+     "score": 100.0,
+     "status": "ok",
+     "weight": 1.5,
+     "explanation": "0/1 non-conforming page(s) (mean score 100.0)."
+    }
+   ]
+  }
+ },
+ "engine": "seryvon 1.0.0rc1"
+}

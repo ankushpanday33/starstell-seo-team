@@ -61,5 +61,7 @@ Tick items as they arrive.
 - [ ] Licensed or StarsTell-owned tarot deck images
 - [ ] 3 to 5 approved StarsTell writing samples per language for context/writing-examples.md
 - [ ] Is the StarsTell CMS WordPress? (decides whether seomachine's WordPress publisher is reused)
+- [ ] StarsTell site items for the weekly score run: About page, Wikidata entry, official social profile URLs (for `sameAs`)
+- [ ] PageSpeed Insights API key for the score gate
 - [ ] Budget cap for 280 pages a month (estimate $810 to $980 a month)
 - [ ] Anthropic API account and DataForSEO account: existing or new

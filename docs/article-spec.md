@@ -121,7 +121,11 @@ BlogPosting (author and reviewer), BreadcrumbList, FAQPage. Google shows FAQ ric
 
 Every version gets a humanize pass ([humanizing.md](humanizing.md)). Every sentence passes the StarsTell copy test: name the astrological mechanism, tie outcomes to the reader's effort, promise nothing guaranteed or overnight. Never "predict", "destiny", "fate" or "fortune". No specific tithi, muhurat or festival date goes live without SME sign-off.
 
-## 12. Automatic checks (Content Service)
+## 12. Score gate (before the CMS)
+
+Every language version is scored by Seryvon on its private preview page. **SEO, GEO and AEO must each be 90 or more**, with at least 45% of each pillar measured, or the version does not reach human approval or the CMS. Details: [scoring/README.md](../scoring/README.md).
+
+## 13. Automatic checks (Content Service)
 
 | Check | Fails when |
 |---|---|
